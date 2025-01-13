@@ -1,0 +1,41 @@
+﻿<Page x:Class="ProjectTracker.MVVM.View.Pages.AutorizationPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      
+      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:viewmodel="clr-namespace:ProjectTracker.MVVM.ViewModel"
+      d:DataContext="{d:DesignInstance Type=viewmodel:AutorizationPageViewModel}"
+      xmlns:helper="clr-namespace:ProjectTracker.MVVM.View.UIHelpers"
+      
+      xmlns:local="clr-namespace:ProjectTracker.MVVM.View.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AutorizationPage">
+
+    <Grid Background="Beige">
+
+        <Button Name="LogInButton" Content="Log In" Height="25" Width="70" 
+                Margin="0,150,0,0"
+                Command="{Binding LoginCommand}"/>
+
+        <TextBox Height="25" Width="200" 
+                 VerticalAlignment="Center" HorizontalAlignment="Center"
+                 Margin="0,0,0,50"
+                 Controls:TextBoxHelper.Watermark="Login"
+                 Text="{Binding LoginTextBox}"
+                 Controls:TextBoxHelper.ClearTextButton="True"/>
+
+        <PasswordBox Height="25" Width="200" PasswordChar="*"
+                 VerticalAlignment="Center" HorizontalAlignment="Center"
+                 Margin="0,50,0,0"
+                 Controls:TextBoxHelper.Watermark="Password"
+                 helper:PasswordBoxHelper.SecurePassword="{Binding PasswordBox}"
+                 Controls:TextBoxHelper.ClearTextButton="True"/>
+
+        <Label Content="Log in" FontSize="36" FontWeight="Bold" 
+               HorizontalAlignment="Center" VerticalAlignment="Center" 
+               Margin="0,0,0,150"/>
+    </Grid>
+</Page>

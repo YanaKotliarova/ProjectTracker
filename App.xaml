@@ -1,0 +1,30 @@
+﻿<Application x:Class="ProjectTracker.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ProjectTracker"
+             xmlns:viewmodel="clr-namespace:ProjectTracker.MVVM.ViewModel"
+             xmlns:view="clr-namespace:ProjectTracker.MVVM.View.Pages">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Pink.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate DataType="{x:Type viewmodel:AutorizationPageViewModel}">
+                <view:AutorizationPage/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodel:RegistrationPageViewModel}">
+                <view:RegistrationPage/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodel:HomePageViewModel}">
+                <view:HomePage/>
+            </DataTemplate>
+
+        </ResourceDictionary>             
+        
+    </Application.Resources>
+</Application>
