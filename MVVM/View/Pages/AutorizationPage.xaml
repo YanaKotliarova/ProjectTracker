@@ -5,9 +5,11 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       
       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:helper="clr-namespace:ProjectTracker.MVVM.View.UIHelpers"
+      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+      
       xmlns:viewmodel="clr-namespace:ProjectTracker.MVVM.ViewModel"
       d:DataContext="{d:DesignInstance Type=viewmodel:AutorizationPageViewModel}"
-      xmlns:helper="clr-namespace:ProjectTracker.MVVM.View.UIHelpers"
       
       xmlns:local="clr-namespace:ProjectTracker.MVVM.View.Pages"
       mc:Ignorable="d" 
@@ -20,6 +22,12 @@
                 Margin="0,150,0,0"
                 Command="{Binding LoginCommand}"/>
 
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,200,0,0">
+            <Hyperlink Command="{Binding GoToRegistrationPageCommand}" Foreground="#FF4294F6">
+                Don't have an account? Create it!
+            </Hyperlink>
+        </TextBlock>
+
         <TextBox Height="25" Width="200" 
                  VerticalAlignment="Center" HorizontalAlignment="Center"
                  Margin="0,0,0,50"
@@ -31,8 +39,18 @@
                  VerticalAlignment="Center" HorizontalAlignment="Center"
                  Margin="0,50,0,0"
                  Controls:TextBoxHelper.Watermark="Password"
-                 helper:PasswordBoxHelper.SecurePassword="{Binding PasswordBox}"
-                 Controls:TextBoxHelper.ClearTextButton="True"/>
+                 Controls:TextBoxHelper.ClearTextButton="True">
+
+            <i:Interaction.Behaviors>
+                <helper:PasswordBehavior Password="{Binding PasswordBox, Mode=TwoWay}" />
+            </i:Interaction.Behaviors>
+
+        </PasswordBox>
+
+        <Popup IsOpen="{Binding IsLogInUnsuccessful}" StaysOpen="True" 
+               PlacementTarget="{Binding ElementName=LogInButton}" Placement="Top" VerticalOffset="-4" HorizontalOffset="-60">
+            <TextBlock Text="Wrong login or password! Try again" Background="LightPink" Padding="1"/>
+        </Popup>
 
         <Label Content="Log in" FontSize="36" FontWeight="Bold" 
                HorizontalAlignment="Center" VerticalAlignment="Center" 

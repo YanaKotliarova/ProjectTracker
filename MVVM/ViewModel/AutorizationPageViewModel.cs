@@ -1,7 +1,6 @@
 ﻿using ProjectTracker.MVVM.Core;
 using ProjectTracker.Services.Authentication.Interfaces;
 using ProjectTracker.Services.Navigation.Interfaces;
-using System.Security;
 
 namespace ProjectTracker.MVVM.ViewModel
 {
@@ -36,14 +35,25 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
-        private SecureString _passwordBox;
-        public SecureString PasswordBox
+        private string _passwordBox;
+        public string PasswordBox
         {
             get { return _passwordBox; }
             set
             {
                 _passwordBox = value;
                 OnPropertyChanged(nameof(PasswordBox));
+            }
+        }
+
+        private bool _isLogInUnsuccessful = false;
+        public bool IsLogInUnsuccessful
+        {
+            get { return _isLogInUnsuccessful; }
+            set
+            {
+                _isLogInUnsuccessful = value;
+                OnPropertyChanged(nameof(IsLogInUnsuccessful));
             }
         }
 
@@ -57,13 +67,26 @@ namespace ProjectTracker.MVVM.ViewModel
                     {
                         if(await _autorization.LogIn(LoginTextBox, PasswordBox))
                         {
+                            IsLogInUnsuccessful = false;
                             NavigationService.NavigateTo<HomePageViewModel>();
                         }
                         else
                         {
-                            // something
-                        }
-                                                
+                            IsLogInUnsuccessful = true;
+                        }                                                
+                    }));
+            }
+        }
+
+        private RelayCommand _goToRegistrationPageCommand;
+        public RelayCommand GoToRegistrationPageCommand
+        {
+            get
+            {
+                return _goToRegistrationPageCommand ??
+                    (_goToRegistrationPageCommand = new RelayCommand(obj =>
+                    {
+                        NavigationService.NavigateTo<RegistrationPageViewModel>();
                     }));
             }
         }

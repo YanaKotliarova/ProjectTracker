@@ -18,22 +18,25 @@ namespace ProjectTracker.Data
         public async Task CreateAsync(User newUser)
         {
             await _db.Users.AddAsync(newUser);
+            await _repository.SaveChangesAsync();
         }
 
         public async Task<User> GetAsync(string login)
         {
-            return await _db.Users.FindAsync(login);
+            return await _db.Users.FirstOrDefaultAsync(u => u.Login == login);
         }
 
         public async Task UpdateAsync(User user)
         {
             _db.Entry(user).State = EntityState.Modified;
+            await _repository.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(string login)
         {
             User user = await _db.Users.FindAsync(login);
             if (user != null) _db.Users.Remove(user);
+            await _repository.SaveChangesAsync();
         }
 
         private bool disposed = false;

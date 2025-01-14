@@ -5,6 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       
       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+      xmlns:helper="clr-namespace:ProjectTracker.MVVM.View.UIHelpers"
       
       xmlns:viewmodel="clr-namespace:ProjectTracker.MVVM.ViewModel" 
       d:DataContext="{d:DesignInstance Type=viewmodel:RegistrationPageViewModel}"
@@ -15,6 +17,49 @@
       Title="RegistrationPage">
 
     <Grid Background="Beige">
-        <Label Content="Registration" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" FontWeight="Bold" />
+
+        <Button Content="Back" Height="25" Width="50" 
+                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"
+                Command="NavigationCommands.BrowseBack"/>
+
+        <Button Content="Sign Up" Height="25" Width="70" 
+                Margin="0,200,0,0"
+                Command="{Binding SignUpCommand}"/>
+
+        <TextBox Name="LoginTB" Height="25" Width="200" 
+                 VerticalAlignment="Center" HorizontalAlignment="Center"
+                 Margin="0,0,0,100"
+                 Controls:TextBoxHelper.Watermark="Login"
+                 Text="{Binding LoginTextBox}"
+                 Controls:TextBoxHelper.ClearTextButton="True"/>
+
+        <Popup IsOpen="{Binding IsLoginExists}" StaysOpen="True"
+               PlacementTarget="{Binding ElementName=LoginTB}" VerticalOffset="3" HorizontalOffset="-10">
+            <TextBlock Text="This login already exists. Try another one" Background="LightPink" Padding="1"/>
+        </Popup>
+
+        <TextBox Height="25" Width="200" 
+                 VerticalAlignment="Center" HorizontalAlignment="Center"
+                 Margin="0,0,0,0"
+                 Controls:TextBoxHelper.Watermark="Role"
+                 Text="{Binding RoleTextBox}"
+                 Controls:TextBoxHelper.ClearTextButton="True"/>
+
+        <PasswordBox Height="25" Width="200" PasswordChar="*"
+                     VerticalAlignment="Center" HorizontalAlignment="Center"
+                     Margin="0,100,0,0"
+                     Controls:TextBoxHelper.Watermark="Password"
+                     Controls:TextBoxHelper.ClearTextButton="True">
+
+            <i:Interaction.Behaviors>
+                <helper:PasswordBehavior Password="{Binding PasswordBox, Mode=TwoWay}" />
+            </i:Interaction.Behaviors>
+
+        </PasswordBox>
+
+        <Label Content="Sign Up" FontSize="36" FontWeight="Bold" 
+               HorizontalAlignment="Center" VerticalAlignment="Center" 
+               Margin="0,0,0,200"/>
+
     </Grid>
 </Page>

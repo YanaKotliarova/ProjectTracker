@@ -13,15 +13,17 @@ namespace ProjectTracker.Data
             _repository = repository;
             _db = _repository.GetDB();
         }
-        public Task CreateAsync(Issue newIssue)
+        public async Task CreateAsync(Issue newIssue)
         {
-            throw new NotImplementedException();
+            await _db.Issues.AddAsync(newIssue);
+            await _repository.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
         {
             Issue issue = await _db.Issues.FindAsync(id);
             if (issue != null) _db.Issues.Remove(issue);
+            await _repository.SaveChangesAsync();
         }
 
         public async Task<Issue> GetAsync(int id)
@@ -32,6 +34,7 @@ namespace ProjectTracker.Data
         public async Task UpdateAsync(Issue issue)
         {
             _db.Entry(issue).State = EntityState.Modified;
+            await _repository.SaveChangesAsync();
         }
 
         private bool disposed = false;

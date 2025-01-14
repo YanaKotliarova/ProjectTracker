@@ -1,4 +1,5 @@
-﻿using ProjectTracker.Data.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using ProjectTracker.Data.Interfaces;
 
 namespace ProjectTracker.Data
 {
@@ -17,7 +18,7 @@ namespace ProjectTracker.Data
 
         public async Task InitializeDBAsync()
         {
-            //await db.Database.EnsureCreatedAsync();
+            await db.Database.MigrateAsync();
         }
 
         public async Task SaveChangesAsync()

@@ -9,12 +9,18 @@ namespace ProjectTracker.MVVM.Model
         [Key]
         public int Id { get; set; }
         public string Login { get; set; }
-        public SecureString Password { get; set; }
+        public string Password { get; set; }
         public string Role { get; set; }
         public List<Project> Projects { get; set; } = new();
 
         public User() { }
-        public User(string login, SecureString password, string role)
+
+        public User(string login, string password)
+        {
+            Login = login;
+            Password = password;
+        }
+        public User(string login, string password, string role)
         {
             Login = login;
             Password = password;

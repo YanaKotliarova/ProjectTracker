@@ -16,12 +16,14 @@ namespace ProjectTracker.Data
         public async Task CreateAsync(Project newProject)
         {
             await _db.Projects.AddAsync(newProject);
+            await _repository.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
         {
             Project project = await _db.Projects.FindAsync(id);
             if (project != null) _db.Projects.Remove(project);
+            await _repository.SaveChangesAsync();
         }
 
         public async Task<Project> GetAsync(int id)
@@ -32,6 +34,7 @@ namespace ProjectTracker.Data
         public async Task UpdateAsync(Project project)
         {
             _db.Entry(project).State = EntityState.Modified;
+            await _repository.SaveChangesAsync();
         }
 
         private bool disposed = false;

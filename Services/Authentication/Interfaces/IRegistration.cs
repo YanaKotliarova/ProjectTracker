@@ -4,6 +4,6 @@ namespace ProjectTracker.Services.Authentication.Interfaces
 {
     public interface IRegistration
     {
-        Task SingUp(string login, SecureString password, string role);
+        Task SingUp(string login, string password, string role);
     }
 }
