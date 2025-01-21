@@ -6,7 +6,9 @@ namespace ProjectTracker.Data.Interfaces
     {
         Task CreateAsync(Project newProject);
         Task DeleteAsync(int id);
-        Task<Project> GetAsync(int id);
+        Task<Project> GetAsync(string projectName);
+        Task<int> GetProjectId(string projectName);
+        IEnumerable<Project> GetUserProjectsList(int userId);
         Task UpdateAsync(Project project);
     }
 }

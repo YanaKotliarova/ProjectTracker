@@ -8,16 +8,15 @@ using ProjectTracker.Services.Authentication;
 using ProjectTracker.Services.Authentication.Interfaces;
 using ProjectTracker.Services.Navigation;
 using ProjectTracker.Services.Navigation.Interfaces;
+using ProjectTracker.Services.WorkWithItems;
+using ProjectTracker.Services.WorkWithItems.Interfaces;
 using System.Windows;
 
 namespace ProjectTracker
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
-        private readonly IServiceProvider _serviceProvider;
+        private static IServiceProvider _serviceProvider;
         public App()
         {
             IServiceCollection services = new ServiceCollection();
@@ -30,11 +29,20 @@ namespace ProjectTracker
             services.AddSingleton<AutorizationPageViewModel>();
             services.AddSingleton<RegistrationPageViewModel>();
             services.AddSingleton<HomePageViewModel>();
+            services.AddSingleton<AccountPageViewModel>();
+
+            services.AddSingleton<HomeUserControlViewModel>();
+            services.AddSingleton<ProjectsBoardUserControlViewModel>();
+            services.AddSingleton<IssuesUserControlViewModel>();
+            services.AddSingleton<AddItemUserControlViewModel>();
 
             services.AddSingleton<INavigationService, NavigationService>();
 
             services.AddSingleton<IAutorization, Autorization>();
             services.AddSingleton<IRegistration, Registration>();
+            services.AddSingleton<IAccount, Account>();
+            services.AddSingleton<IWorkWithProject, WorkWithProject>();
+            services.AddSingleton<IWorkWithIssue, WorkWithIssue>();
 
             services.AddSingleton<IRepository, DataBase>();
             services.AddSingleton<IUserRepository, UserRepository>();
@@ -52,6 +60,11 @@ namespace ProjectTracker
             Window mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();
             base.OnStartup(e);
+        }
+
+        public static IServiceProvider GetServiceProvider() 
+        { 
+            return _serviceProvider; 
         }
     }
 

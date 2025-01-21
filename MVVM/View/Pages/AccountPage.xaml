@@ -1,0 +1,178 @@
+﻿<Page x:Class="ProjectTracker.MVVM.View.Pages.AccountPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      
+      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+      
+      xmlns:viewmodel="clr-namespace:ProjectTracker.MVVM.ViewModel" 
+      d:DataContext="{d:DesignInstance Type=viewmodel:AccountPageViewModel}"
+      xmlns:helper="clr-namespace:ProjectTracker.MVVM.View.UIHelpers"
+      
+      xmlns:local="clr-namespace:ProjectTracker.MVVM.View.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AccountPage">
+
+    <Grid Background="Beige">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="70"/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Button Grid.Column="0" Grid.Row="0" Content="Back" Height="25" Width="50" 
+                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"
+                Command="NavigationCommands.BrowseBack"
+                Controls:ControlsHelper.ContentCharacterCasing="Upper"/>
+
+        <Label Grid.Column="0" Grid.Row="1" Content="Account Settings" FontSize="36" FontWeight="Bold"/>
+
+        <GroupBox Grid.Column="0" Grid.Row="2"
+                  Header="Personal Information" Controls:ControlsHelper.ContentCharacterCasing="Normal" 
+                  Controls:HeaderedControlHelper.HeaderFontWeight="Bold" Controls:HeaderedControlHelper.HeaderFontSize="16" BorderThickness="0,0,2,2">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Content="Login" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
+                
+                <TextBox Grid.Row="0" Grid.Column="0" Name="LoginTB" Height="25" Width="200"
+                         VerticalAlignment="Top" HorizontalAlignment="Left"
+                         Text="{Binding LoginTextBox}" Margin="10,22,0,0"/>
+
+                <Label Grid.Row="1" Grid.Column="0" Content="Role" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                
+                <TextBox Grid.Row="1" Grid.Column="0" Height="25" Width="200" 
+                         VerticalAlignment="Top" HorizontalAlignment="Left"
+                         Text="{Binding RoleTextBox}" Margin="10,22,0,0"/>
+
+                <Popup IsOpen="{Binding LoginExists}" StaysOpen="False" 
+                       PlacementTarget="{Binding ElementName=LoginTB}" Placement="Right" HorizontalOffset="15">
+                    <TextBlock Width="150" TextWrapping="Wrap"
+                                  Text="This login is already occupied. Try another one" Background="LightPink" Padding="1"/>
+                </Popup>
+
+                <Button Grid.Row="1" Grid.Column="1" Content="Save" 
+                        Height="25" Width="80" Margin="0,0,10,10"
+                        HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                        Controls:ControlsHelper.ContentCharacterCasing="Upper"
+                        Command="{Binding SaveNewPersonalInfoCommand}"/>
+
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Column="1" Grid.Row="2"
+                  Header="Password" Controls:ControlsHelper.ContentCharacterCasing="Normal" 
+                  Controls:HeaderedControlHelper.HeaderFontWeight="Bold" Controls:HeaderedControlHelper.HeaderFontSize="16" BorderThickness="0,0,0,2">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Content="New password" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
+
+                <PasswordBox Name="PasswordBox" Grid.Row="0" Grid.Column="0" Height="25" Width="200" PasswordChar="*"
+                             VerticalAlignment="Top" HorizontalAlignment="Left"
+                             Margin="10,22,0,0">
+                    <i:Interaction.Behaviors>
+                        <helper:PasswordBehavior Password="{Binding NewPasswordBox, Mode=TwoWay}" />
+                    </i:Interaction.Behaviors>
+                </PasswordBox>
+
+                <Label Grid.Row="1" Grid.Column="0" Content="Repeat new password" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+
+                <PasswordBox Grid.Row="1" Grid.Column="0" Height="25" Width="200" PasswordChar="*"
+                             VerticalAlignment="Top" HorizontalAlignment="Left"
+                             Margin="10,22,0,0">
+                    <i:Interaction.Behaviors>
+                        <helper:PasswordBehavior Password="{Binding RepeatPasswordBox, Mode=TwoWay}" />
+                    </i:Interaction.Behaviors>
+                </PasswordBox>
+
+                <Popup IsOpen="{Binding PasswordsNotEqual}" StaysOpen="False" 
+                       PlacementTarget="{Binding ElementName=PasswordBox}" Placement="Right" HorizontalOffset="15">
+                    <TextBlock Width="150" TextWrapping="Wrap"
+                               Text="The passwords you entered are not equal! Try again" Background="LightPink" Padding="1"/>
+                </Popup>
+
+                <Button Grid.Row="1" Grid.Column="1" Content="Save" 
+                        Height="25" Width="80" Margin="0,0,10,10"
+                        HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                        Controls:ControlsHelper.ContentCharacterCasing="Upper"
+                        Command="{Binding SaveNewPasswordCommand}"/>
+
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="3" Grid.Column="0"
+                  Header="Danger Zone" 
+                  Controls:HeaderedControlHelper.HeaderFontSize="16"
+                  Controls:HeaderedControlHelper.HeaderFontWeight="Bold" 
+                  Controls:ControlsHelper.ContentCharacterCasing="Normal" 
+                  Controls:HeaderedControlHelper.HeaderBackground="#FFAB4589" BorderThickness="0,0,2,0" BorderBrush="#CCAB4589">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Border Height="30" BorderThickness="2" BorderBrush="#FFAB4589">
+                    <Grid>
+                        <Label Content="Log out of your account" VerticalAlignment="Center"/>
+                        
+                        <Button Content="Log out" Height="30" Width="80" BorderThickness="0"
+                                HorizontalAlignment="Right" VerticalAlignment="Center" 
+                                Background="#FFAB4589" Foreground="White"
+                                Controls:ControlsHelper.ContentCharacterCasing="Upper"
+                                Command="{Binding LogOutCommand}"/>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="1" Height="30" BorderThickness="2" BorderBrush="#FFAB4589">
+                    <Grid>
+                        <Label Content="Delete your account" VerticalAlignment="Center"/>
+
+                        <Button Content="Delete" Height="30" Width="80" BorderThickness="0"
+                                HorizontalAlignment="Right" VerticalAlignment="Center" 
+                                Background="#FFAB4589" Foreground="White"
+                                Controls:ControlsHelper.ContentCharacterCasing="Upper"
+                                Command="{Binding DeleteAccountCommand}"/>
+                    </Grid>
+                </Border>
+
+            </Grid>          
+        </GroupBox>
+    </Grid>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadAccountPageCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+</Page>

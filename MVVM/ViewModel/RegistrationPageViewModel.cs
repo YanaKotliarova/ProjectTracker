@@ -1,6 +1,4 @@
-﻿using ProjectTracker.Data.Interfaces;
-using ProjectTracker.MVVM.Core;
-using ProjectTracker.MVVM.Model;
+﻿using ProjectTracker.MVVM.Core;
 using ProjectTracker.Services.Authentication.Interfaces;
 using ProjectTracker.Services.Navigation.Interfaces;
 
@@ -78,8 +76,7 @@ namespace ProjectTracker.MVVM.ViewModel
                 return _signUpCommand ??
                     (_signUpCommand = new RelayCommand(async obj =>
                     {
-                        User newUser = new User(LoginTextBox, PasswordBox, RoleTextBox);
-                        await _registration.SingUp(LoginTextBox, PasswordBox, RoleTextBox);
+                        await _registration.SingUpAsync(LoginTextBox, PasswordBox, RoleTextBox);
                         NavigationService.NavigateTo<HomePageViewModel>();
                     }));
             }

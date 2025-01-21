@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:ProjectTracker"
              xmlns:viewmodel="clr-namespace:ProjectTracker.MVVM.ViewModel"
-             xmlns:view="clr-namespace:ProjectTracker.MVVM.View.Pages">
+             xmlns:view="clr-namespace:ProjectTracker.MVVM.View.Pages"
+    xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:converters="clr-namespace:MahApps.Metro.Converters;assembly=MahApps.Metro">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -22,6 +24,10 @@
 
             <DataTemplate DataType="{x:Type viewmodel:HomePageViewModel}">
                 <view:HomePage/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodel:AccountPageViewModel}">
+                <view:AccountPage/>
             </DataTemplate>
 
         </ResourceDictionary>             

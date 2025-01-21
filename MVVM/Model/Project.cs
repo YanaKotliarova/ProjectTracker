@@ -14,5 +14,17 @@ namespace ProjectTracker.MVVM.Model
         public string Description { get; set; }
         public List<string> Labels { get; set; } = new();
         public List<Issue> Issues { get; set; } = new();
+
+        public Project() { }
+
+        public Project(int userId, string name, string? description, 
+            List<string>? labels = default, List<Issue>? issues = default)
+        {
+            UserId = userId;
+            Name = name;
+            Description = description ?? "No description provided";
+            Labels = labels ?? new();
+            Issues = issues ?? new();
+        }
     }
 }

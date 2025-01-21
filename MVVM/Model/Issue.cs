@@ -16,5 +16,19 @@ namespace ProjectTracker.MVVM.Model
         public string Comment { get; set; }
         public string Priority { get; set; }
         public List<string> Labels { get; set; } = new();
+
+        public Issue() { }
+
+        public Issue(int projectId, string name, string? description, string? status = null, 
+            string? comment = null, string? priority = null, List<string>? labels = default)
+        {
+            ProjectId = projectId;
+            Name = name;
+            Description = description ?? "No description provided";
+            Status = status ?? "In Proggress";
+            Comment = comment ?? "No comment provided";
+            Priority = priority ?? "Medium";
+            Labels = labels ?? new();
+        }
     }
 }

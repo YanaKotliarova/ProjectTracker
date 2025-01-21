@@ -65,10 +65,11 @@ namespace ProjectTracker.MVVM.ViewModel
                 return _loginCommand ??
                     (_loginCommand = new RelayCommand(async obj =>
                     {
-                        if(await _autorization.LogIn(LoginTextBox, PasswordBox))
+                        if(await _autorization.LogInAsync(LoginTextBox, PasswordBox))
                         {
                             IsLogInUnsuccessful = false;
                             NavigationService.NavigateTo<HomePageViewModel>();
+                            LoginTextBox = "";
                         }
                         else
                         {

@@ -1,6 +1,5 @@
 ﻿using ProjectTracker.MVVM.Model.Interfaces;
 using System.ComponentModel.DataAnnotations;
-using System.Security;
 
 namespace ProjectTracker.MVVM.Model
 {

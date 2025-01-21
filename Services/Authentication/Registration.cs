@@ -7,15 +7,22 @@ namespace ProjectTracker.Services.Authentication
     public class Registration : IRegistration
     {
         private readonly IUserRepository _userRepository;
+        private readonly IAccount _account;
 
-        public Registration(IUserRepository userRepository)
+        public Registration(IUserRepository userRepository, IAccount account)
         {
             _userRepository = userRepository;
+            _account = account;
         }
-        public async Task SingUp(string login, string password, string role)
+
+        public async Task SingUpAsync(string login, string password, string role)
         {
-            User newUser = new User(login, password, role);
-            await _userRepository.CreateAsync(newUser);
+            if (!await _userRepository.IsLoginExists(login))
+            {
+                User newUser = new User(login, password, role);
+                await _userRepository.CreateAsync(newUser);
+                _account.CurrentUser = await _userRepository.GetAsync(login);
+            }
         }
     }
 }

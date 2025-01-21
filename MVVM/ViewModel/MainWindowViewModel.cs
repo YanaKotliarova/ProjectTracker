@@ -32,7 +32,7 @@ namespace ProjectTracker.MVVM.ViewModel
                 return _navigateToAutorizationCommand ??
                     (_navigateToAutorizationCommand = new RelayCommand(async obj =>
                     {
-                        await _repository.InitializeDBAsync();
+                        await Task.Run(async () => await _repository.InitializeDBAsync());
                         NavigationService.NavigateTo<AutorizationPageViewModel>();
                     }));
             }

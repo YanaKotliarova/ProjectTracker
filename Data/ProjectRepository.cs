@@ -26,9 +26,20 @@ namespace ProjectTracker.Data
             await _repository.SaveChangesAsync();
         }
 
-        public async Task<Project> GetAsync(int id)
+        public async Task<Project> GetAsync(string projectName)
         {
-            return await _db.Projects.FindAsync(id);
+            return await _db.Projects.FirstOrDefaultAsync(p => p.Name == projectName);
+        }
+
+        public async Task<int> GetProjectId(string projectName)
+        {
+            Project project = await GetAsync(projectName);
+            return project.Id;
+        }
+
+        public IEnumerable<Project> GetUserProjectsList(int userId)
+        {
+            return _db.Projects.Where(p => p.UserId == userId);
         }
 
         public async Task UpdateAsync(Project project)

@@ -12,7 +12,8 @@
         
         xmlns:local="clr-namespace:ProjectTracker.MVVM.View.Pages"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen" BorderThickness="5">
+        Title="Project Tracker" Height="450" Width="800" WindowStartupLocation="CenterScreen" BorderThickness="5" 
+        TitleCharacterCasing="Normal">
 
     <Grid Background="Beige">
         <Image Source="/MVVM/View/Images/SplashScreen.png"

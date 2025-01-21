@@ -24,6 +24,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="MVVM\View\Images\HomeWallPaper.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="MVVM\View\Images\SplashScreen.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

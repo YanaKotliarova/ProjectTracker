@@ -20,7 +20,8 @@
 
         <Button Name="LogInButton" Content="Log In" Height="25" Width="70" 
                 Margin="0,150,0,0"
-                Command="{Binding LoginCommand}"/>
+                Command="{Binding LoginCommand}"
+                Controls:ControlsHelper.ContentCharacterCasing="Upper"/>
 
         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,200,0,0">
             <Hyperlink Command="{Binding GoToRegistrationPageCommand}" Foreground="#FF4294F6">
@@ -47,7 +48,7 @@
 
         </PasswordBox>
 
-        <Popup IsOpen="{Binding IsLogInUnsuccessful}" StaysOpen="True" 
+        <Popup IsOpen="{Binding IsLogInUnsuccessful}" StaysOpen="False" 
                PlacementTarget="{Binding ElementName=LogInButton}" Placement="Top" VerticalOffset="-4" HorizontalOffset="-60">
             <TextBlock Text="Wrong login or password! Try again" Background="LightPink" Padding="1"/>
         </Popup>

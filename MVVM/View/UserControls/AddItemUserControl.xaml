@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="ProjectTracker.MVVM.View.UserControls.AddItemUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+
+             xmlns:viewmodel="clr-namespace:ProjectTracker.MVVM.ViewModel" 
+             d:DataContext="{d:DesignInstance Type=viewmodel:AddItemUserControlViewModel}"
+             
+             xmlns:local="clr-namespace:ProjectTracker.MVVM.View.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid Background="Beige">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.ColumnSpan="2" Content="Add New Item" FontSize="36" FontWeight="Bold"/>
+        
+        <StackPanel Grid.Row="1" Margin="10">
+            <Label Name="NameLabel" Grid.Row="1" 
+                   Content="Name of item" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+
+            <TextBox Grid.Row="1" Height="25" Width="280" Text="{Binding NameOfItemTextBox}"
+                     VerticalAlignment="Top" HorizontalAlignment="Left"/>
+
+            <Popup IsOpen="{Binding IsCreationUnsuccessful}" StaysOpen="False" 
+                   PlacementTarget="{Binding ElementName=NameLabel}" Placement="Right" VerticalOffset="4" HorizontalOffset="5">
+                <TextBlock Text="Created item must have a name!" Background="LightPink" Padding="1"/>
+            </Popup>
+
+            <Label Grid.Row="1" Content="Description (optional)" VerticalAlignment="Top" 
+                   HorizontalAlignment="Left"/>
+
+            <TextBox Grid.Row="1" Height="120" Width="280" TextWrapping="Wrap" Text="{Binding DescriptionTextBox}"
+                     VerticalAlignment="Top" HorizontalAlignment="Left" VerticalScrollBarVisibility="Auto"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="10">
+            
+            <Label Grid.Row="1" Grid.Column="1" Content="Type of item" 
+                   Height="25"
+                   HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+            <RadioButton Grid.Row="1" Grid.Column="1" GroupName="ItemType" IsChecked="{Binding IsItProject}"
+                         Height="25" Width="150" 
+                         Content="Project" 
+                         VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" 
+                         VerticalAlignment="Top" HorizontalAlignment="Left"/>
+
+            <RadioButton Grid.Row="1" Grid.Column="1" GroupName="ItemType" IsChecked="{Binding IsItIssue}"
+                         Height="25" Width="150" Margin="0,10,0,0"
+                         Content="Issue" 
+                         VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" 
+                         VerticalAlignment="Top" HorizontalAlignment="Left"/>
+
+            <ComboBox Grid.Row="1" Grid.Column="1" Height="25" Width="280" Margin="0,10,0,0"
+                      HorizontalAlignment="Left" VerticalAlignment="Top" 
+                      ItemsSource="{Binding Projects}" SelectedItem="{Binding SelectedProject, Mode=TwoWay}"
+                      Visibility="{Binding IsItIssue, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+            <Button Grid.Row="1" Grid.Column="1" Height="25" Width="80" Content="Create" 
+                    Command="{Binding CreateItemCommand}"
+                    HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,50,0,0"/>
+            
+        </StackPanel>
+
+        
+
+        
+
+    </Grid>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadUserControlCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+</UserControl>

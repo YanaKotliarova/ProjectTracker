@@ -6,10 +6,10 @@
       
       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
       xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-      xmlns:helper="clr-namespace:ProjectTracker.MVVM.View.UIHelpers"
       
       xmlns:viewmodel="clr-namespace:ProjectTracker.MVVM.ViewModel" 
       d:DataContext="{d:DesignInstance Type=viewmodel:RegistrationPageViewModel}"
+      xmlns:helper="clr-namespace:ProjectTracker.MVVM.View.UIHelpers"
       
       xmlns:local="clr-namespace:ProjectTracker.MVVM.View.Pages"
       mc:Ignorable="d" 
@@ -20,11 +20,13 @@
 
         <Button Content="Back" Height="25" Width="50" 
                 HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"
-                Command="NavigationCommands.BrowseBack"/>
+                Command="NavigationCommands.BrowseBack"
+                Controls:ControlsHelper.ContentCharacterCasing="Upper"/>
 
         <Button Content="Sign Up" Height="25" Width="70" 
                 Margin="0,200,0,0"
-                Command="{Binding SignUpCommand}"/>
+                Command="{Binding SignUpCommand}"
+                Controls:ControlsHelper.ContentCharacterCasing="Upper"/>
 
         <TextBox Name="LoginTB" Height="25" Width="200" 
                  VerticalAlignment="Center" HorizontalAlignment="Center"
