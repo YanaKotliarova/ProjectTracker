@@ -15,29 +15,51 @@
              d:DesignHeight="450" d:DesignWidth="800">
     
     <Grid>
-        <ListBox Background="Beige" ItemsSource="{Binding ProjectsList}" 
+        <ListBox Background="Beige" ItemsSource="{Binding ProjectsList}" SelectedItem="{Binding SelectedProject}"
                  ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="10">
+            
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding DoubleProjectClickCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
-                            <Grid>
-                                <Controls:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8D5;" Foreground="#FFD2D2D2"/>
-                                <Controls:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8B7;" Foreground="Black"/>
-                            </Grid>
-                            <TextBlock Text="{Binding Path=Name}" Height="25"/>
+                            <Controls:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE838;" Foreground="Black"/>
+                            <TextBlock Text="{Binding Path=Name}" Height="25" Margin="5,0,0,0" Padding="0,3,0,0"/>
                         </StackPanel>
+                        
                         <TextBlock Text="{Binding Path=Description}" Height="25"/>
-                        <ListBox ItemsSource="{Binding Path=Labels}" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+
+                        <ListBox ItemsSource="{Binding Path=Labels}"
+                                     ScrollViewer.VerticalScrollBarVisibility="Disabled" Padding="1"
+                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel/>
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Setter Property="BorderBrush" Value="{Controls:StaticResource MahApps.Brushes.AccentBase}"/>
+                                    <Setter Property="Focusable" Value="False"/>
+                                    <Setter Property="Margin" Value="0,0,5,0"/>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
                         </ListBox>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Update" Command="{Binding DoubleProjectClickCommand}"/>
+                    <MenuItem Header="Delete" Command="{Binding DeleteProjectCommand}"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
         </ListBox>
     </Grid>
 

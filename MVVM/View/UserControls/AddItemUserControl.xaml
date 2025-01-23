@@ -35,7 +35,7 @@
             <TextBox Grid.Row="1" Height="25" Width="280" Text="{Binding NameOfItemTextBox}"
                      VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
-            <Popup IsOpen="{Binding IsCreationUnsuccessful}" StaysOpen="False" 
+            <Popup IsOpen="{Binding IsThereNoItemName}" StaysOpen="False" 
                    PlacementTarget="{Binding ElementName=NameLabel}" Placement="Right" VerticalOffset="4" HorizontalOffset="5">
                 <TextBlock Text="Created item must have a name!" Background="LightPink" Padding="1"/>
             </Popup>
@@ -65,10 +65,15 @@
                          VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" 
                          VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
-            <ComboBox Grid.Row="1" Grid.Column="1" Height="25" Width="280" Margin="0,10,0,0"
+            <ComboBox Name="ProjectsList" Grid.Row="1" Grid.Column="1" Height="25" Width="280" Margin="0,10,0,0"
                       HorizontalAlignment="Left" VerticalAlignment="Top" 
-                      ItemsSource="{Binding Projects}" SelectedItem="{Binding SelectedProject, Mode=TwoWay}"
+                      ItemsSource="{Binding Projects}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedProject, Mode=TwoWay}"
                       Visibility="{Binding IsItIssue, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+            <Popup IsOpen="{Binding IsThereNoSelectedProject}" StaysOpen="False" 
+                   PlacementTarget="{Binding ElementName=ProjectsList}" Placement="Bottom" VerticalOffset="4">
+                <TextBlock Text="Choose project first!" Background="LightPink" Padding="1"/>
+            </Popup>
 
             <Button Grid.Row="1" Grid.Column="1" Height="25" Width="80" Content="Create" 
                     Command="{Binding CreateItemCommand}"

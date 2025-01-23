@@ -31,6 +31,11 @@ namespace ProjectTracker.Data
             return await _db.Issues.FindAsync(id);
         }
 
+        public IEnumerable<Issue> GetProjectIssues(int projectId)
+        {
+            return _db.Issues.Where(i => i.ProjectId == projectId);
+        }
+
         public async Task UpdateAsync(Issue issue)
         {
             _db.Entry(issue).State = EntityState.Modified;

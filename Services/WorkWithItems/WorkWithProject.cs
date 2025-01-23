@@ -16,33 +16,34 @@ namespace ProjectTracker.Services.WorkWithItems
             _projectRepository = projectRepository;
             _account = account;
         }
+
+        public Project? SelectedProject { get; set; }
+
         public async Task CreateProjectAsync(string projectName, string? description)
         {
-            Project newProject = new Project(_account.CurrentUser.Id, projectName, description);
-            await _projectRepository.CreateAsync(newProject);
+            await _projectRepository.CreateAsync(new Project(_account.CurrentUser.Id, projectName, description));
+        }
+        public List<Project> GetUserProjectsList()
+        {
+            return _projectRepository.GetUserProjects(_account.CurrentUser.Id).ToList();
         }
 
-        public List<string> GetUserProjectsNames()
+        public ObservableCollection<Project> CreateCollection()
         {
-            List<string> projectsNames = new List<string>();
-
-            foreach (var p in _projectRepository.GetUserProjectsList(_account.CurrentUser.Id))
-                projectsNames.Add(p.Name);
-
-            return projectsNames;
-        }
-        public List<Project> GetUserProjects()
-        {
-            return _projectRepository.GetUserProjectsList(_account.CurrentUser.Id).ToList();
-        }
-
-        public ObservableCollection<T> CreateCollection<T>(List<T> list)
-        {
-            ObservableCollection<T> collection = new ObservableCollection<T>();
-            foreach (T p in list)
+            ObservableCollection<Project> collection = new ObservableCollection<Project>();
+            foreach (Project p in GetUserProjectsList())
                 collection.Add(p);
             return collection;
         }
         
+        public async Task UpdateProjectInfo()
+        {
+            await _projectRepository.UpdateAsync(SelectedProject!);
+        }
+
+        public async Task DeleteProject()
+        {
+            await _projectRepository.DeleteAsync(SelectedProject!.Id);
+        }
     }
 }

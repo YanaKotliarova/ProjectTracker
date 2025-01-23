@@ -7,6 +7,7 @@ namespace ProjectTracker.Data.Interfaces
         Task CreateAsync(Issue newIssue);
         Task DeleteAsync(int id);
         Task<Issue> GetAsync(int id);
+        IEnumerable<Issue> GetProjectIssues(int projectId);
         Task UpdateAsync(Issue issue);
     }
 }

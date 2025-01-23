@@ -38,7 +38,8 @@
 
         <GroupBox Grid.Column="0" Grid.Row="2"
                   Header="Personal Information" Controls:ControlsHelper.ContentCharacterCasing="Normal" 
-                  Controls:HeaderedControlHelper.HeaderFontWeight="Bold" Controls:HeaderedControlHelper.HeaderFontSize="16" BorderThickness="0,0,2,2">
+                  Controls:HeaderedControlHelper.HeaderFontWeight="Bold" 
+                  Controls:HeaderedControlHelper.HeaderFontSize="16" BorderThickness="0,0,2,2">
 
             <Grid>
                 <Grid.RowDefinitions>
@@ -51,13 +52,15 @@
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="0" Grid.Column="0" Content="Login" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
+                <Label Grid.Row="0" Grid.Column="0" Content="Login" HorizontalAlignment="Left" 
+                       VerticalAlignment="Top" Margin="10,0,0,0"/>
                 
                 <TextBox Grid.Row="0" Grid.Column="0" Name="LoginTB" Height="25" Width="200"
                          VerticalAlignment="Top" HorizontalAlignment="Left"
                          Text="{Binding LoginTextBox}" Margin="10,22,0,0"/>
 
-                <Label Grid.Row="1" Grid.Column="0" Content="Role" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                <Label Grid.Row="1" Grid.Column="0" Content="Role" VerticalAlignment="Top" 
+                       HorizontalAlignment="Left" Margin="10,0,0,0"/>
                 
                 <TextBox Grid.Row="1" Grid.Column="0" Height="25" Width="200" 
                          VerticalAlignment="Top" HorizontalAlignment="Left"
@@ -80,7 +83,8 @@
 
         <GroupBox Grid.Column="1" Grid.Row="2"
                   Header="Password" Controls:ControlsHelper.ContentCharacterCasing="Normal" 
-                  Controls:HeaderedControlHelper.HeaderFontWeight="Bold" Controls:HeaderedControlHelper.HeaderFontSize="16" BorderThickness="0,0,0,2">
+                  Controls:HeaderedControlHelper.HeaderFontWeight="Bold" 
+                  Controls:HeaderedControlHelper.HeaderFontSize="16" BorderThickness="0,0,0,2">
 
             <Grid>
                 <Grid.RowDefinitions>
@@ -93,7 +97,8 @@
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="0" Grid.Column="0" Content="New password" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
+                <Label Grid.Row="0" Grid.Column="0" Content="New password" 
+                       HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
 
                 <PasswordBox Name="PasswordBox" Grid.Row="0" Grid.Column="0" Height="25" Width="200" PasswordChar="*"
                              VerticalAlignment="Top" HorizontalAlignment="Left"
@@ -103,7 +108,8 @@
                     </i:Interaction.Behaviors>
                 </PasswordBox>
 
-                <Label Grid.Row="1" Grid.Column="0" Content="Repeat new password" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                <Label Grid.Row="1" Grid.Column="0" Content="Repeat new password" 
+                       VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0"/>
 
                 <PasswordBox Grid.Row="1" Grid.Column="0" Height="25" Width="200" PasswordChar="*"
                              VerticalAlignment="Top" HorizontalAlignment="Left"
@@ -133,7 +139,8 @@
                   Controls:HeaderedControlHelper.HeaderFontSize="16"
                   Controls:HeaderedControlHelper.HeaderFontWeight="Bold" 
                   Controls:ControlsHelper.ContentCharacterCasing="Normal" 
-                  Controls:HeaderedControlHelper.HeaderBackground="#FFAB4589" BorderThickness="0,0,2,0" BorderBrush="#CCAB4589">
+                  Controls:HeaderedControlHelper.HeaderBackground="#FFAB4589" 
+                  BorderThickness="0,0,2,0" BorderBrush="#CCAB4589">
 
             <Grid>
                 <Grid.RowDefinitions>

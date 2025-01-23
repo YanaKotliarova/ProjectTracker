@@ -31,13 +31,7 @@ namespace ProjectTracker.Data
             return await _db.Projects.FirstOrDefaultAsync(p => p.Name == projectName);
         }
 
-        public async Task<int> GetProjectId(string projectName)
-        {
-            Project project = await GetAsync(projectName);
-            return project.Id;
-        }
-
-        public IEnumerable<Project> GetUserProjectsList(int userId)
+        public IEnumerable<Project> GetUserProjects(int userId)
         {
             return _db.Projects.Where(p => p.UserId == userId);
         }

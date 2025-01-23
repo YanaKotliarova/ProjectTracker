@@ -1,7 +1,12 @@
-﻿namespace ProjectTracker.Services.WorkWithItems.Interfaces
+﻿using ProjectTracker.MVVM.Model;
+using System.Collections.ObjectModel;
+
+namespace ProjectTracker.Services.WorkWithItems.Interfaces
 {
     public interface IWorkWithIssue
     {
-        Task CreateIssueAsync(string issueName, string description, string selectedProject);
+        ObservableCollection<Issue> CreateCollection();
+        Task CreateIssueAsync(string issueName, string description);
+        List<Issue> GetProjectIssuesList();
     }
 }

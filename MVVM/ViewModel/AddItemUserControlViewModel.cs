@@ -1,4 +1,5 @@
 ﻿using ProjectTracker.MVVM.Core;
+using ProjectTracker.MVVM.Model;
 using ProjectTracker.Services.WorkWithItems.Interfaces;
 using System.Collections.ObjectModel;
 
@@ -59,19 +60,30 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
-        private bool _isCreationUnsuccessful;
-        public bool IsCreationUnsuccessful
+        private bool _isThereNoItemName;
+        public bool IsThereNoItemName
         {
-            get { return _isCreationUnsuccessful; }
+            get { return _isThereNoItemName; }
             set
             {
-                _isCreationUnsuccessful = value;
-                OnPropertyChanged(nameof(IsCreationUnsuccessful));
+                _isThereNoItemName = value;
+                OnPropertyChanged(nameof(IsThereNoItemName));
             }
         }
 
-        private ObservableCollection<string> _projects = new ObservableCollection<string>();
-        public ObservableCollection<string> Projects
+        private bool _isThereNoSelectedProject;
+        public bool IsThereNoSelectedProject
+        {
+            get { return _isThereNoSelectedProject; }
+            set
+            {
+                _isThereNoSelectedProject = value;
+                OnPropertyChanged(nameof(IsThereNoSelectedProject));
+            }
+        }
+
+        private ObservableCollection<Project> _projects;
+        public ObservableCollection<Project> Projects
         {
             get { return _projects; }
             set
@@ -81,8 +93,8 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
-        private string _selectedProject;
-        public string SelectedProject
+        private Project _selectedProject;
+        public Project SelectedProject
         {
             get { return _selectedProject; }
             set
@@ -98,23 +110,29 @@ namespace ProjectTracker.MVVM.ViewModel
             get
             {
                 return _createItemCommand ??
-                    (_createItemCommand = new RelayCommand(obj =>
+                    (_createItemCommand = new RelayCommand(async obj =>
                     {
                         if (NameOfItemTextBox != null)
                         {
-                            IsCreationUnsuccessful = false;
+                            IsThereNoItemName = false;
                             if (IsItProject)
                             {
-                                _workWithProject.CreateProjectAsync(NameOfItemTextBox!, DescriptionTextBox);
+                                await _workWithProject.CreateProjectAsync(NameOfItemTextBox!, DescriptionTextBox);
                                 CleanUserControlControls();
                             }
                             else if (IsItIssue)
                             {
-                                _workWithIssue.CreateIssueAsync(NameOfItemTextBox!, DescriptionTextBox, SelectedProject);
-                                CleanUserControlControls();
+                                if (SelectedProject != null)
+                                {
+                                    IsThereNoSelectedProject = false;
+                                    _workWithProject.SelectedProject = SelectedProject;
+                                    await _workWithIssue.CreateIssueAsync(NameOfItemTextBox!, DescriptionTextBox);
+                                    CleanUserControlControls();
+                                }
+                                else IsThereNoSelectedProject = true;
                             }
                         }
-                        else IsCreationUnsuccessful = true;
+                        else IsThereNoItemName = true;
                         
                     }));
             }
@@ -126,26 +144,27 @@ namespace ProjectTracker.MVVM.ViewModel
             get
             {
                 return _loadUserControlCommand ??
-                    (_loadUserControlCommand = new RelayCommand(async obj =>
+                    (_loadUserControlCommand = new RelayCommand(obj =>
                     {
-                        await CleanUserControlControls();
+                        CleanUserControlControls();
                     }));
             }
         }
 
-        private async Task CleanUserControlControls()
+        private void CleanUserControlControls()
         {
             IsItProject = true;
             NameOfItemTextBox = null;
             DescriptionTextBox = null;
-            IsCreationUnsuccessful = false;
-            await UpdateListOfUserProjectsNames();
+            IsThereNoItemName = false;
+            IsThereNoSelectedProject = false;
+            UpdateListOfUserProjectsNames();
         }
 
-        private async Task UpdateListOfUserProjectsNames()
+        private void UpdateListOfUserProjectsNames()
         {
-            Projects.Clear();
-            Projects = _workWithProject.CreateCollection(_workWithProject.GetUserProjectsNames());
+            //Projects.Clear();
+            Projects = _workWithProject.CreateCollection();
         }
     }
 }

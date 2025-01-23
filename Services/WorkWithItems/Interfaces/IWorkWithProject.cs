@@ -6,9 +6,12 @@ namespace ProjectTracker.Services.WorkWithItems.Interfaces
 {
     public interface IWorkWithProject
     {
-        ObservableCollection<T> CreateCollection<T>(List<T> list);
+        Project? SelectedProject { get; set; }
+
+        ObservableCollection<Project> CreateCollection();
         Task CreateProjectAsync(string projectName, string description);
-        List<Project> GetUserProjects();
-        List<string> GetUserProjectsNames();
+        Task DeleteProject();
+        List<Project> GetUserProjectsList();
+        Task UpdateProjectInfo();
     }
 }

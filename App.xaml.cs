@@ -30,6 +30,7 @@ namespace ProjectTracker
             services.AddSingleton<RegistrationPageViewModel>();
             services.AddSingleton<HomePageViewModel>();
             services.AddSingleton<AccountPageViewModel>();
+            services.AddSingleton<ProjectPageViewModel>();
 
             services.AddSingleton<HomeUserControlViewModel>();
             services.AddSingleton<ProjectsBoardUserControlViewModel>();

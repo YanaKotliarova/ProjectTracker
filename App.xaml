@@ -30,6 +30,10 @@
                 <view:AccountPage/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type viewmodel:ProjectPageViewModel}">
+                <view:ProjectPage/>
+            </DataTemplate>
+
         </ResourceDictionary>             
         
     </Application.Resources>

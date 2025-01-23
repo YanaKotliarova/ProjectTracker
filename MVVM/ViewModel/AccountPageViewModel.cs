@@ -147,7 +147,7 @@ namespace ProjectTracker.MVVM.ViewModel
             get
             {
                 return _logOutCommand ??
-                    (_logOutCommand = new RelayCommand(async obj =>
+                    (_logOutCommand = new RelayCommand(obj =>
                     {
                         NavigationService.NavigateTo<AutorizationPageViewModel>();
                         _account.CurrentUser = null;
