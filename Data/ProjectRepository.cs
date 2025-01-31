@@ -11,7 +11,7 @@ namespace ProjectTracker.Data
         public ProjectRepository(IRepository repository)
         {
             _repository = repository;
-            _db = _repository.GetDB();
+            _db = _repository.GetDb();
         }
         public async Task CreateAsync(Project newProject)
         {
@@ -26,9 +26,14 @@ namespace ProjectTracker.Data
             await _repository.SaveChangesAsync();
         }
 
-        public async Task<Project> GetAsync(string projectName)
+        public Project Get(int id)
         {
-            return await _db.Projects.FirstOrDefaultAsync(p => p.Name == projectName);
+            return _db.Projects.Find(id);
+        }
+
+        public async Task<Project> GetByNameAsync(string name)
+        {
+            return await _db.Projects.FirstOrDefaultAsync(p => p.Name == name);
         }
 
         public IEnumerable<Project> GetUserProjects(int userId)

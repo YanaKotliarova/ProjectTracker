@@ -19,7 +19,7 @@ namespace ProjectTracker.Services.Authentication
         {
             if (!await _userRepository.IsLoginExists(login))
             {
-                User newUser = new User(login, password, role);
+                User newUser = new User(login, _userRepository.GetPasswordHashCode(password), role);
                 await _userRepository.CreateAsync(newUser);
                 _account.CurrentUser = await _userRepository.GetAsync(login);
             }

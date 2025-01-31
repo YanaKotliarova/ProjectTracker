@@ -2,8 +2,8 @@
 {
     public interface IRepository
     {
-        ApplicationContext GetDB();
-        Task InitializeDBAsync();
+        ApplicationContext GetDb();
+        Task InitializeDbAsync(string connectionString = null);
         Task SaveChangesAsync();
     }
 }

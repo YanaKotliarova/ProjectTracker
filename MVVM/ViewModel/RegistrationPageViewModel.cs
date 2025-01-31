@@ -1,4 +1,6 @@
-﻿using ProjectTracker.MVVM.Core;
+﻿using Microsoft.IdentityModel.Tokens;
+using ProjectTracker.MVVM.Core;
+using ProjectTracker.Services.Authentication;
 using ProjectTracker.Services.Authentication.Interfaces;
 using ProjectTracker.Services.Navigation.Interfaces;
 
@@ -6,11 +8,15 @@ namespace ProjectTracker.MVVM.ViewModel
 {
     public class RegistrationPageViewModel : ViewModelBase
     {
+        private const int minPasswordLength = 8;
+
         private readonly IRegistration _registration;
-        public RegistrationPageViewModel(INavigationService navigationService, IRegistration registration)
+        private readonly IAccount _account;
+        public RegistrationPageViewModel(INavigationService navigationService, IRegistration registration, IAccount account)
         {
             NavigationService = navigationService;
             _registration = registration;
+            _account = account;
         }
 
         private INavigationService _navigationService;
@@ -57,7 +63,7 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
-        private bool _isLoginExists = false;
+        private bool _isLoginExists;
         public bool IsLoginExists
         {
             get { return _isLoginExists; }
@@ -65,6 +71,17 @@ namespace ProjectTracker.MVVM.ViewModel
             {
                 _isLoginExists = value;
                 OnPropertyChanged(nameof(IsLoginExists));
+            }
+        }
+
+        private bool _isPasswordLengthEnough;
+        public bool IsPasswordLengthEnough
+        {
+            get { return _isPasswordLengthEnough; }
+            set
+            {
+                _isPasswordLengthEnough = value;
+                OnPropertyChanged(nameof(IsPasswordLengthEnough));
             }
         }
 
@@ -76,9 +93,19 @@ namespace ProjectTracker.MVVM.ViewModel
                 return _signUpCommand ??
                     (_signUpCommand = new RelayCommand(async obj =>
                     {
-                        await _registration.SingUpAsync(LoginTextBox, PasswordBox, RoleTextBox);
-                        NavigationService.NavigateTo<HomePageViewModel>();
-                    }));
+                        IsLoginExists = await _account.CheckIfLoginExistsAsync(LoginTextBox);
+                        if (!IsLoginExists)
+                        {
+                            IsPasswordLengthEnough = PasswordBox.Length is not >= minPasswordLength;
+                            if(!IsPasswordLengthEnough)
+                            {
+                                await _registration.SingUpAsync(LoginTextBox, PasswordBox, RoleTextBox);
+                                LoginTextBox = "";
+                                RoleTextBox = "";
+                                NavigationService.NavigateTo<HomePageViewModel>();
+                            }                            
+                        }                        
+                    }, x => !LoginTextBox.IsNullOrEmpty() && !PasswordBox.IsNullOrEmpty() ));
             }
         }
     }

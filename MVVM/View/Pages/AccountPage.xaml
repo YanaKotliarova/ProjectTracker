@@ -7,6 +7,9 @@
       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
       xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
       
+      xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+      Dialog:DialogParticipation.Register="{Binding}"
+      
       xmlns:viewmodel="clr-namespace:ProjectTracker.MVVM.ViewModel" 
       d:DataContext="{d:DesignInstance Type=viewmodel:AccountPageViewModel}"
       xmlns:helper="clr-namespace:ProjectTracker.MVVM.View.UIHelpers"
@@ -34,7 +37,7 @@
                 Command="NavigationCommands.BrowseBack"
                 Controls:ControlsHelper.ContentCharacterCasing="Upper"/>
 
-        <Label Grid.Column="0" Grid.Row="1" Content="Account Settings" FontSize="36" FontWeight="Bold"/>
+        <Label Grid.Column="0" Grid.Row="1" Content="Account Settings" FontSize="36" FontWeight="Bold" Foreground="#FF727272"/>
 
         <GroupBox Grid.Column="0" Grid.Row="2"
                   Header="Personal Information" Controls:ControlsHelper.ContentCharacterCasing="Normal" 
@@ -54,22 +57,28 @@
 
                 <Label Grid.Row="0" Grid.Column="0" Content="Login" HorizontalAlignment="Left" 
                        VerticalAlignment="Top" Margin="10,0,0,0"/>
-                
-                <TextBox Grid.Row="0" Grid.Column="0" Name="LoginTB" Height="25" Width="200"
+
+                <TextBox x:Name="LoginTextBox" Grid.Row="0" Grid.Column="0" Height="25" Width="200"
                          VerticalAlignment="Top" HorizontalAlignment="Left"
                          Text="{Binding LoginTextBox}" Margin="10,22,0,0"/>
 
                 <Label Grid.Row="1" Grid.Column="0" Content="Role" VerticalAlignment="Top" 
                        HorizontalAlignment="Left" Margin="10,0,0,0"/>
                 
-                <TextBox Grid.Row="1" Grid.Column="0" Height="25" Width="200" 
+                <TextBox Grid.Row="1" Grid.Column="0" Height="25" Width="200"
                          VerticalAlignment="Top" HorizontalAlignment="Left"
                          Text="{Binding RoleTextBox}" Margin="10,22,0,0"/>
 
-                <Popup IsOpen="{Binding LoginExists}" StaysOpen="False" 
-                       PlacementTarget="{Binding ElementName=LoginTB}" Placement="Right" HorizontalOffset="15">
+                <Popup IsOpen="{Binding IsLoginExists}" StaysOpen="False" 
+                       PlacementTarget="{Binding ElementName=LoginTextBox}" Placement="Right" HorizontalOffset="15">
                     <TextBlock Width="150" TextWrapping="Wrap"
                                   Text="This login is already occupied. Try another one" Background="LightPink" Padding="1"/>
+                </Popup>
+
+                <Popup IsOpen="{Binding HasInfoNotChanged}" StaysOpen="False" 
+                       PlacementTarget="{Binding ElementName=LoginTextBox}" Placement="Right" HorizontalOffset="15">
+                    <TextBlock Width="150" TextWrapping="Wrap"
+                               Text="You have not changed your personal information!" Background="LightPink" Padding="1"/>
                 </Popup>
 
                 <Button Grid.Row="1" Grid.Column="1" Content="Save" 
@@ -107,6 +116,13 @@
                         <helper:PasswordBehavior Password="{Binding NewPasswordBox, Mode=TwoWay}" />
                     </i:Interaction.Behaviors>
                 </PasswordBox>
+
+                <Popup IsOpen="{Binding IsPasswordLengthEnough}" StaysOpen="False" 
+                       PlacementTarget="{Binding ElementName=PasswordBox}" Placement="Right" HorizontalOffset="15">
+                    <TextBlock Width="150" TextWrapping="Wrap"
+                               Text="Your password is too short. It should be more than 8 symbols" 
+                               Background="LightPink" Padding="1"/>
+                </Popup>
 
                 <Label Grid.Row="1" Grid.Column="0" Content="Repeat new password" 
                        VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0"/>

@@ -7,6 +7,9 @@
       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
       xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
       
+      xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+      Dialog:DialogParticipation.Register="{Binding}"
+      
       xmlns:viewmodel="clr-namespace:ProjectTracker.MVVM.ViewModel" 
       d:DataContext="{d:DesignInstance Type=viewmodel:ProjectPageViewModel}"
       
@@ -60,7 +63,14 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Content="Project" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <TextBox Grid.Column="1" Height="25" Margin="5,0,10,0" Text="{Binding ProjectNameTextBox}"/>
+
+                <TextBox Name="NameTextBox" Grid.Column="1" Height="25" Margin="5,0,10,0" Text="{Binding ProjectNameTextBox}"/>
+
+                <Popup IsOpen="{Binding IsThereSameProjectName}" StaysOpen="False" HorizontalOffset="80"
+                       PlacementTarget="{Binding ElementName=NameTextBox}" Placement="Center">
+                    <TextBlock Text="A project with that name already exists!" Background="LightPink" Padding="1"/>
+                </Popup>
+
             </Grid>
 
             <Grid Margin="0,10,0,0">
@@ -73,51 +83,60 @@
                 <TextBox Grid.Column="1" Height="120" Margin="5,0,10,0" TextWrapping="Wrap" Text="{Binding DescriptionTextBox}"/>
             </Grid>
 
-            <Button Margin="0,10,10,0" Content="Update" Height="25" Width="80" 
+            <Button Name="UpdateButton" Margin="0,10,10,0" Content="Update" Height="25" Width="80" 
                     Command="{Binding UpdateProjectCommand}"
                     HorizontalAlignment="Right" VerticalAlignment="Top"
                     Controls:ControlsHelper.ContentCharacterCasing="Upper" BorderBrush="#FFCCCCCC"/>
+
+            <Popup IsOpen="{Binding HasInfoNotChanged}" StaysOpen="False" VerticalOffset="-5" HorizontalOffset="-90"
+                   PlacementTarget="{Binding ElementName=UpdateButton}" Placement="Top">
+                <TextBlock Text="You haven't changed the project!" Background="LightPink" Padding="1"/>
+            </Popup>
 
             <Grid Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="120"/>
                     <ColumnDefinition/>
+                    <ColumnDefinition Width="90"/>
                 </Grid.ColumnDefinitions>
 
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
                 <Label Content="Labels" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <StackPanel Grid.Column="1" Margin="5,0,10,0">
-                    <ListBox ItemsSource="{Binding LabelsList}" SelectedItem="{Binding SelectedLabel}" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel/>
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem">
-                                <Setter Property="BorderThickness" Value="1"/>
-                                <Setter Property="BorderBrush" Value="{Controls:StaticResource MahApps.Brushes.AccentBase}"/>
-                                <Setter Property="Margin" Value="0,0,5,0"/>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                        <ListBox.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Update" Command="{Binding OpenUpdatePanelCommand}"/>
-                                <MenuItem Header="Delete" Command="{Binding DeleteLabelCommand}"/>
-                            </ContextMenu>
-                        </ListBox.ContextMenu>
-                    </ListBox>
-                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        
-                        <TextBox Height="25" Width="300" Margin="0,0,15,0"
-                                 Text="{Binding AddLabelTextBox}"
-                                 Controls:TextBoxHelper.Watermark="Add label"/>
-                        
-                        <Button Content="Add" Height="25" Width="80" 
-                                Command="{Binding AddLabelCommand}"
-                                HorizontalAlignment="Right" VerticalAlignment="Top" 
-                                Controls:ControlsHelper.ContentCharacterCasing="Upper"/>
-                    </StackPanel>
-                </StackPanel>
+
+                <ListBox Grid.Column="1" ItemsSource="{Binding LabelsList}" SelectedItem="{Binding SelectedLabel}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Setter Property="BorderBrush" Value="{Controls:StaticResource MahApps.Brushes.AccentBase}"/>
+                            <Setter Property="Margin" Value="0,0,5,0"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Update" Command="{Binding OpenUpdatePanelCommand}"/>
+                            <MenuItem Header="Delete" Command="{Binding DeleteLabelCommand}"/>
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+                </ListBox>
+
+                <TextBox Name="AddLabelTB" Grid.Column="1" Grid.Row="1" Height="25" Width="300" Margin="0,10,10,0"
+                         Text="{Binding AddLabelTextBox}"
+                         Controls:TextBoxHelper.Watermark="Add label"/>
+
+                <Button Grid.Column="2" Grid.Row="1" Content="Add" Height="25" Width="80" Margin="0,10,0,0"
+                        Command="{Binding AddLabelCommand}"
+                        HorizontalAlignment="Left" VerticalAlignment="Top" 
+                        Controls:ControlsHelper.ContentCharacterCasing="Upper"
+                        IsEnabled="{Binding Text.Length, ElementName=AddLabelTB}"/>
             </Grid>
 
             <Grid Margin="0,10,0,0">
@@ -128,8 +147,15 @@
 
                 <Label Content="Issues" Height="25" HorizontalAlignment="Left"/>
 
-                <ListBox Grid.Column="1" Margin="5,0,10,0" ItemsSource="{Binding IssuesList}" 
+                <ListBox Grid.Column="1" Margin="5,0,10,0" ItemsSource="{Binding IssuesList}" SelectedItem="{Binding SelectedIssue}"
                          ScrollViewer.VerticalScrollBarVisibility="Auto">
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding DoubleIssueClickCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -145,7 +171,6 @@
                     </ListBox.ItemsPanel>
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
-                            <Setter Property="Focusable" Value="False"/>
                             <Setter Property="Margin" Value="0,0,5,5"/>
                         </Style>
                     </ListBox.ItemContainerStyle>
@@ -172,7 +197,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"/>
                         <RowDefinition/>
-                    </Grid.RowDefinitions> 
+                    </Grid.RowDefinitions>
 
                     <Button Grid.Column="1" Height="25" Width="25" HorizontalAlignment="Right" VerticalAlignment="Top"
                             Command="{Binding CloseUpdatePanelCommand}">
@@ -185,7 +210,7 @@
                 </Grid>
             </Border>
         </Popup>
-        
+
     </Grid>
 
     <i:Interaction.Triggers>

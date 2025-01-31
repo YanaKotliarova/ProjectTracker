@@ -1,6 +1,8 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using ProjectTracker.MVVM.Core;
 using ProjectTracker.MVVM.Model;
+using ProjectTracker.MVVM.View.UI.Interfaces;
+using ProjectTracker.Services.Navigation.Interfaces;
 using ProjectTracker.Services.WorkWithItems.Interfaces;
 using System.Collections.ObjectModel;
 
@@ -10,11 +12,26 @@ namespace ProjectTracker.MVVM.ViewModel
     {
         private readonly IWorkWithProject _workWithProject;
         private readonly IWorkWithIssue _workWithIssue;
+        private readonly IMetroDialog _metroDialog;
 
-        public ProjectPageViewModel(IWorkWithProject workWithProject, IWorkWithIssue workWithIssue)
+        public ProjectPageViewModel(INavigationService navigationService, IWorkWithProject workWithProject, 
+            IWorkWithIssue workWithIssue, IMetroDialog metroDialog)
         {
+            NavigationService = navigationService;
             _workWithProject = workWithProject;
             _workWithIssue = workWithIssue;
+            _metroDialog = metroDialog;
+        }
+
+        private INavigationService _navigationService;
+        public INavigationService NavigationService
+        {
+            get { return _navigationService; }
+            set
+            {
+                _navigationService = value;
+                OnPropertyChanged(nameof(NavigationService));
+            }
         }
 
         private ObservableCollection<Project> _projectsList;
@@ -58,6 +75,17 @@ namespace ProjectTracker.MVVM.ViewModel
             {
                 _selectedProject = value;
                 OnPropertyChanged(nameof(SelectedProject));
+            }
+        }
+
+        private Issue _selectedIssue;
+        public Issue SelectedIssue
+        {
+            get { return _selectedIssue; }
+            set
+            {
+                _selectedIssue = value;
+                OnPropertyChanged(nameof(SelectedIssue));
             }
         }
 
@@ -127,6 +155,28 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
+        private bool _isThereSameProjectName;
+        public bool IsThereSameProjectName
+        {
+            get { return _isThereSameProjectName; }
+            set
+            {
+                _isThereSameProjectName = value;
+                OnPropertyChanged(nameof(IsThereSameProjectName));
+            }
+        }
+
+        private bool _hasInfoNotChanged;
+        public bool HasInfoNotChanged
+        {
+            get { return _hasInfoNotChanged; }
+            set
+            {
+                _hasInfoNotChanged = value;
+                OnPropertyChanged(nameof(HasInfoNotChanged));
+            }
+        }
+
         private RelayCommand _loadProjectPageCommand;
         public RelayCommand LoadProjectPageCommand
         {
@@ -136,7 +186,7 @@ namespace ProjectTracker.MVVM.ViewModel
                     (_loadProjectPageCommand = new RelayCommand(obj =>
                     {
                         UpdateProjectCollection();
-                        SelectedProject = _workWithProject.SelectedProject!;                        
+                        SelectedProject = _workWithProject.SelectedProject!;
                         UpdatePageControls();
                     }));
             }
@@ -164,14 +214,29 @@ namespace ProjectTracker.MVVM.ViewModel
                 return _updateProjectCommand ??
                     (_updateProjectCommand = new RelayCommand(async obj =>
                     {
-                        SelectedProject.Name = ProjectNameTextBox;
-                        SelectedProject.Description = DescriptionTextBox;
+                        HasInfoNotChanged = !HasInfoChangedCheck();
+                        if (!HasInfoNotChanged)
+                        {
+                            if (await _metroDialog.ShowConfirmationMessage(this,
+                            "Are you sure you want to update your project?", ""))
+                            {
+                                IsThereSameProjectName = await _workWithProject.CheckProjectNameAsync(ProjectNameTextBox);
+                                if (!IsThereSameProjectName)
+                                {
+                                    SelectedProject.Name = ProjectNameTextBox;
+                                    SelectedProject.Description = DescriptionTextBox;
 
-                        _workWithProject.SelectedProject = SelectedProject;
-                        await _workWithProject.UpdateProjectInfo();
+                                    _workWithProject.SelectedProject = SelectedProject;
+                                    await _workWithProject.UpdateProjectInfo();
 
-                        UpdateProjectCollection();
-                    }));
+                                    UpdateProjectCollection();
+
+                                    await _metroDialog.ShowMessage(this, "Success", "Your project has been updated");
+                                }
+                            }
+                            else UpdatePageControls();
+                        }                            
+                    }, x => SelectedProject != null));
             }
         }
 
@@ -183,7 +248,7 @@ namespace ProjectTracker.MVVM.ViewModel
                 return _addLabelCommand ??
                     (_addLabelCommand = new RelayCommand(async obj =>
                     {
-                        if(!AddLabelTextBox.IsNullOrEmpty())
+                        if (!AddLabelTextBox.IsNullOrEmpty())
                         {
                             SelectedProject.Labels.Add(AddLabelTextBox);
                             await _workWithProject.UpdateProjectInfo();
@@ -252,6 +317,20 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
+        private RelayCommand _doubleIssueClickCommand;
+        public RelayCommand DoubleIssueClickCommand
+        {
+            get
+            {
+                return _doubleIssueClickCommand ??
+                    (_doubleIssueClickCommand = new RelayCommand(obj =>
+                    {
+                        _workWithIssue.SelectedIssue = SelectedIssue;
+                        NavigationService.NavigateTo<IssuePageViewModel>();
+                    }));
+            }
+        }
+
         private RelayCommand _deleteProjectCommand;
         public RelayCommand DeleteProjectCommand
         {
@@ -260,20 +339,24 @@ namespace ProjectTracker.MVVM.ViewModel
                 return _deleteProjectCommand ??
                     (_deleteProjectCommand = new RelayCommand(async obj =>
                     {
-                        await _workWithProject.DeleteProject();
-                        int index = ProjectsList.IndexOf(SelectedProject);
-                        int count = ProjectsList.Count - 1;
-                        if (count > 0 && index != count)
+                        if (await _metroDialog.ShowConfirmationMessage(this,
+                            "Are you sure you want to DELETE your project?", "This action is irreversible"))
                         {
-                            SelectedProject = ProjectsList[index + 1];
-                        }
-                        else if (count > 0 && index == count)
-                        {
-                            SelectedProject = ProjectsList[index - 1];
-                        }
-                        else SelectedProject = null;
-                        UpdateProjectCollection();
-                    }));
+                            await _workWithProject.DeleteProject();
+                            int index = ProjectsList.IndexOf(SelectedProject);
+                            int count = ProjectsList.Count - 1;
+                            if (count > 0 && index != count)
+                            {
+                                SelectedProject = ProjectsList[index + 1];
+                            }
+                            else if (count > 0 && index == count)
+                            {
+                                SelectedProject = ProjectsList[index - 1];
+                            }
+                            else SelectedProject = null;
+                            UpdateProjectCollection();
+                        }                                
+                    }, x => SelectedProject != null));
             }
         }
 
@@ -292,17 +375,22 @@ namespace ProjectTracker.MVVM.ViewModel
                 DescriptionTextBox = "";
                 LabelsList = default;
                 IssuesList = default;
-                // сделать кнопки неактивными!
             }
         }
 
         private void UpdateIssueCollection()
         {
-            IssuesList = _workWithIssue.CreateCollection();
+            IssuesList = _workWithIssue.CreateCollection(_workWithIssue.GetProjectIssuesList());
         }
         private void UpdateProjectCollection()
         {
             ProjectsList = _workWithProject.CreateCollection();
+        }
+
+        private bool HasInfoChangedCheck()
+        {
+            return !_workWithProject.SelectedProject.Name.Equals(ProjectNameTextBox) && !ProjectNameTextBox.IsNullOrEmpty() ||
+                !_workWithProject.SelectedProject.Description.Equals(DescriptionTextBox);
         }
     }
 }

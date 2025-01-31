@@ -3,10 +3,306 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:helpers="clr-namespace:ProjectTracker.MVVM.View.UIHelpers"
+             
+             xmlns:viewmodel="clr-namespace:ProjectTracker.MVVM.ViewModel" 
+             d:DataContext="{d:DesignInstance Type=viewmodel:IssueBoardUserControlViewModel}"
+             
+             xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             Dialog:DialogParticipation.Register="{Binding}"
+             
              xmlns:local="clr-namespace:ProjectTracker.MVVM.View.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+
+    <UserControl.Resources>
+        <helpers:ProjectIdToNameConverter x:Key="ProjectIdToNameConverter"/>
+        <helpers:PriorityToGlyphConverter x:Key="PriorityToGlyphConverter"/>
+        <helpers:PriorityToColorConverter x:Key="PriorityToColorConverter"/>
+    </UserControl.Resources>
+    
+    <Grid Background="Beige">
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Label Content="TO DO" FontSize="20" FontWeight="Bold" Foreground="#FF727272" 
+               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <ListBox Grid.Row="1" Background="White" 
+                 ItemsSource="{Binding ToDoIssuesList}" SelectedItem="{Binding SelectedIssue}"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="5">
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding DoubleIssueClickCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="BorderThickness" Value="2"/>
+                    <Setter Property="BorderBrush" Value="{Controls:StaticResource MahApps.Brushes.AccentBase}"/>
+                    <Setter Property="Margin" Value="0,0,0,5"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
             
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding Path=Name}"/>
+                                <TextBlock Text="{Binding Path=ProjectId, Converter={StaticResource ProjectIdToNameConverter}}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Controls:FontIcon FontFamily="Segoe MDL2 Assets" 
+                       Glyph="{Binding Path=Priority, Converter={StaticResource PriorityToGlyphConverter}}" 
+                       Foreground="{Binding Path=Priority, Converter={StaticResource PriorityToColorConverter}}"
+                       FontSize="14" FontWeight="Bold" HorizontalAlignment="Left"/>
+
+                            <TextBlock Text="{Binding Path=Priority}" Margin="5,0,0,0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <ListBox ItemsSource="{Binding Path=Labels}"
+                             ScrollViewer.VerticalScrollBarVisibility="Disabled" Padding="1"
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="BorderThickness" Value="2"/>
+                                        <Setter Property="BorderBrush" Value="{Controls:StaticResource MahApps.Brushes.AccentBase}"/>
+                                        <Setter Property="Margin" Value="0,0,5,0"/>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+
+                            </ListBox>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Update" Command="{Binding DoubleIssueClickCommand}"/>
+                    <MenuItem Header="Delete" Command="{Binding DeleteIssueCommand}"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+        </ListBox>
+
+        <Label Grid.Column="1" Content="IN PROGRESS" FontSize="20" FontWeight="Bold" Foreground="#FF727272" 
+               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        
+        <ListBox Grid.Row="1" Grid.Column="1" Background="White" 
+                 ItemsSource="{Binding InProgressIssuesList}" SelectedItem="{Binding SelectedIssue}"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="5">
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding DoubleIssueClickCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="BorderThickness" Value="2"/>
+                    <Setter Property="BorderBrush" Value="{Controls:StaticResource MahApps.Brushes.AccentBase}"/>
+                    <Setter Property="Margin" Value="0,0,0,5"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding Path=Name}"/>
+                        <TextBlock Text="{Binding Path=ProjectId, Converter={StaticResource ProjectIdToNameConverter}}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Controls:FontIcon FontFamily="Segoe MDL2 Assets" 
+                                               Glyph="{Binding Path=Priority, Converter={StaticResource PriorityToGlyphConverter}}" 
+                                               Foreground="{Binding Path=Priority, Converter={StaticResource PriorityToColorConverter}}"
+                                               FontSize="14" FontWeight="Bold" HorizontalAlignment="Left"/>
+
+                            <TextBlock Text="{Binding Path=Priority}" Margin="5,0,0,0"/>
+                        </StackPanel>                        
+                        <StackPanel Orientation="Horizontal">
+                            <ListBox ItemsSource="{Binding Path=Labels}"
+                                     ScrollViewer.VerticalScrollBarVisibility="Disabled" Padding="1"
+                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="BorderThickness" Value="2"/>
+                                        <Setter Property="BorderBrush" Value="{Controls:StaticResource MahApps.Brushes.AccentBase}"/>
+                                        <Setter Property="Margin" Value="0,0,5,0"/>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                                
+                            </ListBox>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Update" Command="{Binding DoubleIssueClickCommand}"/>
+                    <MenuItem Header="Delete" Command="{Binding DeleteIssueCommand}"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+        </ListBox>
+
+        <Label Grid.Column="2" Content="REVIEW" FontSize="20" FontWeight="Bold" Foreground="#FF727272" 
+               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <ListBox Grid.Row="1" Grid.Column="2" Background="White" 
+         ItemsSource="{Binding ReviewIssuesList}" SelectedItem="{Binding SelectedIssue}"
+         ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="5">
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding DoubleIssueClickCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="BorderThickness" Value="2"/>
+                    <Setter Property="BorderBrush" Value="{Controls:StaticResource MahApps.Brushes.AccentBase}"/>
+                    <Setter Property="Margin" Value="0,0,0,5"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding Path=Name}"/>
+                        <TextBlock Text="{Binding Path=ProjectId, Converter={StaticResource ProjectIdToNameConverter}}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Controls:FontIcon FontFamily="Segoe MDL2 Assets" 
+                       Glyph="{Binding Path=Priority, Converter={StaticResource PriorityToGlyphConverter}}" 
+                       Foreground="{Binding Path=Priority, Converter={StaticResource PriorityToColorConverter}}"
+                       FontSize="14" FontWeight="Bold" HorizontalAlignment="Left"/>
+
+                            <TextBlock Text="{Binding Path=Priority}" Margin="5,0,0,0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <ListBox ItemsSource="{Binding Path=Labels}"
+                             ScrollViewer.VerticalScrollBarVisibility="Disabled" Padding="1"
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="BorderThickness" Value="2"/>
+                                        <Setter Property="BorderBrush" Value="{Controls:StaticResource MahApps.Brushes.AccentBase}"/>
+                                        <Setter Property="Margin" Value="0,0,5,0"/>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+
+                            </ListBox>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Update" Command="{Binding DoubleIssueClickCommand}"/>
+                    <MenuItem Header="Delete" Command="{Binding DeleteIssueCommand}"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+        </ListBox>
+
+        <Label Grid.Column="3" Content="DONE" FontSize="20" FontWeight="Bold" Foreground="#FF727272" 
+               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <ListBox Grid.Row="1" Grid.Column="3" Background="White" 
+         ItemsSource="{Binding DoneIssuesList}" SelectedItem="{Binding SelectedIssue}"
+         ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="5">
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding DoubleIssueClickCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="BorderThickness" Value="2"/>
+                    <Setter Property="BorderBrush" Value="{Controls:StaticResource MahApps.Brushes.AccentBase}"/>
+                    <Setter Property="Margin" Value="0,0,0,5"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding Path=Name}"/>
+                        <TextBlock Text="{Binding Path=ProjectId, Converter={StaticResource ProjectIdToNameConverter}}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Controls:FontIcon FontFamily="Segoe MDL2 Assets" 
+                                               Glyph="{Binding Path=Priority, Converter={StaticResource PriorityToGlyphConverter}}" 
+                                               Foreground="{Binding Path=Priority, Converter={StaticResource PriorityToColorConverter}}"
+                                               FontSize="14" FontWeight="Bold" HorizontalAlignment="Left"/>
+                            <TextBlock Text="{Binding Path=Priority}" Margin="5,0,0,0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <ListBox ItemsSource="{Binding Path=Labels}"
+                             ScrollViewer.VerticalScrollBarVisibility="Disabled" Padding="1"
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="BorderThickness" Value="2"/>
+                                        <Setter Property="BorderBrush" Value="{Controls:StaticResource MahApps.Brushes.AccentBase}"/>
+                                        <Setter Property="Margin" Value="0,0,5,0"/>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+
+                            </ListBox>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Update" Command="{Binding DoubleIssueClickCommand}"/>
+                    <MenuItem Header="Delete" Command="{Binding DeleteIssueCommand}"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+        </ListBox>
+
     </Grid>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadUserControlCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
 </UserControl>

@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectTracker.Data.Interfaces;
 using ProjectTracker.MVVM.Model;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace ProjectTracker.Data
 {
@@ -12,7 +14,7 @@ namespace ProjectTracker.Data
         public UserRepository(IRepository repository)
         {
             _repository = repository;
-            _db = _repository.GetDB();
+            _db = _repository.GetDb();
         }
 
         public async Task CreateAsync(User newUser)
@@ -62,6 +64,15 @@ namespace ProjectTracker.Data
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public string GetPasswordHashCode(string password)
+        {
+            using (SHA256 mySHA256 = SHA256.Create())
+            {
+                byte[] passwordByteArray = Encoding.ASCII.GetBytes(password);
+                return BitConverter.ToString(mySHA256.ComputeHash(passwordByteArray));
+            }
         }
     }
 }

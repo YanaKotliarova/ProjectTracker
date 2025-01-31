@@ -1,4 +1,6 @@
-﻿using ProjectTracker.MVVM.Core;
+﻿using Microsoft.IdentityModel.Tokens;
+using ProjectTracker.MVVM.Core;
+using ProjectTracker.MVVM.View.UI.Interfaces;
 using ProjectTracker.Services.Authentication;
 using ProjectTracker.Services.Navigation.Interfaces;
 
@@ -6,11 +8,15 @@ namespace ProjectTracker.MVVM.ViewModel
 {
     public class AccountPageViewModel : ViewModelBase
     {
+        private const int minPasswordLength = 8;
+
         private readonly IAccount _account;
-        public AccountPageViewModel(INavigationService navigationService, IAccount account)
+        private readonly IMetroDialog _metroDialog;
+        public AccountPageViewModel(INavigationService navigationService, IAccount account, IMetroDialog metroDialog)
         {
             NavigationService = navigationService;
             _account = account;
+            _metroDialog = metroDialog;
         }
 
         private INavigationService _navigationService;
@@ -79,14 +85,36 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
-        private bool _loginExists;
-        public bool LoginExists
+        private bool _isLoginExists;
+        public bool IsLoginExists
         {
-            get { return _loginExists; }
+            get { return _isLoginExists; }
             set
             {
-                _loginExists = value;
-                OnPropertyChanged(nameof(LoginExists));
+                _isLoginExists = value;
+                OnPropertyChanged(nameof(IsLoginExists));
+            }
+        }
+
+        private bool _isPasswordLengthEnough;
+        public bool IsPasswordLengthEnough
+        {
+            get { return _isPasswordLengthEnough; }
+            set
+            {
+                _isPasswordLengthEnough = value;
+                OnPropertyChanged(nameof(IsPasswordLengthEnough));
+            }
+        }
+
+        private bool _hasInfoNotChanged;
+        public bool HasInfoNotChanged
+        {
+            get { return _hasInfoNotChanged; }
+            set
+            {
+                _hasInfoNotChanged = value;
+                OnPropertyChanged(nameof(HasInfoNotChanged));
             }
         }
 
@@ -98,8 +126,7 @@ namespace ProjectTracker.MVVM.ViewModel
                 return _loadAccountPageCommand ??
                     (_loadAccountPageCommand = new RelayCommand(obj =>
                     {
-                        LoginTextBox = _account.CurrentUser.Login;
-                        RoleTextBox = _account.CurrentUser.Role;
+                        UpdatePageControls();
                     }));
             }
         }
@@ -112,12 +139,25 @@ namespace ProjectTracker.MVVM.ViewModel
                 return _saveNewPersonalInfoCommand ??
                     (_saveNewPersonalInfoCommand = new RelayCommand(async obj =>
                     {
-                        LoginExists = await _account.CheckIfLoginExistsAsync(LoginTextBox);
-
-                        if (!LoginExists)
+                        HasInfoNotChanged = !HasInfoChangedCheck();
+                        if(!HasInfoNotChanged)
                         {
-                            await _account.UpdateUserPersonalInfoAsync(LoginTextBox, RoleTextBox);
-                        }
+                            if (await _metroDialog.ShowConfirmationMessage(this,
+                            "Are you sure you want to update your information?", ""))
+                            {
+                                IsLoginExists = await _account.CheckIfLoginExistsAsync(LoginTextBox);
+
+                                if (!IsLoginExists)
+                                {
+                                    await _account.UpdateUserPersonalInfoAsync(LoginTextBox, RoleTextBox);
+                                    await _metroDialog.ShowMessage(this, "Success", "Your personal information has been updated");
+                                }
+                            }
+                            else
+                            {
+                                UpdatePageControls();
+                            }
+                        }                        
                     }));
             }
         }
@@ -130,12 +170,23 @@ namespace ProjectTracker.MVVM.ViewModel
                 return _saveNewPasswordCommand ??
                     (_saveNewPasswordCommand = new RelayCommand(async obj =>
                     {
-                        PasswordsNotEqual = !NewPasswordBox.Equals(RepeatPasswordBox);
-                        if (!PasswordsNotEqual)
+                        if (await _metroDialog.ShowConfirmationMessage(this,
+                            "Are you sure you want to update your password?", ""))
                         {
-                            await _account.UpdateUserPasswordAsync(NewPasswordBox);
-                            NewPasswordBox = "";
-                            RepeatPasswordBox = "";
+                            IsPasswordLengthEnough = NewPasswordBox.Length is not >= minPasswordLength;
+
+                            if(!IsPasswordLengthEnough)
+                            {
+                                PasswordsNotEqual = !NewPasswordBox.Equals(RepeatPasswordBox);
+
+                                if (!PasswordsNotEqual)
+                                {
+                                    await _account.UpdateUserPasswordAsync(NewPasswordBox);
+                                    await _metroDialog.ShowMessage(this, "Success", "Your password has been updated");
+                                }
+
+                                UpdatePageControls();
+                            }                            
                         }
                     }));
             }
@@ -147,10 +198,14 @@ namespace ProjectTracker.MVVM.ViewModel
             get
             {
                 return _logOutCommand ??
-                    (_logOutCommand = new RelayCommand(obj =>
+                    (_logOutCommand = new RelayCommand(async obj =>
                     {
-                        NavigationService.NavigateTo<AutorizationPageViewModel>();
-                        _account.CurrentUser = null;
+                        if (await _metroDialog.ShowConfirmationMessage(this,
+                            "Are you sure you want to log out?", ""))
+                        {
+                            NavigationService.NavigateTo<AutorizationPageViewModel>();
+                            _account.CurrentUser = null;
+                        }
                     }));
             }
         }
@@ -163,11 +218,29 @@ namespace ProjectTracker.MVVM.ViewModel
                 return _deleteAccountCommand ??
                     (_deleteAccountCommand = new RelayCommand(async obj =>
                     {
-                        await _account.DeleteAccountAsync();
-                        NavigationService.NavigateTo<AutorizationPageViewModel>();
-                        _account.CurrentUser = null;
+                        if (await _metroDialog.ShowConfirmationMessage(this,
+                            "Are you sure you want to DELETE your account?", "This action is irreversible"))
+                        {
+                            await _account.DeleteAccountAsync();
+                            NavigationService.NavigateTo<AutorizationPageViewModel>();
+                            _account.CurrentUser = null;
+                        }                            
                     }));
             }
+        }
+
+        private void UpdatePageControls()
+        {
+            LoginTextBox = _account.CurrentUser.Login;
+            RoleTextBox = _account.CurrentUser.Role;
+            NewPasswordBox = "";
+            RepeatPasswordBox = "";
+        }
+
+        private bool HasInfoChangedCheck()
+        {
+            return !_account.CurrentUser.Login.Equals(LoginTextBox) && !LoginTextBox.IsNullOrEmpty() ||
+                !_account.CurrentUser.Role.Equals(RoleTextBox);
         }
     }
 }

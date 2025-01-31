@@ -1,5 +1,6 @@
 ﻿using ProjectTracker.MVVM.Core;
 using ProjectTracker.MVVM.Model;
+using ProjectTracker.MVVM.View.UI.Interfaces;
 using ProjectTracker.Services.Navigation.Interfaces;
 using ProjectTracker.Services.WorkWithItems.Interfaces;
 using System.Collections.ObjectModel;
@@ -9,11 +10,13 @@ namespace ProjectTracker.MVVM.ViewModel
     public class ProjectsBoardUserControlViewModel : ViewModelBase
     {
         private readonly IWorkWithProject _workWithProject;
+        private readonly IMetroDialog _metroDialog;
 
-        public ProjectsBoardUserControlViewModel(INavigationService navigationService, IWorkWithProject workWithProject)
+        public ProjectsBoardUserControlViewModel(INavigationService navigationService, IWorkWithProject workWithProject, IMetroDialog metroDialog)
         {
             NavigationService = navigationService;
             _workWithProject = workWithProject;
+            _metroDialog = metroDialog;
         }
 
         private INavigationService _navigationService;
@@ -60,28 +63,6 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
-        private string _projectName;
-        public string ProjectName
-        {
-            get { return _projectName; }
-            set
-            {
-                _projectName = value;
-                OnPropertyChanged(nameof(ProjectName));
-            }
-        }
-
-        private string _description;
-        public string Description
-        {
-            get { return _description; }
-            set
-            {
-                _description = value;
-                OnPropertyChanged(nameof(Description));
-            }
-        }
-
         private RelayCommand _loadUserControlCommand;
         public RelayCommand LoadUserControlCommand
         {
@@ -117,20 +98,13 @@ namespace ProjectTracker.MVVM.ViewModel
                 return _deleteProjectCommand ??
                     (_deleteProjectCommand = new RelayCommand(async obj =>
                     {
-                        _workWithProject.SelectedProject = SelectedProject;
-                        await _workWithProject.DeleteProject();
-                        int index = ProjectsList.IndexOf(SelectedProject);
-                        int count = ProjectsList.Count - 1;
-                        if (count > 0 && index != count)
+                        if (await _metroDialog.ShowConfirmationMessage(this,
+                            "Are you sure you want to DELETE your project?", "This action is irreversible"))
                         {
-                            SelectedProject = ProjectsList[index + 1];
-                        }
-                        else if (count > 0 && index == count)
-                        {
-                            SelectedProject = ProjectsList[index - 1];
-                        }
-                        else SelectedProject = null;
-                        UpdateListOfUserProjects();
+                            _workWithProject.SelectedProject = SelectedProject;
+                            await _workWithProject.DeleteProject();
+                            UpdateListOfUserProjects();
+                        }                            
                     }));
             }
         }

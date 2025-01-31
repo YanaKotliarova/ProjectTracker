@@ -11,7 +11,7 @@ namespace ProjectTracker.Data
         internal DbSet<Project> Projects { get; set; } = null!;
         internal DbSet<Issue> Issues { get; set; } = null!;
 
-        private string _connectionString = ConfigurationManager.ConnectionStrings[DefaultConnection].ConnectionString;
+        internal string ConnectionString { get; set; } = ConfigurationManager.ConnectionStrings[DefaultConnection].ConnectionString;
 
         /// <summary>
         /// The method of connecting to the DB.
@@ -19,7 +19,7 @@ namespace ProjectTracker.Data
         /// <param name="optionsBuilder"></param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_connectionString);
+            optionsBuilder.UseSqlServer(ConnectionString);
         }
     }
 }

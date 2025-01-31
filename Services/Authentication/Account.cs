@@ -26,14 +26,14 @@ namespace ProjectTracker.Services.Authentication
 
         public async Task<bool> CheckIfLoginExistsAsync(string login)
         {
-            if (login.Equals(CurrentUser!.Login)) 
+            if (CurrentUser != null && login.Equals(CurrentUser.Login))
                 return false;
             else return await _userRepository.IsLoginExists(login);
         }
 
         public async Task UpdateUserPasswordAsync(string newPassword)
         {
-            CurrentUser!.Password = newPassword;
+            CurrentUser!.Password = _userRepository.GetPasswordHashCode(newPassword);
             User updatedUser = CurrentUser;
 
             await _userRepository.UpdateAsync(updatedUser);

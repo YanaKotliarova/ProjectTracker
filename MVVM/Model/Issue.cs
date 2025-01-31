@@ -25,7 +25,7 @@ namespace ProjectTracker.MVVM.Model
             ProjectId = projectId;
             Name = name;
             Description = description ?? "No description provided";
-            Status = status ?? "In Proggress";
+            Status = status ?? "In Progress";
             Comment = comment ?? "No comment provided";
             Priority = priority ?? "Medium";
             Labels = labels ?? new();

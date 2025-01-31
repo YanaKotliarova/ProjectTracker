@@ -7,6 +7,9 @@
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         
+        xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+        Dialog:DialogParticipation.Register="{Binding}"
+        
         xmlns:viewmodel="clr-namespace:ProjectTracker.MVVM.ViewModel" 
         d:DataContext="{d:DesignInstance Type=viewmodel:MainWindowViewModel}"        
         
@@ -16,14 +19,14 @@
         TitleCharacterCasing="Normal">
 
     <Grid Background="Beige">
+
         <Image Source="/MVVM/View/Images/SplashScreen.png"
                HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30,0,30,0" />
 
-        <Controls:MetroProgressBar Height="25" Margin="0,300,0,0" VerticalAlignment="Center"
-                   Foreground="#FFFA8DDD" IsIndeterminate="True" 
-                   EllipseDiameter="7" EllipseOffset="10"/>
-        
+        <Controls:ProgressRing VerticalAlignment="Bottom" Margin="0,0,0,50"/>
+
         <Frame Content="{Binding NavigationService.CurrentViewModel}" NavigationUIVisibility="Hidden"/>
+
     </Grid>
 
     <i:Interaction.Triggers>

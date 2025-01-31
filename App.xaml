@@ -34,6 +34,14 @@
                 <view:ProjectPage/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type viewmodel:IssuePageViewModel}">
+                <view:IssuePage/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodel:EnterConnectionStringViewModel}">
+                <view:EnterConnectionStringPage/>
+            </DataTemplate>
+
         </ResourceDictionary>             
         
     </Application.Resources>

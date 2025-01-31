@@ -1,8 +1,12 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MahApps.Metro.Controls.Dialogs;
+using Microsoft.Extensions.DependencyInjection;
 using ProjectTracker.Data;
 using ProjectTracker.Data.Interfaces;
 using ProjectTracker.MVVM.Core;
 using ProjectTracker.MVVM.View.Pages;
+using ProjectTracker.MVVM.View.UI;
+using ProjectTracker.MVVM.View.UI.Interfaces;
+using ProjectTracker.MVVM.View.UIHelpers;
 using ProjectTracker.MVVM.ViewModel;
 using ProjectTracker.Services.Authentication;
 using ProjectTracker.Services.Authentication.Interfaces;
@@ -31,10 +35,12 @@ namespace ProjectTracker
             services.AddSingleton<HomePageViewModel>();
             services.AddSingleton<AccountPageViewModel>();
             services.AddSingleton<ProjectPageViewModel>();
+            services.AddSingleton<IssuePageViewModel>();
+            services.AddSingleton<EnterConnectionStringViewModel>();
 
             services.AddSingleton<HomeUserControlViewModel>();
             services.AddSingleton<ProjectsBoardUserControlViewModel>();
-            services.AddSingleton<IssuesUserControlViewModel>();
+            services.AddSingleton<IssueBoardUserControlViewModel>();
             services.AddSingleton<AddItemUserControlViewModel>();
 
             services.AddSingleton<INavigationService, NavigationService>();
@@ -45,10 +51,15 @@ namespace ProjectTracker
             services.AddSingleton<IWorkWithProject, WorkWithProject>();
             services.AddSingleton<IWorkWithIssue, WorkWithIssue>();
 
-            services.AddSingleton<IRepository, DataBase>();
-            services.AddSingleton<IUserRepository, UserRepository>();
-            services.AddSingleton<IProjectRepository, ProjectRepository>();
-            services.AddSingleton<IIssueRepository, IssueRepository>();
+            services.AddSingleton<IDialogCoordinator, DialogCoordinator>();
+            services.AddSingleton<IMetroDialog, MetroDialog>();
+
+            services.AddSingleton<IConnectionStringValidation, ConnectionStringValidation>();
+
+            services.AddScoped<IRepository, DataBase>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IIssueRepository, IssueRepository>();
 
             services.AddSingleton<Func<Type, ViewModelBase>>(serviceProvider => 
             viewModelType => (ViewModelBase)serviceProvider.GetRequiredService(viewModelType));

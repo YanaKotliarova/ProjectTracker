@@ -82,6 +82,28 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
+        private bool _isThereSameProjectName;
+        public bool IsThereSameProjectName
+        {
+            get { return _isThereSameProjectName; }
+            set
+            {
+                _isThereSameProjectName = value;
+                OnPropertyChanged(nameof(IsThereSameProjectName));
+            }
+        }
+
+        private bool _isThereSameIssueName;
+        public bool IsThereSameIssueName
+        {
+            get { return _isThereSameIssueName; }
+            set
+            {
+                _isThereSameIssueName = value;
+                OnPropertyChanged(nameof(IsThereSameIssueName));
+            }
+        }
+
         private ObservableCollection<Project> _projects;
         public ObservableCollection<Project> Projects
         {
@@ -114,20 +136,27 @@ namespace ProjectTracker.MVVM.ViewModel
                     {
                         if (NameOfItemTextBox != null)
                         {
-                            IsThereNoItemName = false;
                             if (IsItProject)
                             {
-                                await _workWithProject.CreateProjectAsync(NameOfItemTextBox!, DescriptionTextBox);
-                                CleanUserControlControls();
+                                IsThereSameProjectName = await _workWithProject.CheckProjectNameAsync(NameOfItemTextBox);
+                                if(!IsThereSameProjectName)
+                                {
+                                    await _workWithProject.CreateProjectAsync(NameOfItemTextBox!, DescriptionTextBox);
+                                    CleanUserControlControls();
+                                }                                
                             }
                             else if (IsItIssue)
                             {
                                 if (SelectedProject != null)
                                 {
-                                    IsThereNoSelectedProject = false;
-                                    _workWithProject.SelectedProject = SelectedProject;
-                                    await _workWithIssue.CreateIssueAsync(NameOfItemTextBox!, DescriptionTextBox);
-                                    CleanUserControlControls();
+                                    IsThereSameIssueName = await _workWithIssue.ChechIssueNameAsync(SelectedProject.Id, NameOfItemTextBox);
+                                    if(!IsThereSameIssueName)
+                                    {
+                                        IsThereNoSelectedProject = false;
+                                        _workWithProject.SelectedProject = SelectedProject;
+                                        await _workWithIssue.CreateIssueAsync(NameOfItemTextBox!, DescriptionTextBox);
+                                        CleanUserControlControls();
+                                    }                                    
                                 }
                                 else IsThereNoSelectedProject = true;
                             }
@@ -163,7 +192,6 @@ namespace ProjectTracker.MVVM.ViewModel
 
         private void UpdateListOfUserProjectsNames()
         {
-            //Projects.Clear();
             Projects = _workWithProject.CreateCollection();
         }
     }

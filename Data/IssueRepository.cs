@@ -11,7 +11,7 @@ namespace ProjectTracker.Data
         public IssueRepository(IRepository repository)
         {
             _repository = repository;
-            _db = _repository.GetDB();
+            _db = _repository.GetDb();
         }
         public async Task CreateAsync(Issue newIssue)
         {
@@ -29,6 +29,16 @@ namespace ProjectTracker.Data
         public async Task<Issue> GetAsync(int id)
         {
             return await _db.Issues.FindAsync(id);
+        }
+
+        public IEnumerable<Issue> GetUserIssuesByStatus(int projectId, string status)
+        {
+            return _db.Issues.Where(i => i.ProjectId == projectId && i.Status.Equals(status));
+        }
+
+        public async Task<Issue> GetByNameAsync(int projectId, string name)
+        {
+            return await _db.Issues.FirstOrDefaultAsync(i => i.ProjectId == projectId && i.Name == name);
         }
 
         public IEnumerable<Issue> GetProjectIssues(int projectId)

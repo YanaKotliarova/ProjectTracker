@@ -12,7 +12,7 @@ namespace ProjectTracker.MVVM.View.UserControls
         public IssuesBoardUserControl()
         {
             InitializeComponent();
-            DataContext = App.GetServiceProvider().GetService<IssuesUserControlViewModel>();
+            DataContext = App.GetServiceProvider().GetService<IssueBoardUserControlViewModel>();
         }
     }
 }

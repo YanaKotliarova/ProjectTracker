@@ -1,4 +1,5 @@
-﻿using ProjectTracker.Data.Interfaces;
+﻿using ProjectTracker.Data;
+using ProjectTracker.Data.Interfaces;
 using ProjectTracker.MVVM.Model;
 using ProjectTracker.Services.Authentication;
 using ProjectTracker.Services.WorkWithItems.Interfaces;
@@ -26,6 +27,18 @@ namespace ProjectTracker.Services.WorkWithItems
         public List<Project> GetUserProjectsList()
         {
             return _projectRepository.GetUserProjects(_account.CurrentUser.Id).ToList();
+        }
+
+        public string GetProjectName(int id)
+        {
+            return _projectRepository.Get(id).Name;
+        }
+
+        public async Task<bool> CheckProjectNameAsync(string name)
+        {
+            if ((SelectedProject != null) && name.Equals(SelectedProject.Name))
+                return false;
+            else return await _projectRepository.GetByNameAsync(name) != null;
         }
 
         public ObservableCollection<Project> CreateCollection()

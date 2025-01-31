@@ -8,9 +8,11 @@ namespace ProjectTracker.Services.WorkWithItems.Interfaces
     {
         Project? SelectedProject { get; set; }
 
+        Task<bool> CheckProjectNameAsync(string name);
         ObservableCollection<Project> CreateCollection();
         Task CreateProjectAsync(string projectName, string description);
         Task DeleteProject();
+        string GetProjectName(int id);
         List<Project> GetUserProjectsList();
         Task UpdateProjectInfo();
     }

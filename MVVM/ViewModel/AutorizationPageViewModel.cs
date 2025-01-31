@@ -1,4 +1,5 @@
-﻿using ProjectTracker.MVVM.Core;
+﻿using Microsoft.IdentityModel.Tokens;
+using ProjectTracker.MVVM.Core;
 using ProjectTracker.Services.Authentication.Interfaces;
 using ProjectTracker.Services.Navigation.Interfaces;
 
@@ -46,14 +47,14 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
-        private bool _isLogInUnsuccessful = false;
-        public bool IsLogInUnsuccessful
+        private bool _isLoginUnsuccessful = false;
+        public bool IsLoginUnsuccessful
         {
-            get { return _isLogInUnsuccessful; }
+            get { return _isLoginUnsuccessful; }
             set
             {
-                _isLogInUnsuccessful = value;
-                OnPropertyChanged(nameof(IsLogInUnsuccessful));
+                _isLoginUnsuccessful = value;
+                OnPropertyChanged(nameof(IsLoginUnsuccessful));
             }
         }
 
@@ -65,17 +66,13 @@ namespace ProjectTracker.MVVM.ViewModel
                 return _loginCommand ??
                     (_loginCommand = new RelayCommand(async obj =>
                     {
-                        if(await _autorization.LogInAsync(LoginTextBox, PasswordBox))
+                        IsLoginUnsuccessful = !await _autorization.LogInAsync(LoginTextBox, PasswordBox);
+                        if (!IsLoginUnsuccessful)
                         {
-                            IsLogInUnsuccessful = false;
                             NavigationService.NavigateTo<HomePageViewModel>();
                             LoginTextBox = "";
-                        }
-                        else
-                        {
-                            IsLogInUnsuccessful = true;
-                        }                                                
-                    }));
+                        }                                             
+                    }, x => !LoginTextBox.IsNullOrEmpty() && !PasswordBox.IsNullOrEmpty()));
             }
         }
 
