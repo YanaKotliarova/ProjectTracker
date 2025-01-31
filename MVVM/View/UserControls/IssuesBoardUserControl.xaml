@@ -14,6 +14,8 @@
              xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
              Dialog:DialogParticipation.Register="{Binding}"
              
+             xmlns:res="clr-namespace:ProjectTracker.Properties"
+             
              xmlns:local="clr-namespace:ProjectTracker.MVVM.View.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -38,8 +40,9 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Label Content="TO DO" FontSize="20" FontWeight="Bold" Foreground="#FF727272" 
-               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label Content="{x:Static res:Resources.ToDoStatus}" FontSize="20" FontWeight="Bold" Foreground="#FF727272" 
+               HorizontalAlignment="Center" VerticalAlignment="Center"
+               Controls:ControlsHelper.ContentCharacterCasing="Upper"/>
 
         <ListBox Grid.Row="1" Background="White" 
                  ItemsSource="{Binding ToDoIssuesList}" SelectedItem="{Binding SelectedIssue}"
@@ -97,14 +100,16 @@
             </ListBox.ItemTemplate>
             <ListBox.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Update" Command="{Binding DoubleIssueClickCommand}"/>
-                    <MenuItem Header="Delete" Command="{Binding DeleteIssueCommand}"/>
+                    <MenuItem Header="{x:Static res:Resources.UpdateButton}" Command="{Binding DoubleIssueClickCommand}"/>
+                    <MenuItem Header="{x:Static res:Resources.DeleteButton}" Command="{Binding DeleteIssueCommand}"/>
                 </ContextMenu>
             </ListBox.ContextMenu>
         </ListBox>
 
-        <Label Grid.Column="1" Content="IN PROGRESS" FontSize="20" FontWeight="Bold" Foreground="#FF727272" 
-               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label Grid.Column="1" Content="{x:Static res:Resources.InProgressStatus}" 
+               FontSize="20" FontWeight="Bold" Foreground="#FF727272" 
+               HorizontalAlignment="Center" VerticalAlignment="Center" 
+               Controls:ControlsHelper.ContentCharacterCasing="Upper"/>
         
         <ListBox Grid.Row="1" Grid.Column="1" Background="White" 
                  ItemsSource="{Binding InProgressIssuesList}" SelectedItem="{Binding SelectedIssue}"
@@ -162,14 +167,15 @@
             </ListBox.ItemTemplate>
             <ListBox.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Update" Command="{Binding DoubleIssueClickCommand}"/>
-                    <MenuItem Header="Delete" Command="{Binding DeleteIssueCommand}"/>
+                    <MenuItem Header="{x:Static res:Resources.UpdateButton}" Command="{Binding DoubleIssueClickCommand}"/>
+                    <MenuItem Header="{x:Static res:Resources.DeleteButton}" Command="{Binding DeleteIssueCommand}"/>
                 </ContextMenu>
             </ListBox.ContextMenu>
         </ListBox>
 
-        <Label Grid.Column="2" Content="REVIEW" FontSize="20" FontWeight="Bold" Foreground="#FF727272" 
-               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label Grid.Column="2" Content="{x:Static res:Resources.ReviewStatus}" FontSize="20" FontWeight="Bold" Foreground="#FF727272" 
+               HorizontalAlignment="Center" VerticalAlignment="Center"
+               Controls:ControlsHelper.ContentCharacterCasing="Upper"/>
 
         <ListBox Grid.Row="1" Grid.Column="2" Background="White" 
          ItemsSource="{Binding ReviewIssuesList}" SelectedItem="{Binding SelectedIssue}"
@@ -227,14 +233,15 @@
             </ListBox.ItemTemplate>
             <ListBox.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Update" Command="{Binding DoubleIssueClickCommand}"/>
-                    <MenuItem Header="Delete" Command="{Binding DeleteIssueCommand}"/>
+                    <MenuItem Header="{x:Static res:Resources.UpdateButton}" Command="{Binding DoubleIssueClickCommand}"/>
+                    <MenuItem Header="{x:Static res:Resources.DeleteButton}" Command="{Binding DeleteIssueCommand}"/>
                 </ContextMenu>
             </ListBox.ContextMenu>
         </ListBox>
 
-        <Label Grid.Column="3" Content="DONE" FontSize="20" FontWeight="Bold" Foreground="#FF727272" 
-               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label Grid.Column="3" Content="{x:Static res:Resources.DoneStatus}" FontSize="20" FontWeight="Bold" Foreground="#FF727272" 
+               HorizontalAlignment="Center" VerticalAlignment="Center"
+               Controls:ControlsHelper.ContentCharacterCasing="Upper"/>
 
         <ListBox Grid.Row="1" Grid.Column="3" Background="White" 
          ItemsSource="{Binding DoneIssuesList}" SelectedItem="{Binding SelectedIssue}"
@@ -291,8 +298,8 @@
             </ListBox.ItemTemplate>
             <ListBox.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Update" Command="{Binding DoubleIssueClickCommand}"/>
-                    <MenuItem Header="Delete" Command="{Binding DeleteIssueCommand}"/>
+                    <MenuItem Header="{x:Static res:Resources.UpdateButton}" Command="{Binding DoubleIssueClickCommand}"/>
+                    <MenuItem Header="{x:Static res:Resources.DeleteButton}" Command="{Binding DeleteIssueCommand}"/>
                 </ContextMenu>
             </ListBox.ContextMenu>
         </ListBox>

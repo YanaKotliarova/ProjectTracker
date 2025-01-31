@@ -1,0 +1,381 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccountSettingsLabel" xml:space="preserve">
+    <value>Настройки Аккаунта</value>
+  </data>
+  <data name="ActionIrreversible" xml:space="preserve">
+    <value>Это действие необратимо</value>
+  </data>
+  <data name="AddButton" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="AddItemLabel" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="AddLabelLabel" xml:space="preserve">
+    <value>Новый ярлык</value>
+  </data>
+  <data name="AddNewItemLabel" xml:space="preserve">
+    <value>Добавление Нового Объекта</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Все</value>
+  </data>
+  <data name="BackButton" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="ChooseProjectFirstPopup" xml:space="preserve">
+    <value>Сначала выберите проект!</value>
+  </data>
+  <data name="CommentLabel" xml:space="preserve">
+    <value>Комментарий</value>
+  </data>
+  <data name="ConfirmAccountDelete" xml:space="preserve">
+    <value>Вы уверены, что хотите УДАЛИТЬ свой аккаунт?</value>
+  </data>
+  <data name="ConfirmInfoChanges" xml:space="preserve">
+    <value>Вы уверены, что хотите обновить личную информацию?</value>
+  </data>
+  <data name="ConfirmIssueChanges" xml:space="preserve">
+    <value>Вы уверены, что хотите обновить задачу?</value>
+  </data>
+  <data name="ConfirmIssueDelete" xml:space="preserve">
+    <value>Вы уверены, что хотите УДАЛИТЬ задачу?</value>
+  </data>
+  <data name="ConfirmLogOut" xml:space="preserve">
+    <value>Вы уверены, что хотите выйти из аккаунта?</value>
+  </data>
+  <data name="ConfirmPasswordChanges" xml:space="preserve">
+    <value>Вы уверены, что хотите обновить пароль?</value>
+  </data>
+  <data name="ConfirmProjectChanges" xml:space="preserve">
+    <value>Вы уверены, что хотите обновить проект?</value>
+  </data>
+  <data name="ConfirmProjectDelete" xml:space="preserve">
+    <value>Вы уверены, что хотите УДАЛИТЬ проект?</value>
+  </data>
+  <data name="ConnectionCompletedSuccessfully" xml:space="preserve">
+    <value>Удалось подключиться к базе данных</value>
+  </data>
+  <data name="ConnectionCompletedUnsuccessfully" xml:space="preserve">
+    <value>Не удалось подключиться к базе данных</value>
+  </data>
+  <data name="ConnectionStringExeption" xml:space="preserve">
+    <value>не удалось подключиться к базе данных. Проверьте строку подключения</value>
+  </data>
+  <data name="CreateButton" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="CreatedItemNamePopup" xml:space="preserve">
+    <value>У создаваемого объекта должно быть имя!</value>
+  </data>
+  <data name="DangerZoneLabel" xml:space="preserve">
+    <value>Опасная Зона</value>
+  </data>
+  <data name="DeleteAccountLabel" xml:space="preserve">
+    <value>Удалить аккаунт</value>
+  </data>
+  <data name="DeleteButton" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="DescriptionLabel" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="DescriptionOptionalLabel" xml:space="preserve">
+    <value>Описание (опционально)</value>
+  </data>
+  <data name="DoneStatus" xml:space="preserve">
+    <value>Завершена</value>
+  </data>
+  <data name="EnterButton" xml:space="preserve">
+    <value>Ввод</value>
+  </data>
+  <data name="EnterNewString" xml:space="preserve">
+    <value>Введите новую строку подключения к базе данных:</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Неудача</value>
+  </data>
+  <data name="GoodDay" xml:space="preserve">
+    <value>и надеюсь, у вас будет хороший день!</value>
+  </data>
+  <data name="HighPriority" xml:space="preserve">
+    <value>Высокий</value>
+  </data>
+  <data name="HomeLabel" xml:space="preserve">
+    <value>Домой</value>
+  </data>
+  <data name="InProgressStatus" xml:space="preserve">
+    <value>В Процессе</value>
+  </data>
+  <data name="InvalidConnectionString" xml:space="preserve">
+    <value>Неверная строка подключения к базе данных</value>
+  </data>
+  <data name="IssueLabel" xml:space="preserve">
+    <value>Задача</value>
+  </data>
+  <data name="IssueNameOccupiedPopup" xml:space="preserve">
+    <value>Задача с таким названием уже существует в выбранном проекте!</value>
+  </data>
+  <data name="IssuesLabel" xml:space="preserve">
+    <value>Задачи</value>
+  </data>
+  <data name="IssueUpdated" xml:space="preserve">
+    <value>Ваша задача обновлена</value>
+  </data>
+  <data name="LabelsLabel" xml:space="preserve">
+    <value>Ярлыки</value>
+  </data>
+  <data name="LetGetStarted" xml:space="preserve">
+    <value>Приступим</value>
+  </data>
+  <data name="LogIn" xml:space="preserve">
+    <value>Вход</value>
+  </data>
+  <data name="LogInButton" xml:space="preserve">
+    <value>Войти</value>
+  </data>
+  <data name="LoginLabel" xml:space="preserve">
+    <value>Логин</value>
+  </data>
+  <data name="LoginOccupiedPopup" xml:space="preserve">
+    <value>Данный логин уже занят. Попробуйте снова</value>
+  </data>
+  <data name="LogOutButton" xml:space="preserve">
+    <value>Выход</value>
+  </data>
+  <data name="LogOutLabel" xml:space="preserve">
+    <value>Выход из аккаунта</value>
+  </data>
+  <data name="LowPriority" xml:space="preserve">
+    <value>Низкий</value>
+  </data>
+  <data name="MediumPriority" xml:space="preserve">
+    <value>Средний</value>
+  </data>
+  <data name="NameOfItemLabel" xml:space="preserve">
+    <value>Имя объекта</value>
+  </data>
+  <data name="NewPasswordLabel" xml:space="preserve">
+    <value>Новый пароль</value>
+  </data>
+  <data name="NoCommentProvided" xml:space="preserve">
+    <value>Без комментария</value>
+  </data>
+  <data name="NoDescriptionProvided" xml:space="preserve">
+    <value>Без описания</value>
+  </data>
+  <data name="NotChangedIssuePopup" xml:space="preserve">
+    <value>Вы не изменяли задачу!</value>
+  </data>
+  <data name="NotChangedPersonalInfoPopup" xml:space="preserve">
+    <value>Вы не изменяли личную информацию!</value>
+  </data>
+  <data name="NotChangedProjectPopup" xml:space="preserve">
+    <value>Вы не изменяли проект!</value>
+  </data>
+  <data name="PasswordIsTooShortPopup" xml:space="preserve">
+    <value>Ваш пароль слишком коротки. Он должен быть не менее 8 символов</value>
+  </data>
+  <data name="PasswordLabel" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="PasswordNotEqualPopup" xml:space="preserve">
+    <value>Введённые пароли не идентичны! Попробуйте снова</value>
+  </data>
+  <data name="PasswordUpdated" xml:space="preserve">
+    <value>Ваш пароль был обновлён</value>
+  </data>
+  <data name="PersonalInformationLabel" xml:space="preserve">
+    <value>Личная информация</value>
+  </data>
+  <data name="PersonalInfoUpdated" xml:space="preserve">
+    <value>Ваша личная информация была обновлена</value>
+  </data>
+  <data name="PleaseWait" xml:space="preserve">
+    <value>Пожалуйста подождите</value>
+  </data>
+  <data name="PriorityLabel" xml:space="preserve">
+    <value>Приоритет</value>
+  </data>
+  <data name="ProjectLabel" xml:space="preserve">
+    <value>Проект</value>
+  </data>
+  <data name="ProjectNameOccupiedPopup" xml:space="preserve">
+    <value>Проект с таким именем уже существует</value>
+  </data>
+  <data name="ProjectsLabel" xml:space="preserve">
+    <value>Проекты</value>
+  </data>
+  <data name="ProjectUpdated" xml:space="preserve">
+    <value>Ваш проект обновлён</value>
+  </data>
+  <data name="ReconnectionToDatabase" xml:space="preserve">
+    <value>Переподключение к базе данных...</value>
+  </data>
+  <data name="RegistrationHyperlink" xml:space="preserve">
+    <value>У вас нет аккаунта? Создайте его!</value>
+  </data>
+  <data name="RepeatNewPasswordLabel" xml:space="preserve">
+    <value>Повторите пароль</value>
+  </data>
+  <data name="ReviewStatus" xml:space="preserve">
+    <value>Проверка</value>
+  </data>
+  <data name="RoleLabel" xml:space="preserve">
+    <value>Роль</value>
+  </data>
+  <data name="SaveButton" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="SelectProjectLabel" xml:space="preserve">
+    <value>Выберите проект</value>
+  </data>
+  <data name="SignUp" xml:space="preserve">
+    <value>Регистрация</value>
+  </data>
+  <data name="SignupButton" xml:space="preserve">
+    <value>Регистрация</value>
+  </data>
+  <data name="StatusLabel" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Успех</value>
+  </data>
+  <data name="TodayIs" xml:space="preserve">
+    <value>Сегодня</value>
+  </data>
+  <data name="ToDoStatus" xml:space="preserve">
+    <value>Сделать</value>
+  </data>
+  <data name="TypeOfItemLabel" xml:space="preserve">
+    <value>Тип объекта</value>
+  </data>
+  <data name="UpdateButton" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="WelcomeTo" xml:space="preserve">
+    <value>Добро пожаловать в</value>
+  </data>
+  <data name="WrongLoginOrPassword" xml:space="preserve">
+    <value>Неверный логин или пароль! Попробуйте снова</value>
+  </data>
+</root>

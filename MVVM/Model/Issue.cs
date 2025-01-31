@@ -24,10 +24,10 @@ namespace ProjectTracker.MVVM.Model
         {
             ProjectId = projectId;
             Name = name;
-            Description = description ?? "No description provided";
-            Status = status ?? "In Progress";
-            Comment = comment ?? "No comment provided";
-            Priority = priority ?? "Medium";
+            Description = description ?? Properties.Resources.NoDescriptionProvided;
+            Status = status ?? Properties.Resources.InProgressStatus;
+            Comment = comment ?? Properties.Resources.NoCommentProvided;
+            Priority = priority ?? Properties.Resources.MediumPriority;
             Labels = labels ?? new();
         }
     }

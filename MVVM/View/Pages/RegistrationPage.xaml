@@ -11,6 +11,8 @@
       d:DataContext="{d:DesignInstance Type=viewmodel:RegistrationPageViewModel}"
       xmlns:helper="clr-namespace:ProjectTracker.MVVM.View.UIHelpers"
       
+      xmlns:res="clr-namespace:ProjectTracker.Properties"
+      
       xmlns:local="clr-namespace:ProjectTracker.MVVM.View.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -18,12 +20,12 @@
 
     <Grid Background="Beige">
 
-        <Button Content="Back" Height="25" Width="50" 
+        <Button Content="{x:Static res:Resources.BackButton}" Height="25" Width="50" 
                 HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"
                 Command="NavigationCommands.BrowseBack"
                 Controls:ControlsHelper.ContentCharacterCasing="Upper"/>
 
-        <Button Content="Sign Up" Height="25" Width="70" 
+        <Button Content="{x:Static res:Resources.SignupButton}" Height="25" Width="90" 
                 Margin="0,200,0,0"
                 Command="{Binding SignUpCommand}"
                 Controls:ControlsHelper.ContentCharacterCasing="Upper"/>
@@ -31,26 +33,26 @@
         <TextBox Name="LoginTextBox" Height="25" Width="200" 
                  VerticalAlignment="Center" HorizontalAlignment="Center"
                  Margin="0,0,0,100"
-                 Controls:TextBoxHelper.Watermark="Login"
+                 Controls:TextBoxHelper.Watermark="{x:Static res:Resources.LoginLabel}"
                  Text="{Binding LoginTextBox}"
                  Controls:TextBoxHelper.ClearTextButton="True"/>
 
         <Popup IsOpen="{Binding IsLoginExists}" StaysOpen="False"
                PlacementTarget="{Binding ElementName=LoginTextBox}" VerticalOffset="3" HorizontalOffset="-10">
-            <TextBlock Text="This login already exists. Try another one" Background="LightPink" Padding="1"/>
+            <TextBlock Text="{x:Static res:Resources.LoginOccupiedPopup}" Background="LightPink" Padding="1"/>
         </Popup>
 
         <TextBox Height="25" Width="200" 
                  VerticalAlignment="Center" HorizontalAlignment="Center"
                  Margin="0,0,0,0"
-                 Controls:TextBoxHelper.Watermark="Role"
+                 Controls:TextBoxHelper.Watermark="{x:Static res:Resources.RoleLabel}"
                  Text="{Binding RoleTextBox}"
                  Controls:TextBoxHelper.ClearTextButton="True"/>
 
         <PasswordBox Name="PasswordBox" Height="25" Width="200" PasswordChar="*"
                      VerticalAlignment="Center" HorizontalAlignment="Center"
                      Margin="0,100,0,0"
-                     Controls:TextBoxHelper.Watermark="Password"
+                     Controls:TextBoxHelper.Watermark="{x:Static res:Resources.PasswordLabel}"
                      Controls:TextBoxHelper.ClearTextButton="True">
 
             <i:Interaction.Behaviors>
@@ -61,10 +63,10 @@
 
         <Popup IsOpen="{Binding IsPasswordLengthEnough}" StaysOpen="False" 
                PlacementTarget="{Binding ElementName=PasswordBox}" Placement="Bottom" VerticalOffset="2" HorizontalOffset="-60">
-            <TextBlock Text="Your password is too short. It should be more than 8 symbols" Background="LightPink" Padding="1"/>
+            <TextBlock Text="{x:Static res:Resources.PasswordIsTooShortPopup}" Background="LightPink" Padding="1"/>
         </Popup>
 
-        <Label Content="Sign Up" FontSize="36" FontWeight="Bold" 
+        <Label Content="{x:Static res:Resources.SignUp}" FontSize="36" FontWeight="Bold" 
                HorizontalAlignment="Center" VerticalAlignment="Center" 
                Margin="0,0,0,200" Foreground="#FF727272"/>
 

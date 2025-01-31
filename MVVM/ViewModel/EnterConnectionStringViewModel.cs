@@ -61,19 +61,22 @@ namespace ProjectTracker.MVVM.ViewModel
                         {
                             try
                             {
-                                await _metroDialog.ShowMessageWithProgressBar(this,"Please wait", "Reconnection to database...");
+                                await _metroDialog.ShowMessageWithProgressBar(this, Properties.Resources.PleaseWait, 
+                                    Properties.Resources.ReconnectionToDatabase);
 
                                 await Task.Run(async () => await _repository.InitializeDbAsync(NewConnectionStringTextBox));
 
                                 await _metroDialog.CloseMessageWithProgressBar();
-                                await _metroDialog.ShowMessage(this, "Success", "Connection completed successfully");
+                                await _metroDialog.ShowMessage(this, Properties.Resources.Success,
+                                    Properties.Resources.ConnectionCompletedSuccessfully);
 
                                 NavigationService.NavigateTo<AutorizationPageViewModel>();
                             }
                             catch (Exception ex)
                             {
                                 await _metroDialog.CloseMessageWithProgressBar();
-                                await _metroDialog.ShowMessage(this, "Failure", "Connection completed unsuccessfully. Try again");
+                                await _metroDialog.ShowMessage(this, Properties.Resources.Failure,
+                                    Properties.Resources.ConnectionCompletedUnsuccessfully);
                             }
                             
                         }));

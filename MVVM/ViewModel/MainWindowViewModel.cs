@@ -44,7 +44,7 @@ namespace ProjectTracker.MVVM.ViewModel
                             }
                             catch (Exception ex)
                             {
-                                await _metroDialog.ShowMessage(this, "Invalid database connection string", ex.Message);
+                                await _metroDialog.ShowMessage(this, Properties.Resources.InvalidConnectionString, ex.Message);
                                 NavigationService.NavigateTo<EnterConnectionStringViewModel>();
                             }
                         });                        

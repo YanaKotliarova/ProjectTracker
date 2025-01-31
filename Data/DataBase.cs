@@ -1,8 +1,6 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ProjectTracker.Data.Interfaces;
-using ProjectTracker.MVVM.ViewModel;
 
 namespace ProjectTracker.Data
 {
@@ -27,7 +25,7 @@ namespace ProjectTracker.Data
                 db.ConnectionString = connectionString;
 
             if (!_connectionStringValidation.ValidateConnectionString(db.ConnectionString))
-                throw new Exception("It is impossible to connect to the database. Check the connection string.");
+                throw new Exception(Properties.Resources.ConnectionStringExeption);
 
             await db.Database.MigrateAsync();
         }

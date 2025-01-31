@@ -24,6 +24,7 @@ namespace ProjectTracker
         public App()
         {
             IServiceCollection services = new ServiceCollection();
+
             services.AddSingleton<MainWindow>(provider => new MainWindow
             {
                 DataContext = provider.GetRequiredService<MainWindowViewModel>()

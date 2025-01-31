@@ -10,6 +10,8 @@
       d:DataContext="{d:DesignInstance Type=viewmodel:HomePageViewModel}"
       xmlns:userControls="clr-namespace:ProjectTracker.MVVM.View.UserControls"
       
+      xmlns:res="clr-namespace:ProjectTracker.Properties"
+      
       xmlns:local="clr-namespace:ProjectTracker.MVVM.View.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -24,19 +26,19 @@
 
         <TabControl Grid.Column="0" TabStripPlacement="Left" Margin="3">
 
-            <TabItem Header="Home" Padding="5,2,5,2" Controls:HeaderedControlHelper.HeaderFontSize="20">
+            <TabItem Header="{x:Static res:Resources.HomeLabel}" Padding="5,2,5,2" Controls:HeaderedControlHelper.HeaderFontSize="20">
                 <userControls:HomeUserControl/>
             </TabItem>
 
-            <TabItem Header="Projects" Padding="5,2,5,2" Controls:HeaderedControlHelper.HeaderFontSize="20">
+            <TabItem Header="{x:Static res:Resources.ProjectsLabel}" Padding="5,2,5,2" Controls:HeaderedControlHelper.HeaderFontSize="20">
                 <userControls:ProjectsBoardUserControl/>
             </TabItem>
 
-            <TabItem Header="Issues" Padding="5,2,5,2" Controls:HeaderedControlHelper.HeaderFontSize="20">
+            <TabItem Header="{x:Static res:Resources.IssuesLabel}" Padding="5,2,5,2" Controls:HeaderedControlHelper.HeaderFontSize="20">
                 <userControls:IssuesBoardUserControl/>
             </TabItem>
 
-            <TabItem Header="Add item" Padding="5,2,4,2" Controls:HeaderedControlHelper.HeaderFontSize="20">
+            <TabItem Header="{x:Static res:Resources.AddItemLabel}" Padding="5,2,4,2" Controls:HeaderedControlHelper.HeaderFontSize="20">
                 <userControls:AddItemUserControl/>
             </TabItem>
         </TabControl>

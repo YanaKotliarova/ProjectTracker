@@ -123,7 +123,7 @@ namespace ProjectTracker.MVVM.ViewModel
                     (_deleteIssueCommand = new RelayCommand(async obj =>
                     {
                         if (await _metroDialog.ShowConfirmationMessage(this,
-                            "Are you sure you want to DELETE your issue?", "This action is irreversible"))
+                            Properties.Resources.ConfirmIssueDelete, Properties.Resources.ActionIrreversible))
                         {
                             _workWithIssue.SelectedIssue = SelectedIssue;
                             await _workWithIssue.DeleteIssue();
@@ -142,10 +142,10 @@ namespace ProjectTracker.MVVM.ViewModel
 
             foreach (var p in _workWithProject.GetUserProjectsList())
             {
-                tempToDoIssuesList.AddRange(_workWithIssue.GetIssuesList(p.Id, "To Do"));
-                tempInProgressIssuesList.AddRange(_workWithIssue.GetIssuesList(p.Id, "In Progress"));
-                tempReviewIssuesList.AddRange(_workWithIssue.GetIssuesList(p.Id, "Review"));
-                tempDoneIssuesList.AddRange(_workWithIssue.GetIssuesList(p.Id, "Done"));
+                tempToDoIssuesList.AddRange(_workWithIssue.GetIssuesList(p.Id, Properties.Resources.ToDoStatus));
+                tempInProgressIssuesList.AddRange(_workWithIssue.GetIssuesList(p.Id, Properties.Resources.InProgressStatus));
+                tempReviewIssuesList.AddRange(_workWithIssue.GetIssuesList(p.Id, Properties.Resources.ReviewStatus));
+                tempDoneIssuesList.AddRange(_workWithIssue.GetIssuesList(p.Id, Properties.Resources.DoneStatus));
             }
 
             ToDoIssuesList = _workWithIssue.CreateCollection(tempToDoIssuesList);

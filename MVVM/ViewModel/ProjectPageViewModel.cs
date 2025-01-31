@@ -218,7 +218,7 @@ namespace ProjectTracker.MVVM.ViewModel
                         if (!HasInfoNotChanged)
                         {
                             if (await _metroDialog.ShowConfirmationMessage(this,
-                            "Are you sure you want to update your project?", ""))
+                            Properties.Resources.ConfirmProjectChanges, ""))
                             {
                                 IsThereSameProjectName = await _workWithProject.CheckProjectNameAsync(ProjectNameTextBox);
                                 if (!IsThereSameProjectName)
@@ -231,7 +231,7 @@ namespace ProjectTracker.MVVM.ViewModel
 
                                     UpdateProjectCollection();
 
-                                    await _metroDialog.ShowMessage(this, "Success", "Your project has been updated");
+                                    await _metroDialog.ShowMessage(this, Properties.Resources.Success, Properties.Resources.ProjectUpdated);
                                 }
                             }
                             else UpdatePageControls();
@@ -340,7 +340,7 @@ namespace ProjectTracker.MVVM.ViewModel
                     (_deleteProjectCommand = new RelayCommand(async obj =>
                     {
                         if (await _metroDialog.ShowConfirmationMessage(this,
-                            "Are you sure you want to DELETE your project?", "This action is irreversible"))
+                            Properties.Resources.ConfirmProjectDelete, Properties.Resources.ActionIrreversible))
                         {
                             await _workWithProject.DeleteProject();
                             int index = ProjectsList.IndexOf(SelectedProject);

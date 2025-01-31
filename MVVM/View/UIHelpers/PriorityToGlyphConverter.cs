@@ -7,8 +7,8 @@ namespace ProjectTracker.MVVM.View.UIHelpers
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value.Equals("Low")) return "\xF0AE";
-            else if (value.Equals("High")) return "\xF0AD";
+            if (value.Equals(Properties.Resources.LowPriority)) return "\xF0AE";
+            else if (value.Equals(Properties.Resources.HighPriority)) return "\xF0AD";
             else return "\xE8CB";
         }
 

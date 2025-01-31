@@ -143,14 +143,15 @@ namespace ProjectTracker.MVVM.ViewModel
                         if(!HasInfoNotChanged)
                         {
                             if (await _metroDialog.ShowConfirmationMessage(this,
-                            "Are you sure you want to update your information?", ""))
+                            Properties.Resources.ConfirmInfoChanges, ""))
                             {
                                 IsLoginExists = await _account.CheckIfLoginExistsAsync(LoginTextBox);
 
                                 if (!IsLoginExists)
                                 {
                                     await _account.UpdateUserPersonalInfoAsync(LoginTextBox, RoleTextBox);
-                                    await _metroDialog.ShowMessage(this, "Success", "Your personal information has been updated");
+                                    await _metroDialog.ShowMessage(this, Properties.Resources.Success, 
+                                        Properties.Resources.PersonalInfoUpdated);
                                 }
                             }
                             else
@@ -171,7 +172,7 @@ namespace ProjectTracker.MVVM.ViewModel
                     (_saveNewPasswordCommand = new RelayCommand(async obj =>
                     {
                         if (await _metroDialog.ShowConfirmationMessage(this,
-                            "Are you sure you want to update your password?", ""))
+                            Properties.Resources.ConfirmPasswordChanges, ""))
                         {
                             IsPasswordLengthEnough = NewPasswordBox.Length is not >= minPasswordLength;
 
@@ -182,7 +183,8 @@ namespace ProjectTracker.MVVM.ViewModel
                                 if (!PasswordsNotEqual)
                                 {
                                     await _account.UpdateUserPasswordAsync(NewPasswordBox);
-                                    await _metroDialog.ShowMessage(this, "Success", "Your password has been updated");
+                                    await _metroDialog.ShowMessage(this, Properties.Resources.Success, 
+                                        Properties.Resources.PasswordUpdated);
                                 }
 
                                 UpdatePageControls();
@@ -201,7 +203,7 @@ namespace ProjectTracker.MVVM.ViewModel
                     (_logOutCommand = new RelayCommand(async obj =>
                     {
                         if (await _metroDialog.ShowConfirmationMessage(this,
-                            "Are you sure you want to log out?", ""))
+                            Properties.Resources.ConfirmInfoChanges, ""))
                         {
                             NavigationService.NavigateTo<AutorizationPageViewModel>();
                             _account.CurrentUser = null;
@@ -219,7 +221,7 @@ namespace ProjectTracker.MVVM.ViewModel
                     (_deleteAccountCommand = new RelayCommand(async obj =>
                     {
                         if (await _metroDialog.ShowConfirmationMessage(this,
-                            "Are you sure you want to DELETE your account?", "This action is irreversible"))
+                            Properties.Resources.ConfirmAccountDelete, Properties.Resources.ActionIrreversible))
                         {
                             await _account.DeleteAccountAsync();
                             NavigationService.NavigateTo<AutorizationPageViewModel>();

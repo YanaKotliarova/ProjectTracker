@@ -22,7 +22,7 @@ namespace ProjectTracker.MVVM.Model
         {
             UserId = userId;
             Name = name;
-            Description = description ?? "No description provided";
+            Description = description ?? Properties.Resources.NoDescriptionProvided;
             Labels = labels ?? new();
             Issues = issues ?? new();
         }

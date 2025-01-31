@@ -10,6 +10,8 @@
              xmlns:viewmodel="clr-namespace:ProjectTracker.MVVM.ViewModel" 
              d:DataContext="{d:DesignInstance Type=viewmodel:AddItemUserControlViewModel}"
              
+             xmlns:res="clr-namespace:ProjectTracker.Properties"
+             
              xmlns:local="clr-namespace:ProjectTracker.MVVM.View.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -26,31 +28,31 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Label Grid.ColumnSpan="2" Content="Add New Item" FontSize="36" FontWeight="Bold" Foreground="#FF727272"/>
+        <Label Grid.ColumnSpan="2" Content="{x:Static res:Resources.AddNewItemLabel}" FontSize="36" FontWeight="Bold" Foreground="#FF727272"/>
         
         <StackPanel Grid.Row="1" Margin="10">
             <Label Name="NameLabel" Grid.Row="1" 
-                   Content="Name of item" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                   Content="{x:Static res:Resources.NameOfItemLabel}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
             <TextBox Grid.Row="1" Height="25" Width="280" Text="{Binding NameOfItemTextBox}"
                      VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
             <Popup IsOpen="{Binding IsThereNoItemName}" StaysOpen="False" 
                    PlacementTarget="{Binding ElementName=NameLabel}" Placement="Right" VerticalOffset="4" HorizontalOffset="5">
-                <TextBlock Text="Created item must have a name!" Background="LightPink" Padding="1"/>
+                <TextBlock Text="{x:Static res:Resources.CreatedItemNamePopup}" Background="LightPink" Padding="1"/>
             </Popup>
 
             <Popup IsOpen="{Binding IsThereSameProjectName}" StaysOpen="False" 
                    PlacementTarget="{Binding ElementName=NameLabel}" Placement="Right" VerticalOffset="4" HorizontalOffset="5">
-                <TextBlock Text="A project with that name already exists!" Background="LightPink" Padding="1"/>
+                <TextBlock Text="{x:Static res:Resources.ProjectNameOccupiedPopup}" Background="LightPink" Padding="1"/>
             </Popup>
 
             <Popup IsOpen="{Binding IsThereSameIssueName}" StaysOpen="False" 
                    PlacementTarget="{Binding ElementName=NameLabel}" Placement="Right" VerticalOffset="4" HorizontalOffset="5">
-                <TextBlock Text="An issue with that name already exists in selected project!" Background="LightPink" Padding="1"/>
+                <TextBlock Text="{x:Static res:Resources.IssueNameOccupiedPopup}" Background="LightPink" Padding="1"/>
             </Popup>
 
-            <Label Grid.Row="1" Content="Description (optional)" VerticalAlignment="Top" 
+            <Label Grid.Row="1" Content="{x:Static res:Resources.DescriptionOptionalLabel}" VerticalAlignment="Top" 
                    HorizontalAlignment="Left"/>
 
             <TextBox Grid.Row="1" Height="120" Width="280" TextWrapping="Wrap" Text="{Binding DescriptionTextBox}"
@@ -58,20 +60,20 @@
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="1" Margin="10">
-            
-            <Label Grid.Row="1" Grid.Column="1" Content="Type of item" 
+
+            <Label Grid.Row="1" Grid.Column="1" Content="{x:Static res:Resources.TypeOfItemLabel}" 
                    Height="25"
                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
             <RadioButton Grid.Row="1" Grid.Column="1" GroupName="ItemType" IsChecked="{Binding IsItProject}"
                          Height="25" Width="150" 
-                         Content="Project" 
+                         Content="{x:Static res:Resources.ProjectLabel}" 
                          VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" 
                          VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
             <RadioButton Grid.Row="1" Grid.Column="1" GroupName="ItemType" IsChecked="{Binding IsItIssue}"
                          Height="25" Width="150" Margin="0,10,0,0"
-                         Content="Issue" 
+                         Content="{x:Static res:Resources.IssueLabel}" 
                          VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" 
                          VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
@@ -79,14 +81,14 @@
                       HorizontalAlignment="Left" VerticalAlignment="Top" 
                       ItemsSource="{Binding Projects}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedProject, Mode=TwoWay}"
                       Visibility="{Binding IsItIssue, Converter={StaticResource BooleanToVisibilityConverter}}"
-                      Controls:TextBoxHelper.Watermark="Select project"/>
+                      Controls:TextBoxHelper.Watermark="{x:Static res:Resources.SelectProjectLabel}"/>
 
             <Popup IsOpen="{Binding IsThereNoSelectedProject}" StaysOpen="False" 
                    PlacementTarget="{Binding ElementName=ProjectsList}" Placement="Bottom" VerticalOffset="4">
-                <TextBlock Text="Choose project first!" Background="LightPink" Padding="1"/>
+                <TextBlock Text="{x:Static res:Resources.ChooseProjectFirstPopup}" Background="LightPink" Padding="1"/>
             </Popup>
 
-            <Button Grid.Row="1" Grid.Column="1" Height="25" Width="80" Content="Create" 
+            <Button Grid.Row="1" Grid.Column="1" Height="25" Width="80" Content="{x:Static res:Resources.CreateButton}" 
                     Command="{Binding CreateItemCommand}"
                     HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,50,0,0"/>
             

@@ -322,7 +322,7 @@ namespace ProjectTracker.MVVM.ViewModel
                         if(!HasInfoNotChanged)
                         {
                             if (await _metroDialog.ShowConfirmationMessage(this,
-                            "Are you sure you want to update your issue?", ""))
+                            Properties.Resources.ConfirmIssueChanges, ""))
                             {
                                 IsThereSameIssueName = await _workWithIssue.ChechIssueNameAsync(SelectedIssue.ProjectId, IssueNameTextBox);
                                 if (!IsThereSameIssueName)
@@ -338,7 +338,8 @@ namespace ProjectTracker.MVVM.ViewModel
 
                                     UpdateIssuesList();
 
-                                    await _metroDialog.ShowMessage(this, "Success", "Your issue has been updated");
+                                    await _metroDialog.ShowMessage(this, Properties.Resources.Success,
+                                        Properties.Resources.IssueUpdated);
                                 }
                             }
                         }                                  
@@ -432,7 +433,7 @@ namespace ProjectTracker.MVVM.ViewModel
                     (_deleteIssueCommand = new RelayCommand(async obj =>
                     {
                         if (await _metroDialog.ShowConfirmationMessage(this,
-                            "Are you sure you want to DELETE your issue?", "This action is irreversible"))
+                            Properties.Resources.ConfirmIssueDelete, Properties.Resources.ActionIrreversible))
                         {
                             await _workWithIssue.DeleteIssue();
                             int index = IssuesList.IndexOf(SelectedIssue);
@@ -476,13 +477,13 @@ namespace ProjectTracker.MVVM.ViewModel
         {
             List<Issue> issues = _workWithIssue.GetAllUserIssues();
 
-            if (!SelectedProject.Name.Equals("All"))
+            if (!SelectedProject.Name.Equals(Properties.Resources.All))
                 issues = issues.FindAll(i => _workWithProject.GetProjectName(i.ProjectId).Equals(SelectedProject.Name));
 
-            if (!SelectedStatus.Equals("All"))
+            if (!SelectedStatus.Equals(Properties.Resources.All))
                 issues = issues.FindAll(i => i.Status.Equals(SelectedStatus));
 
-            if (!SelectedPriority.Equals("All"))
+            if (!SelectedPriority.Equals(Properties.Resources.All))
                 issues = issues.FindAll(i => i.Priority.Equals(SelectedPriority));
 
             IssuesList = _workWithIssue.CreateCollection(issues);
@@ -493,31 +494,35 @@ namespace ProjectTracker.MVVM.ViewModel
         {
             ProjectsList = _workWithProject.CreateCollection();
             Project allProjects = new Project();
-            allProjects.Name = "All";
+            allProjects.Name = Properties.Resources.All;
             ProjectsList.Insert(0, allProjects);
             SelectedProject = allProjects;
         }
 
         private void CreateStatusList()
         {
-            StatusList = ["All", "To Do", "In Progress", "Review", "Done"];
-            SelectedStatus = "All";
+            StatusList = [Properties.Resources.All, Properties.Resources.ToDoStatus, Properties.Resources.InProgressStatus,
+                Properties.Resources.ReviewStatus, Properties.Resources.DoneStatus];
+            SelectedStatus = Properties.Resources.All;
         }
 
         private void CreatePriorityList()
         {
-            PriorityList = ["All", "Low", "Medium", "High"];
-            SelectedPriority = "All";
+            PriorityList = [Properties.Resources.All, Properties.Resources.LowPriority, 
+                Properties.Resources.MediumPriority, Properties.Resources.HighPriority];
+            SelectedPriority = Properties.Resources.All;
         }
 
         private void CreateAvailableStatusList()
         {
-            AvailableStatusList = ["To Do", "In Progress", "Review", "Done"];
+            AvailableStatusList = [Properties.Resources.ToDoStatus, Properties.Resources.InProgressStatus,
+                Properties.Resources.ReviewStatus, Properties.Resources.DoneStatus];
         }
 
         private void CreateAvailablePriorityList()
         {
-            AvailablePriorityList = ["Low", "Medium", "High"];
+            AvailablePriorityList = [Properties.Resources.LowPriority,
+                Properties.Resources.MediumPriority, Properties.Resources.HighPriority];
         }
 
         private bool HasInfoChangedCheck()

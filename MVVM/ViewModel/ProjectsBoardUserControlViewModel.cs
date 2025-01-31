@@ -99,7 +99,7 @@ namespace ProjectTracker.MVVM.ViewModel
                     (_deleteProjectCommand = new RelayCommand(async obj =>
                     {
                         if (await _metroDialog.ShowConfirmationMessage(this,
-                            "Are you sure you want to DELETE your project?", "This action is irreversible"))
+                            Properties.Resources.ConfirmProjectDelete, Properties.Resources.ActionIrreversible))
                         {
                             _workWithProject.SelectedProject = SelectedProject;
                             await _workWithProject.DeleteProject();
