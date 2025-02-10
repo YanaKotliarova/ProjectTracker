@@ -20,6 +20,19 @@
 
     <Grid Background="Beige">
 
+        <ComboBox Height="30" Width="30" Margin="10" Padding="3" Background="White"
+                  BorderBrush="#FFD2D2D2" BorderThickness="2"
+                  HorizontalAlignment="Right" VerticalAlignment="Top"
+                  ItemsSource="{Binding Languages}" SelectedItem="{Binding Language, Mode=TwoWay}">
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding LanguageChangedCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            
+        </ComboBox>
+        
         <Button Name="LogInButton" Content="{x:Static res:Resources.LogIn}" Height="25" Width="70" 
                 Margin="0,150,0,0"
                 Command="{Binding LoginCommand}"

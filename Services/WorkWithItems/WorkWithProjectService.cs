@@ -7,12 +7,12 @@ using System.Collections.ObjectModel;
 
 namespace ProjectTracker.Services.WorkWithItems
 {
-    public class WorkWithProject : IWorkWithProject
+    public class WorkWithProjectService : IWorkWithProjectService
     {
         private readonly IProjectRepository _projectRepository;
-        private readonly IAccount _account;
+        private readonly IAccountService _account;
 
-        public WorkWithProject(IProjectRepository projectRepository, IAccount account)
+        public WorkWithProjectService(IProjectRepository projectRepository, IAccountService account)
         {
             _projectRepository = projectRepository;
             _account = account;
@@ -29,9 +29,10 @@ namespace ProjectTracker.Services.WorkWithItems
             return _projectRepository.GetUserProjects(_account.CurrentUser.Id).ToList();
         }
 
-        public string GetProjectName(int id)
+        public async Task<string> GetProjectName(int id)
         {
-            return _projectRepository.Get(id).Name;
+            Project project = await _projectRepository.GetAsync(id);
+            return project.Name;
         }
 
         public async Task<bool> CheckProjectNameAsync(string name)
@@ -49,12 +50,12 @@ namespace ProjectTracker.Services.WorkWithItems
             return collection;
         }
         
-        public async Task UpdateProjectInfo()
+        public async Task UpdateProjectInfoAsync()
         {
             await _projectRepository.UpdateAsync(SelectedProject!);
         }
 
-        public async Task DeleteProject()
+        public async Task DeleteProjectAsync()
         {
             await _projectRepository.DeleteAsync(SelectedProject!.Id);
         }

@@ -11,7 +11,9 @@
         Dialog:DialogParticipation.Register="{Binding}"
         
         xmlns:viewmodel="clr-namespace:ProjectTracker.MVVM.ViewModel" 
-        d:DataContext="{d:DesignInstance Type=viewmodel:MainWindowViewModel}"        
+        d:DataContext="{d:DesignInstance Type=viewmodel:MainWindowViewModel}"   
+                      
+        xmlns:helpers="clr-namespace:ProjectTracker.MVVM.View.UIHelpers"              
         
         xmlns:local="clr-namespace:ProjectTracker.MVVM.View.Pages"
         mc:Ignorable="d"
@@ -30,9 +32,11 @@
     </Grid>
 
     <i:Interaction.Triggers>
+
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding NavigateToAutorizationCommand}"/>
         </i:EventTrigger>
+
     </i:Interaction.Triggers>
 
 </Controls:MetroWindow>

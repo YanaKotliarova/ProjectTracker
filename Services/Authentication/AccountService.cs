@@ -3,10 +3,10 @@ using ProjectTracker.MVVM.Model;
 
 namespace ProjectTracker.Services.Authentication
 {
-    public class Account : IAccount
+    public class AccountService : IAccountService
     {
         private readonly IUserRepository _userRepository;
-        public Account(IUserRepository userRepository)
+        public AccountService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }

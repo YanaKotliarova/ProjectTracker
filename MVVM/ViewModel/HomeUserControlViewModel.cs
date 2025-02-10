@@ -5,8 +5,8 @@ namespace ProjectTracker.MVVM.ViewModel
 {
     public class HomeUserControlViewModel : ViewModelBase
     {
-        private readonly IAccount _account;
-        public HomeUserControlViewModel(IAccount account)
+        private readonly IAccountService _account;
+        public HomeUserControlViewModel(IAccountService account)
         {
             _account = account;
         }

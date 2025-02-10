@@ -7,10 +7,10 @@ namespace ProjectTracker.MVVM.ViewModel
 {
     public class AddItemUserControlViewModel : ViewModelBase
     {
-        private readonly IWorkWithProject _workWithProject;
-        private readonly IWorkWithIssue _workWithIssue;
+        private readonly IWorkWithProjectService _workWithProject;
+        private readonly IWorkWithIssueService _workWithIssue;
 
-        public AddItemUserControlViewModel(IWorkWithProject workWithProject, IWorkWithIssue workWithIssue)
+        public AddItemUserControlViewModel(IWorkWithProjectService workWithProject, IWorkWithIssueService workWithIssue)
         {
             _workWithProject = workWithProject;
             _workWithIssue = workWithIssue;

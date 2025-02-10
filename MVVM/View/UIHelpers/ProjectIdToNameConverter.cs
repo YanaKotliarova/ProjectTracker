@@ -8,7 +8,7 @@ namespace ProjectTracker.MVVM.View.UIHelpers
 {
     public class ProjectIdToNameConverter : IValueConverter
     {
-        private readonly IWorkWithProject _workWithProject = App.GetServiceProvider().GetService<IWorkWithProject>()!;
+        private readonly IWorkWithProjectService _workWithProject = App.GetServiceProvider().GetService<IWorkWithProjectService>()!;
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {            
             return _workWithProject.GetProjectName((int)value);

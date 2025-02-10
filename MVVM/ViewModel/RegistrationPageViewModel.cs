@@ -10,9 +10,9 @@ namespace ProjectTracker.MVVM.ViewModel
     {
         private const int minPasswordLength = 8;
 
-        private readonly IRegistration _registration;
-        private readonly IAccount _account;
-        public RegistrationPageViewModel(INavigationService navigationService, IRegistration registration, IAccount account)
+        private readonly IRegistrationService _registration;
+        private readonly IAccountService _account;
+        public RegistrationPageViewModel(INavigationService navigationService, IRegistrationService registration, IAccountService account)
         {
             NavigationService = navigationService;
             _registration = registration;

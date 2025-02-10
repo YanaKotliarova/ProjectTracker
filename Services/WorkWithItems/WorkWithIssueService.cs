@@ -7,12 +7,12 @@ using System.Collections.ObjectModel;
 
 namespace ProjectTracker.Services.WorkWithItems
 {
-    public class WorkWithIssue : IWorkWithIssue
+    public class WorkWithIssueService : IWorkWithIssueService
     {
         private readonly IIssueRepository _issueRepository;
-        private readonly IWorkWithProject _workWithProject;
+        private readonly IWorkWithProjectService _workWithProject;
 
-        public WorkWithIssue(IIssueRepository issueRepository, IWorkWithProject workWithProject)
+        public WorkWithIssueService(IIssueRepository issueRepository, IWorkWithProjectService workWithProject)
         {
             _issueRepository = issueRepository;
             _workWithProject = workWithProject;
@@ -60,12 +60,12 @@ namespace ProjectTracker.Services.WorkWithItems
             return collection;
         }
 
-        public async Task UpdateIssueInfo()
+        public async Task UpdateIssueInfoAsync()
         {
             await _issueRepository.UpdateAsync(SelectedIssue);
         }
 
-        public async Task DeleteIssue()
+        public async Task DeleteIssueAsync()
         {
             await _issueRepository.DeleteAsync(SelectedIssue.Id);
         }

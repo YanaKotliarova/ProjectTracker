@@ -9,10 +9,10 @@ namespace ProjectTracker.MVVM.ViewModel
 {
     public class ProjectsBoardUserControlViewModel : ViewModelBase
     {
-        private readonly IWorkWithProject _workWithProject;
+        private readonly IWorkWithProjectService _workWithProject;
         private readonly IMetroDialog _metroDialog;
 
-        public ProjectsBoardUserControlViewModel(INavigationService navigationService, IWorkWithProject workWithProject, IMetroDialog metroDialog)
+        public ProjectsBoardUserControlViewModel(INavigationService navigationService, IWorkWithProjectService workWithProject, IMetroDialog metroDialog)
         {
             NavigationService = navigationService;
             _workWithProject = workWithProject;
@@ -102,7 +102,7 @@ namespace ProjectTracker.MVVM.ViewModel
                             Properties.Resources.ConfirmProjectDelete, Properties.Resources.ActionIrreversible))
                         {
                             _workWithProject.SelectedProject = SelectedProject;
-                            await _workWithProject.DeleteProject();
+                            await _workWithProject.DeleteProjectAsync();
                             UpdateListOfUserProjects();
                         }                            
                     }));

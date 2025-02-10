@@ -9,11 +9,11 @@ namespace ProjectTracker.MVVM.ViewModel
 {
     public class IssuePageViewModel : ViewModelBase
     {
-        private readonly IWorkWithIssue _workWithIssue;
-        private readonly IWorkWithProject _workWithProject;
+        private readonly IWorkWithIssueService _workWithIssue;
+        private readonly IWorkWithProjectService _workWithProject;
         private readonly IMetroDialog _metroDialog;
 
-        public IssuePageViewModel(IWorkWithIssue workWithIssue, IWorkWithProject workWithProject, IMetroDialog metroDialog)
+        public IssuePageViewModel(IWorkWithIssueService workWithIssue, IWorkWithProjectService workWithProject, IMetroDialog metroDialog)
         {
             _workWithIssue = workWithIssue;
             _workWithProject = workWithProject;
@@ -334,7 +334,7 @@ namespace ProjectTracker.MVVM.ViewModel
                                     SelectedIssue.Priority = CurrentIssuePriority;
 
                                     _workWithIssue.SelectedIssue = SelectedIssue;
-                                    await _workWithIssue.UpdateIssueInfo();
+                                    await _workWithIssue.UpdateIssueInfoAsync();
 
                                     UpdateIssuesList();
 
@@ -358,7 +358,7 @@ namespace ProjectTracker.MVVM.ViewModel
                         if (!AddLabelTextBox.IsNullOrEmpty())
                         {
                             SelectedIssue.Labels.Add(AddLabelTextBox);
-                            await _workWithIssue.UpdateIssueInfo();
+                            await _workWithIssue.UpdateIssueInfoAsync();
                             AddLabelTextBox = "";
                             UpdatePageControls();
                         }
@@ -375,7 +375,7 @@ namespace ProjectTracker.MVVM.ViewModel
                     (_updateLabelCommand = new RelayCommand(async obj =>
                     {
                         SelectedIssue.Labels[SelectedIssue.Labels.FindIndex(l => l == SelectedLabel)] = UpdatedLabel;
-                        await _workWithIssue.UpdateIssueInfo();
+                        await _workWithIssue.UpdateIssueInfoAsync();
                         UpdatePageControls();
                         IsLabelUpdated = false;
                     }));
@@ -418,7 +418,7 @@ namespace ProjectTracker.MVVM.ViewModel
                     (_deleteLabelCommand = new RelayCommand(async obj =>
                     {
                         SelectedIssue.Labels.Remove(SelectedLabel);
-                        await _workWithIssue.UpdateIssueInfo();
+                        await _workWithIssue.UpdateIssueInfoAsync();
                         UpdatePageControls();
                     }));
             }
@@ -435,7 +435,7 @@ namespace ProjectTracker.MVVM.ViewModel
                         if (await _metroDialog.ShowConfirmationMessage(this,
                             Properties.Resources.ConfirmIssueDelete, Properties.Resources.ActionIrreversible))
                         {
-                            await _workWithIssue.DeleteIssue();
+                            await _workWithIssue.DeleteIssueAsync();
                             int index = IssuesList.IndexOf(SelectedIssue);
                             int count = IssuesList.Count - 1;
                             if (count > 0 && index != count)

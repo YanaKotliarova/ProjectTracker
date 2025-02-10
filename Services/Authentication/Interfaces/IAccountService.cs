@@ -2,7 +2,7 @@
 
 namespace ProjectTracker.Services.Authentication
 {
-    public interface IAccount
+    public interface IAccountService
     {
         User CurrentUser { get; set; }
         Task UpdateUserPersonalInfoAsync(string newLogin, string newRole);

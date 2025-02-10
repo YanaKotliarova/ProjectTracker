@@ -4,12 +4,12 @@ using ProjectTracker.Services.Authentication.Interfaces;
 
 namespace ProjectTracker.Services.Authentication
 {
-    public class Registration : IRegistration
+    public class RegistrationService : IRegistrationService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IAccount _account;
+        private readonly IAccountService _account;
 
-        public Registration(IUserRepository userRepository, IAccount account)
+        public RegistrationService(IUserRepository userRepository, IAccountService account)
         {
             _userRepository = userRepository;
             _account = account;

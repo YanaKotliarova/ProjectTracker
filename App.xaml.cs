@@ -7,6 +7,7 @@ using ProjectTracker.MVVM.View.Pages;
 using ProjectTracker.MVVM.View.UI;
 using ProjectTracker.MVVM.View.UI.Interfaces;
 using ProjectTracker.MVVM.View.UIHelpers;
+using ProjectTracker.MVVM.View.UIHelpers.Interfaces;
 using ProjectTracker.MVVM.ViewModel;
 using ProjectTracker.Services.Authentication;
 using ProjectTracker.Services.Authentication.Interfaces;
@@ -46,14 +47,16 @@ namespace ProjectTracker
 
             services.AddSingleton<INavigationService, NavigationService>();
 
-            services.AddSingleton<IAutorization, Autorization>();
-            services.AddSingleton<IRegistration, Registration>();
-            services.AddSingleton<IAccount, Account>();
-            services.AddSingleton<IWorkWithProject, WorkWithProject>();
-            services.AddSingleton<IWorkWithIssue, WorkWithIssue>();
+            services.AddSingleton<IAutorizationService, AutorizationService>();
+            services.AddSingleton<IRegistrationService, RegistrationService>();
+            services.AddSingleton<IAccountService, AccountService>();
+            services.AddSingleton<IWorkWithProjectService, WorkWithProjectService>();
+            services.AddSingleton<IWorkWithIssueService, WorkWithIssueService>();
 
             services.AddSingleton<IDialogCoordinator, DialogCoordinator>();
             services.AddSingleton<IMetroDialog, MetroDialog>();
+
+            services.AddSingleton<IMainView, MainView>();
 
             services.AddSingleton<IConnectionStringValidation, ConnectionStringValidation>();
 

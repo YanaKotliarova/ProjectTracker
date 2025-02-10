@@ -4,16 +4,16 @@ using System.Collections.ObjectModel;
 
 namespace ProjectTracker.Services.WorkWithItems.Interfaces
 {
-    public interface IWorkWithProject
+    public interface IWorkWithProjectService
     {
         Project? SelectedProject { get; set; }
 
         Task<bool> CheckProjectNameAsync(string name);
         ObservableCollection<Project> CreateCollection();
         Task CreateProjectAsync(string projectName, string description);
-        Task DeleteProject();
+        Task DeleteProjectAsync();
         string GetProjectName(int id);
         List<Project> GetUserProjectsList();
-        Task UpdateProjectInfo();
+        Task UpdateProjectInfoAsync();
     }
 }

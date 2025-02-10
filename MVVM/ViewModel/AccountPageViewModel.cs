@@ -10,9 +10,9 @@ namespace ProjectTracker.MVVM.ViewModel
     {
         private const int minPasswordLength = 8;
 
-        private readonly IAccount _account;
+        private readonly IAccountService _account;
         private readonly IMetroDialog _metroDialog;
-        public AccountPageViewModel(INavigationService navigationService, IAccount account, IMetroDialog metroDialog)
+        public AccountPageViewModel(INavigationService navigationService, IAccountService account, IMetroDialog metroDialog)
         {
             NavigationService = navigationService;
             _account = account;
@@ -203,7 +203,7 @@ namespace ProjectTracker.MVVM.ViewModel
                     (_logOutCommand = new RelayCommand(async obj =>
                     {
                         if (await _metroDialog.ShowConfirmationMessage(this,
-                            Properties.Resources.ConfirmInfoChanges, ""))
+                            Properties.Resources.ConfirmLogOut, ""))
                         {
                             NavigationService.NavigateTo<AutorizationPageViewModel>();
                             _account.CurrentUser = null;

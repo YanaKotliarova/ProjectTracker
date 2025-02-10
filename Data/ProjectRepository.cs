@@ -26,9 +26,9 @@ namespace ProjectTracker.Data
             await _repository.SaveChangesAsync();
         }
 
-        public Project Get(int id)
+        public async Task<Project> GetAsync(int id)
         {
-            return _db.Projects.Find(id);
+            return await _db.Projects.FindAsync(id);
         }
 
         public async Task<Project> GetByNameAsync(string name)

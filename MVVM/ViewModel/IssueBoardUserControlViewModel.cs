@@ -9,11 +9,11 @@ namespace ProjectTracker.MVVM.ViewModel
 {
     public class IssueBoardUserControlViewModel : ViewModelBase
     {
-        private readonly IWorkWithIssue _workWithIssue;
-        private readonly IWorkWithProject _workWithProject;
+        private readonly IWorkWithIssueService _workWithIssue;
+        private readonly IWorkWithProjectService _workWithProject;
         private readonly IMetroDialog _metroDialog;
         public IssueBoardUserControlViewModel(INavigationService navigationService, 
-            IWorkWithIssue workWithIssue, IWorkWithProject workWithProject, IMetroDialog metroDialog)
+            IWorkWithIssueService workWithIssue, IWorkWithProjectService workWithProject, IMetroDialog metroDialog)
         {
             NavigationService = navigationService;
             _workWithIssue = workWithIssue;
@@ -126,7 +126,7 @@ namespace ProjectTracker.MVVM.ViewModel
                             Properties.Resources.ConfirmIssueDelete, Properties.Resources.ActionIrreversible))
                         {
                             _workWithIssue.SelectedIssue = SelectedIssue;
-                            await _workWithIssue.DeleteIssue();
+                            await _workWithIssue.DeleteIssueAsync();
                             UpdateIssuesCollections();
                         }                            
                     }));
