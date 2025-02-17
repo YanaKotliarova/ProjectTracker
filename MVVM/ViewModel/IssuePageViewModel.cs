@@ -2,6 +2,7 @@
 using ProjectTracker.MVVM.Core;
 using ProjectTracker.MVVM.Model;
 using ProjectTracker.MVVM.View.UI.Interfaces;
+using ProjectTracker.Services.ServiceHelpers.Interfaces;
 using ProjectTracker.Services.WorkWithItems.Interfaces;
 using System.Collections.ObjectModel;
 
@@ -12,12 +13,15 @@ namespace ProjectTracker.MVVM.ViewModel
         private readonly IWorkWithIssueService _workWithIssue;
         private readonly IWorkWithProjectService _workWithProject;
         private readonly IMetroDialog _metroDialog;
+        private readonly ICollectionHelper _collectionHelper;
 
-        public IssuePageViewModel(IWorkWithIssueService workWithIssue, IWorkWithProjectService workWithProject, IMetroDialog metroDialog)
+        public IssuePageViewModel(IWorkWithIssueService workWithIssue, IWorkWithProjectService workWithProject, 
+            IMetroDialog metroDialog, ICollectionHelper collectionHelper)
         {
             _workWithIssue = workWithIssue;
             _workWithProject = workWithProject;
             _metroDialog = metroDialog;
+            _collectionHelper = collectionHelper;
         }
 
 
@@ -269,14 +273,14 @@ namespace ProjectTracker.MVVM.ViewModel
             get
             {
                 return _loadIssuePageCommand ??
-                    (_loadIssuePageCommand = new RelayCommand(obj =>
+                    (_loadIssuePageCommand = new RelayCommand(async obj =>
                     {
-                        UpdateProjectsList();
+                        await UpdateProjectsList();
                         CreateStatusList();
                         CreatePriorityList();
                         CreateAvailableStatusList();
                         CreateAvailablePriorityList();
-                        UpdateIssuesList();
+                        await UpdateIssuesList();
 
                         UpdatePageControls();
                     }));
@@ -303,9 +307,9 @@ namespace ProjectTracker.MVVM.ViewModel
             get
             {
                 return _listSelectionChangedCommand ??
-                    (_listSelectionChangedCommand = new RelayCommand(obj =>
+                    (_listSelectionChangedCommand = new RelayCommand(async obj =>
                     {
-                        UpdateIssuesList();
+                        await UpdateIssuesList();
                     }));
             }
         }
@@ -336,7 +340,7 @@ namespace ProjectTracker.MVVM.ViewModel
                                     _workWithIssue.SelectedIssue = SelectedIssue;
                                     await _workWithIssue.UpdateIssueInfoAsync();
 
-                                    UpdateIssuesList();
+                                    await UpdateIssuesList();
 
                                     await _metroDialog.ShowMessage(this, Properties.Resources.Success,
                                         Properties.Resources.IssueUpdated);
@@ -447,7 +451,7 @@ namespace ProjectTracker.MVVM.ViewModel
                                 SelectedIssue = IssuesList[index - 1];
                             }
                             else SelectedIssue = null;
-                            UpdateIssuesList();
+                            await UpdateIssuesList();
                         }                                
                     }, x => SelectedIssue != null));
             }
@@ -473,12 +477,20 @@ namespace ProjectTracker.MVVM.ViewModel
                 LabelsList = default;
             }
         }
-        private void UpdateIssuesList()
+        private async Task UpdateIssuesList()
         {
-            List<Issue> issues = _workWithIssue.GetAllUserIssues();
+            List<Issue> issues = await _workWithIssue.GetAllUserIssuesAsync();
 
             if (!SelectedProject.Name.Equals(Properties.Resources.All))
-                issues = issues.FindAll(i => _workWithProject.GetProjectName(i.ProjectId).Equals(SelectedProject.Name));
+            {
+                List<Issue> tempIssueList = new List<Issue>();
+                foreach (Issue i in issues)
+                {
+                    if(SelectedProject.Name.Equals(await _workWithProject.GetProjectNameAsync(i.ProjectId)))
+                        tempIssueList.Add(i);
+                }
+                issues = tempIssueList;
+            }
 
             if (!SelectedStatus.Equals(Properties.Resources.All))
                 issues = issues.FindAll(i => i.Status.Equals(SelectedStatus));
@@ -486,17 +498,18 @@ namespace ProjectTracker.MVVM.ViewModel
             if (!SelectedPriority.Equals(Properties.Resources.All))
                 issues = issues.FindAll(i => i.Priority.Equals(SelectedPriority));
 
-            IssuesList = _workWithIssue.CreateCollection(issues);
+            IssuesList = _collectionHelper.CreateCollection(issues);
             SelectedIssue = _workWithIssue.SelectedIssue;
         }
 
-        private void UpdateProjectsList()
+        private async Task UpdateProjectsList()
         {
-            ProjectsList = _workWithProject.CreateCollection();
-            Project allProjects = new Project();
-            allProjects.Name = Properties.Resources.All;
-            ProjectsList.Insert(0, allProjects);
-            SelectedProject = allProjects;
+            ProjectsList = _collectionHelper.CreateCollection<Project>(await _workWithProject.GetUserProjectsListAsync());
+
+            Project allProject = new Project();
+            allProject.Name = Properties.Resources.All;
+            ProjectsList.Insert(0, allProject);
+            SelectedProject = allProject;
         }
 
         private void CreateStatusList()

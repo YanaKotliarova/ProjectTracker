@@ -21,7 +21,9 @@ namespace ProjectTracker.Services.Authentication
             {
                 User newUser = new User(login, _userRepository.GetPasswordHashCode(password), role);
                 await _userRepository.CreateAsync(newUser);
-                _account.CurrentUser = await _userRepository.GetAsync(login);
+
+                //_account.CurrentUser = await _userRepository.GetAsync(login);
+                _account.SetCurrentUser(await _userRepository.GetAsync(login));
             }
         }
     }

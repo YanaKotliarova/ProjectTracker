@@ -9,6 +9,7 @@ namespace ProjectTracker.MVVM.ViewModel
         public HomeUserControlViewModel(IAccountService account)
         {
             _account = account;
+            WindowName = Properties.Resources.HomeLabel;
         }
 
         private string _username;
@@ -41,7 +42,8 @@ namespace ProjectTracker.MVVM.ViewModel
                 return _loadUserControlCommand ??
                     (_loadUserControlCommand = new RelayCommand(obj =>
                     {
-                        Username = _account.CurrentUser.Login;
+                        Username = _account.CustomPrincipal.Identity.Login;
+                        //Username = _account.CurrentUser.Login;
                         TodayDate = DateOnly.FromDateTime(DateTime.Now).ToString();
                     }));
             }

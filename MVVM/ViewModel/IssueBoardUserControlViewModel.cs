@@ -2,6 +2,7 @@
 using ProjectTracker.MVVM.Model;
 using ProjectTracker.MVVM.View.UI.Interfaces;
 using ProjectTracker.Services.Navigation.Interfaces;
+using ProjectTracker.Services.ServiceHelpers.Interfaces;
 using ProjectTracker.Services.WorkWithItems.Interfaces;
 using System.Collections.ObjectModel;
 
@@ -12,13 +13,19 @@ namespace ProjectTracker.MVVM.ViewModel
         private readonly IWorkWithIssueService _workWithIssue;
         private readonly IWorkWithProjectService _workWithProject;
         private readonly IMetroDialog _metroDialog;
-        public IssueBoardUserControlViewModel(INavigationService navigationService, 
-            IWorkWithIssueService workWithIssue, IWorkWithProjectService workWithProject, IMetroDialog metroDialog)
+        private readonly ICollectionHelper _collectionHelper;
+
+        public IssueBoardUserControlViewModel(INavigationService navigationService,
+            IWorkWithIssueService workWithIssue, IWorkWithProjectService workWithProject,
+            IMetroDialog metroDialog, ICollectionHelper collectionHelper)
         {
             NavigationService = navigationService;
             _workWithIssue = workWithIssue;
             _workWithProject = workWithProject;
             _metroDialog = metroDialog;
+            _collectionHelper = collectionHelper;
+
+            WindowName = Properties.Resources.IssuesLabel;
         }
 
         private INavigationService _navigationService;
@@ -83,7 +90,7 @@ namespace ProjectTracker.MVVM.ViewModel
             set
             {
                 _selectedIssue = value;
-                OnPropertyChanged(nameof(SelectedIssue));
+                OnPropertyChanged(nameof(SelectedIssue)); 
             }
         }
 
@@ -93,9 +100,9 @@ namespace ProjectTracker.MVVM.ViewModel
             get
             {
                 return _loadUserControlCommand ??
-                    (_loadUserControlCommand = new RelayCommand(obj =>
+                    (_loadUserControlCommand = new RelayCommand(async obj =>
                     {
-                        UpdateIssuesCollections();
+                        await UpdateIssuesCollections();
                     }));
             }
         }
@@ -127,31 +134,31 @@ namespace ProjectTracker.MVVM.ViewModel
                         {
                             _workWithIssue.SelectedIssue = SelectedIssue;
                             await _workWithIssue.DeleteIssueAsync();
-                            UpdateIssuesCollections();
-                        }                            
+                            await UpdateIssuesCollections();
+                        }
                     }));
             }
         }
 
-        private void UpdateIssuesCollections()
+        private async Task UpdateIssuesCollections()
         {
             List<Issue> tempToDoIssuesList = new List<Issue>();
             List<Issue> tempInProgressIssuesList = new List<Issue>();
             List<Issue> tempReviewIssuesList = new List<Issue>();
             List<Issue> tempDoneIssuesList = new List<Issue>();
 
-            foreach (var p in _workWithProject.GetUserProjectsList())
+            foreach (Project p in await _workWithProject.GetUserProjectsListAsync())
             {
-                tempToDoIssuesList.AddRange(_workWithIssue.GetIssuesList(p.Id, Properties.Resources.ToDoStatus));
-                tempInProgressIssuesList.AddRange(_workWithIssue.GetIssuesList(p.Id, Properties.Resources.InProgressStatus));
-                tempReviewIssuesList.AddRange(_workWithIssue.GetIssuesList(p.Id, Properties.Resources.ReviewStatus));
-                tempDoneIssuesList.AddRange(_workWithIssue.GetIssuesList(p.Id, Properties.Resources.DoneStatus));
+                tempToDoIssuesList.AddRange(await _workWithIssue.GetIssuesByStatusAsync(p.Id, Properties.Resources.ToDoStatus));
+                tempInProgressIssuesList.AddRange(await _workWithIssue.GetIssuesByStatusAsync(p.Id, Properties.Resources.InProgressStatus));
+                tempReviewIssuesList.AddRange(await _workWithIssue.GetIssuesByStatusAsync(p.Id, Properties.Resources.ReviewStatus));
+                tempDoneIssuesList.AddRange(await _workWithIssue.GetIssuesByStatusAsync(p.Id, Properties.Resources.DoneStatus));
             }
 
-            ToDoIssuesList = _workWithIssue.CreateCollection(tempToDoIssuesList);
-            InProgressIssuesList = _workWithIssue.CreateCollection(tempInProgressIssuesList);
-            ReviewIssuesList = _workWithIssue.CreateCollection(tempReviewIssuesList);
-            DoneIssuesList = _workWithIssue.CreateCollection(tempDoneIssuesList);
+            ToDoIssuesList = _collectionHelper.CreateCollection(tempToDoIssuesList);
+            InProgressIssuesList = _collectionHelper.CreateCollection(tempInProgressIssuesList);
+            ReviewIssuesList = _collectionHelper.CreateCollection(tempReviewIssuesList);
+            DoneIssuesList = _collectionHelper.CreateCollection(tempDoneIssuesList);
         }
     }
 }

@@ -12,7 +12,6 @@ namespace ProjectTracker.MVVM.View.UserControls
         public HomeUserControl()
         {
             InitializeComponent();
-            DataContext = App.GetServiceProvider().GetService<HomeUserControlViewModel>();
         }
     }
 }

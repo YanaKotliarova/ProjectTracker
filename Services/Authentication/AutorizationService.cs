@@ -22,11 +22,10 @@ namespace ProjectTracker.Services.Authentication
 
             if (existingUser != null)
             {
-                User currentUser = new User(login, _userRepository.GetPasswordHashCode(password));
-                if (existingUser.Login.Equals(currentUser.Login) && existingUser.Password.Equals(currentUser.Password))
+                if (existingUser.Login.Equals(login) && existingUser.Password.Equals(_userRepository.GetPasswordHashCode(password)))
                 {
                     isUserRegistered = true;
-                    _account.CurrentUser = await _userRepository.GetAsync(login);
+                    _account.SetCurrentUser(existingUser);
                 }                    
                 else isUserRegistered = false;
             }       

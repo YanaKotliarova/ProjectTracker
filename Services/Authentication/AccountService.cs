@@ -1,5 +1,6 @@
 ﻿using ProjectTracker.Data.Interfaces;
 using ProjectTracker.MVVM.Model;
+using ProjectTracker.Services.Authentication.CurrentUser;
 
 namespace ProjectTracker.Services.Authentication
 {
@@ -11,39 +12,51 @@ namespace ProjectTracker.Services.Authentication
             _userRepository = userRepository;
         }
 
-        public User? CurrentUser { get; set; }
+        public void SetCurrentUser(User currentUser)
+        {
+            CustomPrincipal.Identity = new CustomIdentity(currentUser.Id, currentUser.Login, currentUser.Role);
+        }
+
+        public void ResetCurrentUser()
+        {
+            CustomPrincipal.Identity = new AnonymousIdentity();
+        }
+
+        public CustomPrincipal CustomPrincipal => Thread.CurrentPrincipal as CustomPrincipal;
 
         public async Task UpdateUserPersonalInfoAsync(string newLogin, string newRole)
         {
-            CurrentUser!.Login = newLogin;
-            CurrentUser!.Role = newRole;
-            User updateUser = CurrentUser;
+            User currentUser = await _userRepository.GetAsync(CustomPrincipal.Identity.Login);
 
-            await _userRepository.UpdateAsync(updateUser);
+            currentUser.Login = newLogin;
+            currentUser.Role = newRole;
 
-            CurrentUser = await _userRepository.GetAsync(newLogin);
+            await _userRepository.UpdateAsync(currentUser);
+
+            SetCurrentUser(await _userRepository.GetAsync(newLogin));
         }
 
         public async Task<bool> CheckIfLoginExistsAsync(string login)
         {
-            if (CurrentUser != null && login.Equals(CurrentUser.Login))
+            if (CustomPrincipal != null && login.Equals(CustomPrincipal.Identity.Login))
                 return false;
             else return await _userRepository.IsLoginExists(login);
         }
 
         public async Task UpdateUserPasswordAsync(string newPassword)
         {
-            CurrentUser!.Password = _userRepository.GetPasswordHashCode(newPassword);
-            User updatedUser = CurrentUser;
+            User currentUser = await _userRepository.GetAsync(CustomPrincipal.Identity.Login);
+            currentUser.Password = _userRepository.GetPasswordHashCode(newPassword);
 
-            await _userRepository.UpdateAsync(updatedUser);
+            await _userRepository.UpdateAsync(currentUser);
 
-            CurrentUser = await _userRepository.GetAsync(CurrentUser.Login);
+            SetCurrentUser(await _userRepository.GetAsync(CustomPrincipal.Identity.Login));
         }
 
         public async Task DeleteAccountAsync()
         {
-            await _userRepository.DeleteAsync(CurrentUser!.Id);
+            await _userRepository.DeleteAsync(CustomPrincipal.Identity.Id);
+            ResetCurrentUser();
         }
     }
 }

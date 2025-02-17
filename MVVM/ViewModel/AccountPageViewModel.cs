@@ -142,8 +142,8 @@ namespace ProjectTracker.MVVM.ViewModel
                         HasInfoNotChanged = !HasInfoChangedCheck();
                         if(!HasInfoNotChanged)
                         {
-                            if (await _metroDialog.ShowConfirmationMessage(this,
-                            Properties.Resources.ConfirmInfoChanges, ""))
+                            if (await _metroDialog.ShowConfirmationMessage(this, 
+                                Properties.Resources.ConfirmInfoChanges, ""))
                             {
                                 IsLoginExists = await _account.CheckIfLoginExistsAsync(LoginTextBox);
 
@@ -190,7 +190,7 @@ namespace ProjectTracker.MVVM.ViewModel
                                 UpdatePageControls();
                             }                            
                         }
-                    }));
+                    }, x => !NewPasswordBox.IsNullOrEmpty() && !RepeatPasswordBox.IsNullOrEmpty()));
             }
         }
 
@@ -206,7 +206,7 @@ namespace ProjectTracker.MVVM.ViewModel
                             Properties.Resources.ConfirmLogOut, ""))
                         {
                             NavigationService.NavigateTo<AutorizationPageViewModel>();
-                            _account.CurrentUser = null;
+                            _account.ResetCurrentUser();
                         }
                     }));
             }
@@ -225,7 +225,6 @@ namespace ProjectTracker.MVVM.ViewModel
                         {
                             await _account.DeleteAccountAsync();
                             NavigationService.NavigateTo<AutorizationPageViewModel>();
-                            _account.CurrentUser = null;
                         }                            
                     }));
             }
@@ -233,16 +232,16 @@ namespace ProjectTracker.MVVM.ViewModel
 
         private void UpdatePageControls()
         {
-            LoginTextBox = _account.CurrentUser.Login;
-            RoleTextBox = _account.CurrentUser.Role;
+            LoginTextBox = _account.CustomPrincipal.Identity.Login;
+            RoleTextBox = _account.CustomPrincipal.Identity.Role;
             NewPasswordBox = "";
             RepeatPasswordBox = "";
         }
 
         private bool HasInfoChangedCheck()
         {
-            return !_account.CurrentUser.Login.Equals(LoginTextBox) && !LoginTextBox.IsNullOrEmpty() ||
-                !_account.CurrentUser.Role.Equals(RoleTextBox);
+            return !_account.CustomPrincipal.Identity.Login.Equals(LoginTextBox) && !LoginTextBox.IsNullOrEmpty() ||
+                !_account.CustomPrincipal.Identity.Role.Equals(RoleTextBox);
         }
     }
 }

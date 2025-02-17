@@ -14,16 +14,12 @@
       xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
       Dialog:DialogParticipation.Register="{Binding}"
       
-      xmlns:res="clr-namespace:ProjectTracker.Properties"
+      xmlns:localization="clr-namespace:ProjectTracker.Services.Localization"
       
       xmlns:local="clr-namespace:ProjectTracker.MVVM.View.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="IssuePage">
-
-    <Page.Resources>
-        <helpers:ProjectIdToNameConverter x:Key="ProjectIdToNameConverter"/>
-    </Page.Resources>
 
     <Grid Background="Beige">
 
@@ -37,10 +33,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Button Grid.Column="0" Grid.Row="0" Content="{x:Static res:Resources.BackButton}" Height="25" Width="50" 
-                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"
-                Command="NavigationCommands.BrowseBack"
-                Controls:ControlsHelper.ContentCharacterCasing="Upper"/>
+        <Button Grid.Column="0" Grid.Row="0" Content="{localization:Localization BackButton}" Style="{StaticResource BackButtonStyle}"/>
 
         <StackPanel Grid.Row="1" Orientation="Vertical">
 
@@ -48,7 +41,7 @@
 
                 <ComboBox Width="75" Margin="5,0,5,0" 
                           ItemsSource="{Binding ProjectsList}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedProject}"
-                          Controls:TextBoxHelper.Watermark="{x:Static res:Resources.ProjectLabel}">
+                          Controls:TextBoxHelper.Watermark="{localization:Localization ProjectLabel}">
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
@@ -60,7 +53,7 @@
 
                 <ComboBox Width="75" Margin="0,0,5,0"
                           ItemsSource="{Binding StatusList}" SelectedItem="{Binding SelectedStatus}"
-                          Controls:TextBoxHelper.Watermark="{x:Static res:Resources.StatusLabel}">
+                          Controls:TextBoxHelper.Watermark="{localization:Localization StatusLabel}">
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
@@ -72,7 +65,7 @@
 
                 <ComboBox Width="75" 
                           ItemsSource="{Binding PriorityList}" SelectedItem="{Binding SelectedPriority}"
-                          Controls:TextBoxHelper.Watermark="{x:Static res:Resources.PriorityLabel}">
+                          Controls:TextBoxHelper.Watermark="{localization:Localization PriorityLabel}">
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
@@ -112,9 +105,9 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Label Content="{x:Static res:Resources.ProjectLabel}" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Label Content="{localization:Localization ProjectLabel}" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <TextBlock Grid.Column="1" Height="25" Margin="5,5,10,0" TextAlignment="Left"
-                           Text="{Binding Path=SelectedIssue.ProjectId, Converter={StaticResource ProjectIdToNameConverter}}"/>
+                           Text="{Binding Path=SelectedIssue.ProjectName}"/>
             </Grid>
 
             <Grid>
@@ -123,12 +116,12 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Label Content="{x:Static res:Resources.IssueLabel}" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Label Content="{localization:Localization IssueLabel}" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <TextBox Name="NameTextBox" Grid.Column="1" Height="25" Margin="5,0,10,0" Text="{Binding IssueNameTextBox}"/>
 
                 <Popup IsOpen="{Binding IsThereSameIssueName}" StaysOpen="False" HorizontalOffset="50"
                        PlacementTarget="{Binding ElementName=NameTextBox}" Placement="Center">
-                    <TextBlock Text="{x:Static res:Resources.IssueNameOccupiedPopup}" Background="LightPink" Padding="1"/>
+                    <TextBlock Text="{localization:Localization IssueNameOccupiedPopup}" Style="{StaticResource PopupTextBlockStyle}"/>
                 </Popup>
             </Grid>
 
@@ -138,7 +131,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Label Content="{x:Static res:Resources.DescriptionLabel}" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Label Content="{localization:Localization DescriptionLabel}" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <TextBox Grid.Column="1" Height="75" Margin="5,0,10,0" TextWrapping="Wrap" Text="{Binding DescriptionTextBox}"/>
             </Grid>
 
@@ -148,7 +141,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Label Content="{x:Static res:Resources.CommentLabel}" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Label Content="{localization:Localization CommentLabel}" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <TextBox Grid.Column="1" Height="25" Margin="5,0,10,0" TextWrapping="Wrap" Text="{Binding CommentTextBox}"/>
             </Grid>
 
@@ -158,7 +151,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Label Content="{x:Static res:Resources.StatusLabel}" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Label Content="{localization:Localization StatusLabel}" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <ComboBox Grid.Column="1" Width="150" HorizontalAlignment="Left" Margin="5,0,0,0"
                           ItemsSource="{Binding AvailableStatusList}" SelectedItem="{Binding CurrentIssueStatus}"/>
             </Grid>
@@ -169,18 +162,19 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Label Content="{x:Static res:Resources.PriorityLabel}" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Label Content="{localization:Localization PriorityLabel}" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <ComboBox Grid.Column="1" Width="150" HorizontalAlignment="Left" Margin="5,0,0,0"
                           ItemsSource="{Binding AvailablePriorityList}" SelectedItem="{Binding CurrentIssuePriority}"/>
 
-                <Button Name="UpdateButton" Grid.Column="1" Content="{x:Static res:Resources.UpdateButton}" Height="25" Width="80" Margin="0,0,10,0"
+                <Button Name="UpdateButton" Grid.Column="1" Style="{StaticResource BaseButtonStyle}"
+                        Content="{localization:Localization UpdateButton}" Margin="0,0,10,0"
                         Command="{Binding UpdateIssueCommand}"
                         HorizontalAlignment="Right" VerticalAlignment="Top"
-                        Controls:ControlsHelper.ContentCharacterCasing="Upper" BorderBrush="#FFCCCCCC"/>
+                        BorderBrush="#FFCCCCCC"/>
 
                 <Popup IsOpen="{Binding HasInfoNotChanged}" StaysOpen="False" VerticalOffset="-5" HorizontalOffset="-90"
                        PlacementTarget="{Binding ElementName=UpdateButton}" Placement="Top">
-                    <TextBlock Text="{x:Static res:Resources.NotChangedIssuePopup}" Background="LightPink" Padding="1"/>
+                    <TextBlock Text="{localization:Localization NotChangedIssuePopup}" Style="{StaticResource PopupTextBlockStyle}"/>
                 </Popup>
                 
             </Grid>
@@ -199,7 +193,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <Label Content="{x:Static res:Resources.LabelsLabel}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Label Content="{localization:Localization LabelsLabel}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                 <ListBox Grid.Column="1" ItemsSource="{Binding LabelsList}" SelectedItem="{Binding SelectedLabel}" 
                              ScrollViewer.VerticalScrollBarVisibility="Auto">
@@ -211,39 +205,39 @@
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="BorderThickness" Value="1"/>
-                            <Setter Property="BorderBrush" Value="{Controls:StaticResource MahApps.Brushes.AccentBase}"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource MahApps.Brushes.AccentBase}"/>
                             <Setter Property="Margin" Value="0,0,5,0"/>
                         </Style>
                     </ListBox.ItemContainerStyle>
                     <ListBox.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="{x:Static res:Resources.UpdateButton}" Command="{Binding OpenUpdatePanelCommand}"/>
-                            <MenuItem Header="{x:Static res:Resources.DeleteButton}" Command="{Binding DeleteLabelCommand}"/>
+                            <MenuItem Header="{localization:Localization UpdateButton}" Command="{Binding OpenUpdatePanelCommand}"/>
+                            <MenuItem Header="{localization:Localization DeleteButton}" Command="{Binding DeleteLabelCommand}"/>
                         </ContextMenu>
                     </ListBox.ContextMenu>
                 </ListBox>
 
                 <TextBox Name="AddLabelTB" Grid.Column="1" Grid.Row="1" Height="25" Margin="5,10,10,0"
                              Text="{Binding AddLabelTextBox}"
-                             Controls:TextBoxHelper.Watermark="{x:Static res:Resources.AddLabelLabel}"/>
+                             Controls:TextBoxHelper.Watermark="{localization:Localization Resources.AddLabelLabel}"/>
 
-                <Button Grid.Column="2" Grid.Row="1" Content="{x:Static res:Resources.AddButton}" Height="25" Width="80" Margin="0,10,0,0"
+                <Button Grid.Column="2" Grid.Row="1" Style="{StaticResource BaseButtonStyle}"
+                        Content="{localization:Localization AddButton}" Margin="0,10,0,0"
                         Command="{Binding AddLabelCommand}"
                         HorizontalAlignment="Left" VerticalAlignment="Top" 
-                        Controls:ControlsHelper.ContentCharacterCasing="Upper"
                         IsEnabled="{Binding Text.Length, ElementName=AddLabelTB}"/>
             </Grid>
 
-            <Button Margin="0,10,10,0" Content="{x:Static res:Resources.DeleteButton}" Height="25" Width="80" 
+            <Button Margin="0,10,10,0" Style="{StaticResource BaseButtonStyle}"
+                    Content="{localization:Localization DeleteButton}" 
                     Command="{Binding DeleteIssueCommand}"
                     HorizontalAlignment="Right" VerticalAlignment="Top"
-                    Controls:ControlsHelper.ContentCharacterCasing="Upper" 
                     Background="#FFAB4589" Foreground="White" BorderBrush="White"/>
 
         </StackPanel>
 
         <Popup IsOpen="{Binding IsLabelUpdated}" Placement="Center">
-            <Border BorderThickness="2" BorderBrush="{Controls:StaticResource MahApps.Brushes.AccentBase}">
+            <Border BorderThickness="2" BorderBrush="{StaticResource MahApps.Brushes.AccentBase}">
                 <Grid Height="100" Width="270" Background="Beige">
 
                     <Grid.ColumnDefinitions>
@@ -263,7 +257,7 @@
 
                     <TextBox Grid.RowSpan="2" Height="25" Width="150" Text="{Binding UpdatedLabel}"/>
                     <Button Grid.RowSpan="2" Grid.Column="1" Height="25" Width="80" 
-                            Content="{x:Static res:Resources.UpdateButton}" Command="{Binding UpdateLabelCommand}"/>
+                            Content="{localization:Localization UpdateButton}" Command="{Binding UpdateLabelCommand}"/>
                 </Grid>
             </Border>
         </Popup>

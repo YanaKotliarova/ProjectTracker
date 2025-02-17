@@ -2,6 +2,7 @@
 using ProjectTracker.MVVM.Model;
 using ProjectTracker.MVVM.View.UI.Interfaces;
 using ProjectTracker.Services.Navigation.Interfaces;
+using ProjectTracker.Services.ServiceHelpers.Interfaces;
 using ProjectTracker.Services.WorkWithItems.Interfaces;
 using System.Collections.ObjectModel;
 
@@ -11,12 +12,17 @@ namespace ProjectTracker.MVVM.ViewModel
     {
         private readonly IWorkWithProjectService _workWithProject;
         private readonly IMetroDialog _metroDialog;
+        private readonly ICollectionHelper _collectionHelper;
 
-        public ProjectsBoardUserControlViewModel(INavigationService navigationService, IWorkWithProjectService workWithProject, IMetroDialog metroDialog)
+        public ProjectsBoardUserControlViewModel(INavigationService navigationService, 
+            IWorkWithProjectService workWithProject, IMetroDialog metroDialog, ICollectionHelper collectionHelper)
         {
             NavigationService = navigationService;
             _workWithProject = workWithProject;
             _metroDialog = metroDialog;
+            _collectionHelper = collectionHelper;
+
+            WindowName = Properties.Resources.ProjectsLabel;
         }
 
         private INavigationService _navigationService;
@@ -69,9 +75,9 @@ namespace ProjectTracker.MVVM.ViewModel
             get
             {
                 return _loadUserControlCommand ??
-                    (_loadUserControlCommand = new RelayCommand(obj =>
+                    (_loadUserControlCommand = new RelayCommand(async obj =>
                     {
-                        UpdateListOfUserProjects();
+                        await UpdateListOfUserProjects();
                     }));
             }
         }
@@ -103,15 +109,15 @@ namespace ProjectTracker.MVVM.ViewModel
                         {
                             _workWithProject.SelectedProject = SelectedProject;
                             await _workWithProject.DeleteProjectAsync();
-                            UpdateListOfUserProjects();
+                            await UpdateListOfUserProjects();
                         }                            
                     }));
             }
         }
 
-        private void UpdateListOfUserProjects()
+        private async Task UpdateListOfUserProjects()
         {
-            ProjectsList = _workWithProject.CreateCollection();
+            ProjectsList = _collectionHelper.CreateCollection<Project>(await _workWithProject.GetUserProjectsListAsync());
         }
     }
 }

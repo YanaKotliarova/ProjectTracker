@@ -6,33 +6,23 @@ namespace ProjectTracker.Data
 {
     public class DataBase : IRepository
     {
-        private readonly ApplicationContext db;
+        private readonly ApplicationContext _db;
         private readonly IConnectionStringValidation _connectionStringValidation;
-        public DataBase(IConnectionStringValidation connectionStringValidation)
+        public DataBase(IConnectionStringValidation connectionStringValidation, ApplicationContext applicationContext)
         {
-            db = new ApplicationContext();
+            _db = applicationContext;
             _connectionStringValidation = connectionStringValidation;
-        }
-
-        public ApplicationContext GetDb()
-        {
-            return db;
         }
 
         public async Task InitializeDbAsync(string connectionString = null)
         {
             if (!connectionString.IsNullOrEmpty())
-                db.ConnectionString = connectionString;
+                _db.ConnectionString = connectionString;
 
-            if (!_connectionStringValidation.ValidateConnectionString(db.ConnectionString))
+            if (!_connectionStringValidation.ValidateConnectionString(_db.ConnectionString))
                 throw new Exception(Properties.Resources.ConnectionStringExeption);
 
-            await db.Database.MigrateAsync();
-        }
-
-        public async Task SaveChangesAsync()
-        {
-            await db.SaveChangesAsync();
+            await _db.Database.MigrateAsync();
         }
     }
 }

@@ -13,7 +13,7 @@
              xmlns:viewmodel="clr-namespace:ProjectTracker.MVVM.ViewModel" 
              d:DataContext="{d:DesignInstance Type=viewmodel:ProjectsBoardUserControlViewModel}"
              
-             xmlns:res="clr-namespace:ProjectTracker.Properties"
+             xmlns:localization="clr-namespace:ProjectTracker.Services.Localization"
              
              xmlns:local="clr-namespace:ProjectTracker.MVVM.View.UserControls"
              mc:Ignorable="d" 
@@ -50,7 +50,7 @@
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
                                     <Setter Property="BorderThickness" Value="1"/>
-                                    <Setter Property="BorderBrush" Value="{Controls:StaticResource MahApps.Brushes.AccentBase}"/>
+                                    <Setter Property="BorderBrush" Value="{StaticResource MahApps.Brushes.AccentBase}"/>
                                     <Setter Property="Focusable" Value="False"/>
                                     <Setter Property="Margin" Value="0,0,5,0"/>
                                 </Style>
@@ -61,8 +61,8 @@
             </ListBox.ItemTemplate>
             <ListBox.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="{x:Static res:Resources.UpdateButton}" Command="{Binding DoubleProjectClickCommand}"/>
-                    <MenuItem Header="{x:Static res:Resources.DeleteButton}" Command="{Binding DeleteProjectCommand}"/>
+                    <MenuItem Header="{localization:Localization UpdateButton}" Command="{Binding DoubleProjectClickCommand}"/>
+                    <MenuItem Header="{localization:Localization DeleteButton}" Command="{Binding DeleteProjectCommand}"/>
                 </ContextMenu>
             </ListBox.ContextMenu>
         </ListBox>

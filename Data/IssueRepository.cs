@@ -6,24 +6,24 @@ namespace ProjectTracker.Data
 {
     public class IssueRepository : IIssueRepository
     {
+        private const int AmountOfIssueForSelection = 100;
+
         private readonly ApplicationContext _db;
-        private readonly IRepository _repository;
-        public IssueRepository(IRepository repository)
+        public IssueRepository(ApplicationContext applicationContext)
         {
-            _repository = repository;
-            _db = _repository.GetDb();
+            _db = applicationContext;
         }
         public async Task CreateAsync(Issue newIssue)
         {
             await _db.Issues.AddAsync(newIssue);
-            await _repository.SaveChangesAsync();
+            await _db.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
         {
             Issue issue = await _db.Issues.FindAsync(id);
             if (issue != null) _db.Issues.Remove(issue);
-            await _repository.SaveChangesAsync();
+            await _db.SaveChangesAsync();
         }
 
         public async Task<Issue> GetAsync(int id)
@@ -31,9 +31,27 @@ namespace ProjectTracker.Data
             return await _db.Issues.FindAsync(id);
         }
 
-        public IEnumerable<Issue> GetUserIssuesByStatus(int projectId, string status)
+        public async IAsyncEnumerable<List<Issue>> GetUserIssuesByStatusAsync(int projectId, string status)
         {
-            return _db.Issues.Where(i => i.ProjectId == projectId && i.Status.Equals(status));
+            List<Issue> listOfUserIssuesByStatus = new List<Issue>();
+            int amountOfIssuesInDb = await _db.Issues.CountAsync();
+            int amountOfViewIssues = 0;
+
+            while (amountOfViewIssues < amountOfIssuesInDb)
+            {
+                listOfUserIssuesByStatus.AddRange(await
+                    (from issue in _db.Issues.Skip(amountOfViewIssues).Take(AmountOfIssueForSelection)
+                     where issue.ProjectId == projectId && issue.Status == status
+                     select issue).ToListAsync());
+
+                amountOfViewIssues += AmountOfIssueForSelection;
+
+                if (listOfUserIssuesByStatus.Count > AmountOfIssueForSelection || amountOfViewIssues >= amountOfIssuesInDb)
+                {
+                    yield return listOfUserIssuesByStatus;
+                    listOfUserIssuesByStatus.Clear();
+                }
+            }
         }
 
         public async Task<Issue> GetByNameAsync(int projectId, string name)
@@ -41,15 +59,34 @@ namespace ProjectTracker.Data
             return await _db.Issues.FirstOrDefaultAsync(i => i.ProjectId == projectId && i.Name == name);
         }
 
-        public IEnumerable<Issue> GetProjectIssues(int projectId)
+        public async IAsyncEnumerable<List<Issue>> GetProjectIssuesAsync(int projectId)
         {
-            return _db.Issues.Where(i => i.ProjectId == projectId);
+            List<Issue> listOfUserIssuesByStatus = new List<Issue>();
+            int amountOfIssuesInDb = await _db.Issues.CountAsync();
+            int amountOfViewIssues = 0;
+
+            while (amountOfViewIssues < amountOfIssuesInDb)
+            {
+                //здесь
+                listOfUserIssuesByStatus.AddRange(await
+                    (from issue in _db.Issues.Skip(amountOfViewIssues).Take(AmountOfIssueForSelection)
+                     where issue.ProjectId == projectId
+                     select issue).ToListAsync());
+
+                amountOfViewIssues += AmountOfIssueForSelection;
+
+                if (listOfUserIssuesByStatus.Count > AmountOfIssueForSelection || amountOfViewIssues >= amountOfIssuesInDb)
+                {
+                    yield return listOfUserIssuesByStatus;
+                    listOfUserIssuesByStatus.Clear();
+                }
+            }
         }
 
         public async Task UpdateAsync(Issue issue)
         {
             _db.Entry(issue).State = EntityState.Modified;
-            await _repository.SaveChangesAsync();
+            await _db.SaveChangesAsync();
         }
 
         private bool disposed = false;

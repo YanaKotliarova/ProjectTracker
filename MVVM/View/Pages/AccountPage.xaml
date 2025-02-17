@@ -14,7 +14,7 @@
       d:DataContext="{d:DesignInstance Type=viewmodel:AccountPageViewModel}"
       xmlns:helper="clr-namespace:ProjectTracker.MVVM.View.UIHelpers"
       
-      xmlns:res="clr-namespace:ProjectTracker.Properties"
+      xmlns:localization="clr-namespace:ProjectTracker.Services.Localization"
       
       xmlns:local="clr-namespace:ProjectTracker.MVVM.View.Pages"
       mc:Ignorable="d" 
@@ -34,15 +34,12 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Button Grid.Column="0" Grid.Row="0" Content="{x:Static res:Resources.BackButton}" Height="25" Width="50" 
-                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"
-                Command="NavigationCommands.BrowseBack"
-                Controls:ControlsHelper.ContentCharacterCasing="Upper"/>
+        <Button Grid.Column="0" Grid.Row="0" Content="{localization:Localization BackButton}" Style="{StaticResource BackButtonStyle}"/>
 
-        <Label Grid.Column="0" Grid.Row="1" Content="{x:Static res:Resources.AccountSettingsLabel}" FontSize="36" FontWeight="Bold" Foreground="#FF727272"/>
+        <Label Grid.Column="0" Grid.Row="1" Content="{localization:Localization AccountSettingsLabel}" Style="{StaticResource HeaderLableStyle}"/>
 
         <GroupBox Grid.Column="0" Grid.Row="2"
-                  Header="{x:Static res:Resources.PersonalInformationLabel}" Controls:ControlsHelper.ContentCharacterCasing="Normal" 
+                  Header="{localization:Localization PersonalInformationLabel}" Controls:ControlsHelper.ContentCharacterCasing="Normal" 
                   Controls:HeaderedControlHelper.HeaderFontWeight="Bold" 
                   Controls:HeaderedControlHelper.HeaderFontSize="16" BorderThickness="0,0,2,2">
 
@@ -57,43 +54,43 @@
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="0" Grid.Column="0" Content="{x:Static res:Resources.LoginLabel}" HorizontalAlignment="Left" 
+                <Label Grid.Row="0" Grid.Column="0" Content="{localization:Localization LoginLabel}" HorizontalAlignment="Left" 
                        VerticalAlignment="Top" Margin="10,0,0,0"/>
 
-                <TextBox x:Name="LoginTextBox" Grid.Row="0" Grid.Column="0" Height="25" Width="200"
-                         VerticalAlignment="Top" HorizontalAlignment="Left"
+                <TextBox x:Name="LoginTextBox" Grid.Row="0" Grid.Column="0"
+                         Style="{StaticResource AccountTextBoxStyle}"
                          Text="{Binding LoginTextBox}" Margin="10,22,0,0"/>
 
-                <Label Grid.Row="1" Grid.Column="0" Content="{x:Static res:Resources.RoleLabel}" VerticalAlignment="Top" 
+                <Label Grid.Row="1" Grid.Column="0" Content="{localization:Localization RoleLabel}" VerticalAlignment="Top" 
                        HorizontalAlignment="Left" Margin="10,0,0,0"/>
                 
-                <TextBox Grid.Row="1" Grid.Column="0" Height="25" Width="200"
-                         VerticalAlignment="Top" HorizontalAlignment="Left"
+                <TextBox Grid.Row="1" Grid.Column="0"
+                         Style="{StaticResource AccountTextBoxStyle}"
                          Text="{Binding RoleTextBox}" Margin="10,22,0,0"/>
 
                 <Popup IsOpen="{Binding IsLoginExists}" StaysOpen="False" 
                        PlacementTarget="{Binding ElementName=LoginTextBox}" Placement="Right" HorizontalOffset="15">
                     <TextBlock Width="150" TextWrapping="Wrap"
-                                  Text="{x:Static res:Resources.LoginOccupiedPopup}" Background="LightPink" Padding="1"/>
+                                  Text="{localization:Localization LoginOccupiedPopup}" Style="{StaticResource PopupTextBlockStyle}"/>
                 </Popup>
 
                 <Popup IsOpen="{Binding HasInfoNotChanged}" StaysOpen="False" 
                        PlacementTarget="{Binding ElementName=LoginTextBox}" Placement="Right" HorizontalOffset="15">
                     <TextBlock Width="150" TextWrapping="Wrap"
-                               Text="{x:Static res:Resources.NotChangedPersonalInfoPopup}" Background="LightPink" Padding="1"/>
+                               Text="{localization:Localization NotChangedPersonalInfoPopup}" Style="{StaticResource PopupTextBlockStyle}"/>
                 </Popup>
 
-                <Button Grid.Row="1" Grid.Column="1" Content="{x:Static res:Resources.SaveButton}" 
-                        Height="25" Width="80" Margin="0,0,10,10"
+                <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource BaseButtonStyle}"
+                        Content="{localization:Localization SaveButton}" 
+                        Margin="0,0,10,10"
                         HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                        Controls:ControlsHelper.ContentCharacterCasing="Upper"
                         Command="{Binding SaveNewPersonalInfoCommand}"/>
 
             </Grid>
         </GroupBox>
 
         <GroupBox Grid.Column="1" Grid.Row="2"
-                  Header="{x:Static res:Resources.PasswordLabel}" Controls:ControlsHelper.ContentCharacterCasing="Normal" 
+                  Header="{localization:Localization PasswordLabel}" Controls:ControlsHelper.ContentCharacterCasing="Normal" 
                   Controls:HeaderedControlHelper.HeaderFontWeight="Bold" 
                   Controls:HeaderedControlHelper.HeaderFontSize="16" BorderThickness="0,0,0,2">
 
@@ -108,11 +105,11 @@
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="0" Grid.Column="0" Content="{x:Static res:Resources.NewPasswordLabel}" 
+                <Label Grid.Row="0" Grid.Column="0" Content="{localization:Localization NewPasswordLabel}" 
                        HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
 
-                <PasswordBox Name="PasswordBox" Grid.Row="0" Grid.Column="0" Height="25" Width="200" PasswordChar="*"
-                             VerticalAlignment="Top" HorizontalAlignment="Left"
+                <PasswordBox Name="PasswordBox" Grid.Row="0" Grid.Column="0" 
+                             Style="{StaticResource AccountPasswordBoxStyle}"
                              Margin="10,22,0,0">
                     <i:Interaction.Behaviors>
                         <helper:PasswordBehavior Password="{Binding NewPasswordBox, Mode=TwoWay}" />
@@ -122,15 +119,15 @@
                 <Popup IsOpen="{Binding IsPasswordLengthEnough}" StaysOpen="False" 
                        PlacementTarget="{Binding ElementName=PasswordBox}" Placement="Right" HorizontalOffset="15">
                     <TextBlock Width="150" TextWrapping="Wrap"
-                               Text="{x:Static res:Resources.PasswordIsTooShortPopup}" 
-                               Background="LightPink" Padding="1"/>
+                               Text="{localization:Localization PasswordIsTooShortPopup}" 
+                               Style="{StaticResource PopupTextBlockStyle}"/>
                 </Popup>
 
-                <Label Grid.Row="1" Grid.Column="0" Content="{x:Static res:Resources.RepeatNewPasswordLabel}" 
+                <Label Grid.Row="1" Grid.Column="0" Content="{localization:Localization RepeatNewPasswordLabel}" 
                        VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0"/>
 
-                <PasswordBox Grid.Row="1" Grid.Column="0" Height="25" Width="200" PasswordChar="*"
-                             VerticalAlignment="Top" HorizontalAlignment="Left"
+                <PasswordBox Grid.Row="1" Grid.Column="0" 
+                             Style="{StaticResource AccountPasswordBoxStyle}"
                              Margin="10,22,0,0">
                     <i:Interaction.Behaviors>
                         <helper:PasswordBehavior Password="{Binding RepeatPasswordBox, Mode=TwoWay}" />
@@ -140,20 +137,20 @@
                 <Popup IsOpen="{Binding PasswordsNotEqual}" StaysOpen="False" 
                        PlacementTarget="{Binding ElementName=PasswordBox}" Placement="Right" HorizontalOffset="15">
                     <TextBlock Width="150" TextWrapping="Wrap"
-                               Text="{x:Static res:Resources.PasswordNotEqualPopup}" Background="LightPink" Padding="1"/>
+                               Text="{localization:Localization PasswordNotEqualPopup}" Style="{StaticResource PopupTextBlockStyle}"/>
                 </Popup>
 
-                <Button Grid.Row="1" Grid.Column="1" Content="{x:Static res:Resources.SaveButton}" 
-                        Height="25" Width="80" Margin="0,0,10,10"
+                <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource BaseButtonStyle}"
+                        Content="{localization:Localization SaveButton}" 
+                        Margin="0,0,10,10"
                         HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                        Controls:ControlsHelper.ContentCharacterCasing="Upper"
                         Command="{Binding SaveNewPasswordCommand}"/>
 
             </Grid>
         </GroupBox>
 
         <GroupBox Grid.Row="3" Grid.Column="0"
-                  Header="{x:Static res:Resources.DangerZoneLabel}" 
+                  Header="{localization:Localization DangerZoneLabel}" 
                   Controls:HeaderedControlHelper.HeaderFontSize="16"
                   Controls:HeaderedControlHelper.HeaderFontWeight="Bold" 
                   Controls:ControlsHelper.ContentCharacterCasing="Normal" 
@@ -166,26 +163,26 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <Border Height="30" BorderThickness="2" BorderBrush="#FFAB4589">
+                <Border Height="25" BorderThickness="2" BorderBrush="#FFAB4589">
                     <Grid>
-                        <Label Content="{x:Static res:Resources.LogOutLabel}" VerticalAlignment="Center"/>
+                        <Label Content="{localization:Localization LogOutLabel}" Height="25" VerticalAlignment="Bottom"/>
 
-                        <Button Content="{x:Static res:Resources.LogOutButton}" Height="30" Width="80" BorderThickness="0"
+                        <Button Content="{localization:Localization LogOutButton}" BorderThickness="0"
+                                Style="{StaticResource BaseButtonStyle}"
                                 HorizontalAlignment="Right" VerticalAlignment="Center" 
                                 Background="#FFAB4589" Foreground="White"
-                                Controls:ControlsHelper.ContentCharacterCasing="Upper"
                                 Command="{Binding LogOutCommand}"/>
                     </Grid>
                 </Border>
 
-                <Border Grid.Row="1" Height="30" BorderThickness="2" BorderBrush="#FFAB4589">
+                <Border Grid.Row="1" Height="25" BorderThickness="2" BorderBrush="#FFAB4589">
                     <Grid>
-                        <Label Content="{x:Static res:Resources.DeleteAccountLabel}" VerticalAlignment="Center"/>
+                        <Label Content="{localization:Localization DeleteAccountLabel}" VerticalAlignment="Bottom" Height="25"/>
 
-                        <Button Content="{x:Static res:Resources.DeleteButton}" Height="30" Width="80" BorderThickness="0"
+                        <Button Content="{localization:Localization DeleteButton}" BorderThickness="0"
+                                Style="{StaticResource BaseButtonStyle}"
                                 HorizontalAlignment="Right" VerticalAlignment="Center" 
                                 Background="#FFAB4589" Foreground="White"
-                                Controls:ControlsHelper.ContentCharacterCasing="Upper"
                                 Command="{Binding DeleteAccountCommand}"/>
                     </Grid>
                 </Border>

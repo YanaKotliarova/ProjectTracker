@@ -11,8 +11,6 @@
       d:DataContext="{d:DesignInstance Type=viewmodel:HomePageViewModel}"
       xmlns:userControls="clr-namespace:ProjectTracker.MVVM.View.UserControls"
       
-      xmlns:res="clr-namespace:ProjectTracker.Properties"
-      
       xmlns:local="clr-namespace:ProjectTracker.MVVM.View.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -25,23 +23,18 @@
             <ColumnDefinition Width="50"/>
         </Grid.ColumnDefinitions>
 
-        <TabControl Grid.Column="0" TabStripPlacement="Left" Margin="3">
+        <TabControl Grid.Column="0" TabStripPlacement="Left" Margin="3"
+                    ItemsSource="{Binding TabViewModels}"
+                    SelectedItem="{Binding SelectedTabViewModel}">
 
-            <TabItem Header="{x:Static res:Resources.HomeLabel}" Padding="5,2,5,2" Controls:HeaderedControlHelper.HeaderFontSize="20">
-                <userControls:HomeUserControl/>
-            </TabItem>
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="TabItem" BasedOn="{StaticResource MahApps.Styles.TabItem}">
+                    <Setter Property="Header" Value="{Binding WindowName}"/>
+                    <Setter Property="Padding" Value="5"/>
+                    <Setter Property="Controls:HeaderedControlHelper.HeaderFontSize" Value="20"/>
+                </Style>
+            </TabControl.ItemContainerStyle>
 
-            <TabItem Header="{x:Static res:Resources.ProjectsLabel}" Padding="5,2,5,2" Controls:HeaderedControlHelper.HeaderFontSize="20">
-                <userControls:ProjectsBoardUserControl/>
-            </TabItem>
-
-            <TabItem Header="{x:Static res:Resources.IssuesLabel}" Padding="5,2,5,2" Controls:HeaderedControlHelper.HeaderFontSize="20">
-                <userControls:IssuesBoardUserControl/>
-            </TabItem>
-
-            <TabItem Header="{x:Static res:Resources.AddItemLabel}" Padding="5,2,4,2" Controls:HeaderedControlHelper.HeaderFontSize="20">
-                <userControls:AddItemUserControl/>
-            </TabItem>
         </TabControl>
 
         <StackPanel Grid.Column="1" Margin="3" Background="White">

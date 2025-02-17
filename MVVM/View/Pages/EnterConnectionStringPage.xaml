@@ -13,7 +13,7 @@
       xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
       Dialog:DialogParticipation.Register="{Binding}"
       
-      xmlns:res="clr-namespace:ProjectTracker.Properties"
+      xmlns:localization="clr-namespace:ProjectTracker.Services.Localization"
       
       xmlns:local="clr-namespace:ProjectTracker.MVVM.View.Pages"
       mc:Ignorable="d" 
@@ -22,7 +22,7 @@
 
     <Grid Background="Beige">
 
-        <Label Content="{x:Static res:Resources.EnterNewString}" FontSize="20" Margin="10,0,0,70" 
+        <Label Content="{localization:Localization EnterNewString}" FontSize="20" Margin="10,0,0,70" 
                HorizontalAlignment="Left" VerticalAlignment="Center"/>
         
         <TextBox Name="textBoxNewConnectionString" Controls:TextBoxHelper.ClearTextButton="True"
@@ -30,7 +30,7 @@
                  Height="25" Width="650" 
                  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
 
-        <Button Content="{x:Static res:Resources.EnterButton}" Height="25" Width="80" Controls:ControlsHelper.ContentCharacterCasing="Upper"
+        <Button Content="{localization:Localization EnterButton}" Style="{StaticResource BaseButtonStyle}"
                 HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0"
                 IsEnabled="{Binding Text.Length, ElementName=textBoxNewConnectionString}"
                 Command="{Binding RetryDbConnectionCommand}"/>

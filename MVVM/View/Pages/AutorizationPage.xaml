@@ -11,7 +11,7 @@
       xmlns:viewmodel="clr-namespace:ProjectTracker.MVVM.ViewModel"
       d:DataContext="{d:DesignInstance Type=viewmodel:AutorizationPageViewModel}"
       
-      xmlns:res="clr-namespace:ProjectTracker.Properties"
+      xmlns:localization="clr-namespace:ProjectTracker.Services.Localization"
       
       xmlns:local="clr-namespace:ProjectTracker.MVVM.View.Pages"
       mc:Ignorable="d" 
@@ -32,30 +32,28 @@
             </i:Interaction.Triggers>
             
         </ComboBox>
-        
-        <Button Name="LogInButton" Content="{x:Static res:Resources.LogIn}" Height="25" Width="70" 
+
+        <Button Name="LogInButton" Content="{localization:Localization LogInButton}" Height="25" Width="70" 
                 Margin="0,150,0,0"
                 Command="{Binding LoginCommand}"
                 Controls:ControlsHelper.ContentCharacterCasing="Upper"/>
 
         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,200,0,0">
             <Hyperlink Command="{Binding GoToRegistrationPageCommand}" Foreground="#FF4294F6">
-                <TextBlock Text="{x:Static res:Resources.RegistrationHyperlink}"/>
+                <TextBlock Text="{localization:Localization RegistrationHyperlink}"/>
             </Hyperlink>
         </TextBlock>
 
-        <TextBox Name="LoginTB" Height="25" Width="200" 
-                 VerticalAlignment="Center" HorizontalAlignment="Center"
+        <TextBox Name="LoginTB"
                  Margin="0,0,0,50"
-                 Controls:TextBoxHelper.Watermark="{x:Static res:Resources.LoginLabel}"
+                 Controls:TextBoxHelper.Watermark="{localization:Localization LoginLabel}"
                  Text="{Binding LoginTextBox}"
-                 Controls:TextBoxHelper.ClearTextButton="True"/>
+                 Style="{StaticResource AutorizationTextBoxStyle}"/>
 
-        <PasswordBox Name="PasswordTB" Height="25" Width="200" PasswordChar="*"
-                 VerticalAlignment="Center" HorizontalAlignment="Center"
+        <PasswordBox Name="PasswordTB"
                  Margin="0,50,0,0"
-                 Controls:TextBoxHelper.Watermark="{x:Static res:Resources.PasswordLabel}"
-                 Controls:TextBoxHelper.ClearTextButton="True">
+                 Controls:TextBoxHelper.Watermark="{localization:Localization PasswordLabel}"
+                 Style="{StaticResource AutorizationPasswordBoxStyle}">
 
             <i:Interaction.Behaviors>
                 <helpers:PasswordBehavior Password="{Binding PasswordBox, Mode=TwoWay}" />
@@ -65,11 +63,11 @@
 
         <Popup IsOpen="{Binding IsLoginUnsuccessful}" StaysOpen="False" 
                PlacementTarget="{Binding ElementName=LogInButton}" Placement="Top" VerticalOffset="-4" HorizontalOffset="-60">
-            <TextBlock Text="{x:Static res:Resources.WrongLoginOrPassword}" Background="LightPink" Padding="1"/>
+            <TextBlock Text="{localization:Localization WrongLoginOrPassword}" Style="{StaticResource PopupTextBlockStyle}"/>
         </Popup>
 
-        <Label Content="{x:Static res:Resources.LogInButton}" FontSize="36" FontWeight="Bold" 
-               HorizontalAlignment="Center" VerticalAlignment="Center" 
-               Margin="0,0,0,150" Foreground="#FF727272"/>
+        <Label Content="{localization:Localization LogIn}"
+               HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,150"
+               Style="{StaticResource HeaderLableStyle}"/>
     </Grid>
 </Page>

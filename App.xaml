@@ -4,14 +4,18 @@
              xmlns:local="clr-namespace:ProjectTracker"
              xmlns:viewmodel="clr-namespace:ProjectTracker.MVVM.ViewModel"
              xmlns:view="clr-namespace:ProjectTracker.MVVM.View.Pages"
+             xmlns:usercontrols="clr-namespace:ProjectTracker.MVVM.View.UserControls"
     xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     xmlns:converters="clr-namespace:MahApps.Metro.Converters;assembly=MahApps.Metro">
+    
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Pink.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Pink.xaml"/>
+
+                <ResourceDictionary Source="/MVVM/View/Themes/BaseTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type viewmodel:AutorizationPageViewModel}">
@@ -40,6 +44,22 @@
 
             <DataTemplate DataType="{x:Type viewmodel:EnterConnectionStringViewModel}">
                 <view:EnterConnectionStringPage/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodel:HomeUserControlViewModel}">
+                <usercontrols:HomeUserControl/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodel:ProjectsBoardUserControlViewModel}">
+                <usercontrols:ProjectsBoardUserControl/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodel:IssueBoardUserControlViewModel}">
+                <usercontrols:IssuesBoardUserControl/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodel:AddItemUserControlViewModel}">
+                <usercontrols:AddItemUserControl/>
             </DataTemplate>
 
         </ResourceDictionary>             

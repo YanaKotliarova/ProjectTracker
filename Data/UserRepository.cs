@@ -9,18 +9,16 @@ namespace ProjectTracker.Data
     public class UserRepository : IUserRepository
     {
         private readonly ApplicationContext _db;
-        private readonly IRepository _repository;
 
-        public UserRepository(IRepository repository)
+        public UserRepository(ApplicationContext applicationContext)
         {
-            _repository = repository;
-            _db = _repository.GetDb();
+            _db = applicationContext;
         }
 
         public async Task CreateAsync(User newUser)
         {
             await _db.Users.AddAsync(newUser);
-            await _repository.SaveChangesAsync();
+            await _db.SaveChangesAsync();
         }
 
         public async Task<User> GetAsync(string login)
@@ -38,14 +36,14 @@ namespace ProjectTracker.Data
         public async Task UpdateAsync(User user)
         {
             _db.Entry(user).State = EntityState.Modified;
-            await _repository.SaveChangesAsync();
+            await _db.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
         {
             User user = await _db.Users.FindAsync(id);
             if (user != null) _db.Users.Remove(user);
-            await _repository.SaveChangesAsync();
+            await _db.SaveChangesAsync();
         }
 
         private bool disposed = false;

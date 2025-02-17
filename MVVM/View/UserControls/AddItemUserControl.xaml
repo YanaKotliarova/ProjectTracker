@@ -10,7 +10,7 @@
              xmlns:viewmodel="clr-namespace:ProjectTracker.MVVM.ViewModel" 
              d:DataContext="{d:DesignInstance Type=viewmodel:AddItemUserControlViewModel}"
              
-             xmlns:res="clr-namespace:ProjectTracker.Properties"
+             xmlns:localization="clr-namespace:ProjectTracker.Services.Localization"
              
              xmlns:local="clr-namespace:ProjectTracker.MVVM.View.UserControls"
              mc:Ignorable="d" 
@@ -28,31 +28,31 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Label Grid.ColumnSpan="2" Content="{x:Static res:Resources.AddNewItemLabel}" FontSize="36" FontWeight="Bold" Foreground="#FF727272"/>
+        <Label Grid.ColumnSpan="2" Content="{localization:Localization AddNewItemLabel}" Style="{StaticResource HeaderLableStyle}"/>
         
         <StackPanel Grid.Row="1" Margin="10">
             <Label Name="NameLabel" Grid.Row="1" 
-                   Content="{x:Static res:Resources.NameOfItemLabel}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                   Content="{localization:Localization NameOfItemLabel}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
             <TextBox Grid.Row="1" Height="25" Width="280" Text="{Binding NameOfItemTextBox}"
                      VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
             <Popup IsOpen="{Binding IsThereNoItemName}" StaysOpen="False" 
                    PlacementTarget="{Binding ElementName=NameLabel}" Placement="Right" VerticalOffset="4" HorizontalOffset="5">
-                <TextBlock Text="{x:Static res:Resources.CreatedItemNamePopup}" Background="LightPink" Padding="1"/>
+                <TextBlock Text="{localization:Localization CreatedItemNamePopup}" Style="{StaticResource PopupTextBlockStyle}"/>
             </Popup>
 
             <Popup IsOpen="{Binding IsThereSameProjectName}" StaysOpen="False" 
                    PlacementTarget="{Binding ElementName=NameLabel}" Placement="Right" VerticalOffset="4" HorizontalOffset="5">
-                <TextBlock Text="{x:Static res:Resources.ProjectNameOccupiedPopup}" Background="LightPink" Padding="1"/>
+                <TextBlock Text="{localization:Localization ProjectNameOccupiedPopup}" Style="{StaticResource PopupTextBlockStyle}"/>
             </Popup>
 
             <Popup IsOpen="{Binding IsThereSameIssueName}" StaysOpen="False" 
                    PlacementTarget="{Binding ElementName=NameLabel}" Placement="Right" VerticalOffset="4" HorizontalOffset="5">
-                <TextBlock Text="{x:Static res:Resources.IssueNameOccupiedPopup}" Background="LightPink" Padding="1"/>
+                <TextBlock Text="{localization:Localization IssueNameOccupiedPopup}" Style="{StaticResource PopupTextBlockStyle}"/>
             </Popup>
 
-            <Label Grid.Row="1" Content="{x:Static res:Resources.DescriptionOptionalLabel}" VerticalAlignment="Top" 
+            <Label Grid.Row="1" Content="{localization:Localization DescriptionOptionalLabel}" VerticalAlignment="Top" 
                    HorizontalAlignment="Left"/>
 
             <TextBox Grid.Row="1" Height="120" Width="280" TextWrapping="Wrap" Text="{Binding DescriptionTextBox}"
@@ -61,34 +61,32 @@
 
         <StackPanel Grid.Row="1" Grid.Column="1" Margin="10">
 
-            <Label Grid.Row="1" Grid.Column="1" Content="{x:Static res:Resources.TypeOfItemLabel}" 
+            <Label Grid.Row="1" Grid.Column="1" Content="{localization:Localization TypeOfItemLabel}" 
                    Height="25"
                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
             <RadioButton Grid.Row="1" Grid.Column="1" GroupName="ItemType" IsChecked="{Binding IsItProject}"
-                         Height="25" Width="150" 
-                         Content="{x:Static res:Resources.ProjectLabel}" 
-                         VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" 
-                         VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                         Content="{localization:Localization ProjectLabel}" 
+                         Style="{StaticResource RadioButtonStyle}"/>
 
             <RadioButton Grid.Row="1" Grid.Column="1" GroupName="ItemType" IsChecked="{Binding IsItIssue}"
-                         Height="25" Width="150" Margin="0,10,0,0"
-                         Content="{x:Static res:Resources.IssueLabel}" 
-                         VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" 
-                         VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                         Margin="0,10,0,0"
+                         Content="{localization:Localization IssueLabel}" 
+                         Style="{StaticResource RadioButtonStyle}"/>
 
             <ComboBox Name="ProjectsList" Grid.Row="1" Grid.Column="1" Height="25" Width="280" Margin="0,10,0,0"
                       HorizontalAlignment="Left" VerticalAlignment="Top" 
                       ItemsSource="{Binding Projects}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedProject, Mode=TwoWay}"
                       Visibility="{Binding IsItIssue, Converter={StaticResource BooleanToVisibilityConverter}}"
-                      Controls:TextBoxHelper.Watermark="{x:Static res:Resources.SelectProjectLabel}"/>
+                      Controls:TextBoxHelper.Watermark="{localization:Localization SelectProjectLabel}"/>
 
             <Popup IsOpen="{Binding IsThereNoSelectedProject}" StaysOpen="False" 
                    PlacementTarget="{Binding ElementName=ProjectsList}" Placement="Bottom" VerticalOffset="4">
-                <TextBlock Text="{x:Static res:Resources.ChooseProjectFirstPopup}" Background="LightPink" Padding="1"/>
+                <TextBlock Text="{localization:Localization ChooseProjectFirstPopup}" Style="{StaticResource PopupTextBlockStyle}"/>
             </Popup>
 
-            <Button Grid.Row="1" Grid.Column="1" Height="25" Width="80" Content="{x:Static res:Resources.CreateButton}" 
+            <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource BaseButtonStyle}"
+                    Content="{localization:Localization CreateButton}" 
                     Command="{Binding CreateItemCommand}"
                     HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,50,0,0"/>
             

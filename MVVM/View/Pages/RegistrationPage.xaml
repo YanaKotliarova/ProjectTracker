@@ -11,7 +11,7 @@
       d:DataContext="{d:DesignInstance Type=viewmodel:RegistrationPageViewModel}"
       xmlns:helper="clr-namespace:ProjectTracker.MVVM.View.UIHelpers"
       
-      xmlns:res="clr-namespace:ProjectTracker.Properties"
+      xmlns:localization="clr-namespace:ProjectTracker.Services.Localization"
       
       xmlns:local="clr-namespace:ProjectTracker.MVVM.View.Pages"
       mc:Ignorable="d" 
@@ -20,40 +20,31 @@
 
     <Grid Background="Beige">
 
-        <Button Content="{x:Static res:Resources.BackButton}" Height="25" Width="50" 
-                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"
-                Command="NavigationCommands.BrowseBack"
-                Controls:ControlsHelper.ContentCharacterCasing="Upper"/>
+        <Button Content="{localization:Localization BackButton}" Style="{StaticResource BackButtonStyle}"/>
 
-        <Button Content="{x:Static res:Resources.SignupButton}" Height="25" Width="90" 
-                Margin="0,200,0,0"
-                Command="{Binding SignUpCommand}"
-                Controls:ControlsHelper.ContentCharacterCasing="Upper"/>
+        <Button Content="{localization:Localization SignupButton}" Style="{StaticResource BaseButtonStyle}" 
+                Width="90" Margin="0,200,0,0"
+                Command="{Binding SignUpCommand}"/>
 
-        <TextBox Name="LoginTextBox" Height="25" Width="200" 
-                 VerticalAlignment="Center" HorizontalAlignment="Center"
-                 Margin="0,0,0,100"
-                 Controls:TextBoxHelper.Watermark="{x:Static res:Resources.LoginLabel}"
+        <TextBox Name="LoginTextBox" Margin="0,0,0,100"
+                 Controls:TextBoxHelper.Watermark="{localization:Localization LoginLabel}"
                  Text="{Binding LoginTextBox}"
-                 Controls:TextBoxHelper.ClearTextButton="True"/>
+                 Style="{StaticResource AutorizationTextBoxStyle}"/>
 
         <Popup IsOpen="{Binding IsLoginExists}" StaysOpen="False"
                PlacementTarget="{Binding ElementName=LoginTextBox}" VerticalOffset="3" HorizontalOffset="-10">
-            <TextBlock Text="{x:Static res:Resources.LoginOccupiedPopup}" Background="LightPink" Padding="1"/>
+            <TextBlock Text="{localization:Localization LoginOccupiedPopup}" Style="{StaticResource PopupTextBlockStyle}"/>
         </Popup>
 
-        <TextBox Height="25" Width="200" 
-                 VerticalAlignment="Center" HorizontalAlignment="Center"
-                 Margin="0,0,0,0"
-                 Controls:TextBoxHelper.Watermark="{x:Static res:Resources.RoleLabel}"
+        <TextBox Margin="0,0,0,0"
+                 Controls:TextBoxHelper.Watermark="{localization:Localization RoleLabel}"
                  Text="{Binding RoleTextBox}"
-                 Controls:TextBoxHelper.ClearTextButton="True"/>
+                 Style="{StaticResource AutorizationTextBoxStyle}"/>
 
-        <PasswordBox Name="PasswordBox" Height="25" Width="200" PasswordChar="*"
-                     VerticalAlignment="Center" HorizontalAlignment="Center"
+        <PasswordBox Name="PasswordBox"
                      Margin="0,100,0,0"
-                     Controls:TextBoxHelper.Watermark="{x:Static res:Resources.PasswordLabel}"
-                     Controls:TextBoxHelper.ClearTextButton="True">
+                     Controls:TextBoxHelper.Watermark="{localization:Localization PasswordLabel}"
+                     Style="{StaticResource AutorizationPasswordBoxStyle}">
 
             <i:Interaction.Behaviors>
                 <helper:PasswordBehavior Password="{Binding PasswordBox, Mode=TwoWay}" />
@@ -63,12 +54,12 @@
 
         <Popup IsOpen="{Binding IsPasswordLengthEnough}" StaysOpen="False" 
                PlacementTarget="{Binding ElementName=PasswordBox}" Placement="Bottom" VerticalOffset="2" HorizontalOffset="-60">
-            <TextBlock Text="{x:Static res:Resources.PasswordIsTooShortPopup}" Background="LightPink" Padding="1"/>
+            <TextBlock Text="{localization:Localization PasswordIsTooShortPopup}" Style="{StaticResource PopupTextBlockStyle}"/>
         </Popup>
 
-        <Label Content="{x:Static res:Resources.SignUp}" FontSize="36" FontWeight="Bold" 
-               HorizontalAlignment="Center" VerticalAlignment="Center" 
-               Margin="0,0,0,200" Foreground="#FF727272"/>
+        <Label Content="{localization:Localization SignUp}"
+               HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,200"
+               Style="{StaticResource HeaderLableStyle}"/>
 
     </Grid>
 </Page>

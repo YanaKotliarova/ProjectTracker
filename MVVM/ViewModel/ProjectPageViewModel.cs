@@ -3,6 +3,7 @@ using ProjectTracker.MVVM.Core;
 using ProjectTracker.MVVM.Model;
 using ProjectTracker.MVVM.View.UI.Interfaces;
 using ProjectTracker.Services.Navigation.Interfaces;
+using ProjectTracker.Services.ServiceHelpers.Interfaces;
 using ProjectTracker.Services.WorkWithItems.Interfaces;
 using System.Collections.ObjectModel;
 
@@ -13,14 +14,16 @@ namespace ProjectTracker.MVVM.ViewModel
         private readonly IWorkWithProjectService _workWithProject;
         private readonly IWorkWithIssueService _workWithIssue;
         private readonly IMetroDialog _metroDialog;
+        private readonly ICollectionHelper _collectionHelper;
 
         public ProjectPageViewModel(INavigationService navigationService, IWorkWithProjectService workWithProject, 
-            IWorkWithIssueService workWithIssue, IMetroDialog metroDialog)
+            IWorkWithIssueService workWithIssue, IMetroDialog metroDialog, ICollectionHelper collectionHelper)
         {
             NavigationService = navigationService;
             _workWithProject = workWithProject;
             _workWithIssue = workWithIssue;
             _metroDialog = metroDialog;
+            _collectionHelper = collectionHelper;
         }
 
         private INavigationService _navigationService;
@@ -183,11 +186,11 @@ namespace ProjectTracker.MVVM.ViewModel
             get
             {
                 return _loadProjectPageCommand ??
-                    (_loadProjectPageCommand = new RelayCommand(obj =>
+                    (_loadProjectPageCommand = new RelayCommand(async obj =>
                     {
-                        UpdateProjectCollection();
+                        await UpdateProjectCollection();
                         SelectedProject = _workWithProject.SelectedProject!;
-                        UpdatePageControls();
+                        await UpdatePageControls();
                     }));
             }
         }
@@ -198,10 +201,10 @@ namespace ProjectTracker.MVVM.ViewModel
             get
             {
                 return _selectionChangedCommand ??
-                    (_selectionChangedCommand = new RelayCommand(obj =>
+                    (_selectionChangedCommand = new RelayCommand(async obj =>
                     {
                         _workWithProject.SelectedProject = SelectedProject;
-                        UpdatePageControls();
+                        await UpdatePageControls();
                     }));
             }
         }
@@ -229,12 +232,13 @@ namespace ProjectTracker.MVVM.ViewModel
                                     _workWithProject.SelectedProject = SelectedProject;
                                     await _workWithProject.UpdateProjectInfoAsync();
 
-                                    UpdateProjectCollection();
+                                    await UpdateProjectCollection();
 
-                                    await _metroDialog.ShowMessage(this, Properties.Resources.Success, Properties.Resources.ProjectUpdated);
+                                    await _metroDialog.ShowMessage(this, Properties.Resources.Success, 
+                                        Properties.Resources.ProjectUpdated);
                                 }
                             }
-                            else UpdatePageControls();
+                            else await UpdatePageControls();
                         }                            
                     }, x => SelectedProject != null));
             }
@@ -253,7 +257,7 @@ namespace ProjectTracker.MVVM.ViewModel
                             SelectedProject.Labels.Add(AddLabelTextBox);
                             await _workWithProject.UpdateProjectInfoAsync();
                             AddLabelTextBox = "";
-                            UpdatePageControls();
+                            await UpdatePageControls();
                         }
                     }));
             }
@@ -269,7 +273,7 @@ namespace ProjectTracker.MVVM.ViewModel
                     {
                         SelectedProject.Labels[SelectedProject.Labels.FindIndex(l => l == SelectedLabel)] = UpdatedLabel;
                         await _workWithProject.UpdateProjectInfoAsync();
-                        UpdatePageControls();
+                        await UpdatePageControls();
                         IsLabelUpdated = false;
                     }));
             }
@@ -312,7 +316,7 @@ namespace ProjectTracker.MVVM.ViewModel
                     {
                         SelectedProject.Labels.Remove(SelectedLabel);
                         await _workWithProject.UpdateProjectInfoAsync();
-                        UpdatePageControls();
+                        await UpdatePageControls();
                     }));
             }
         }
@@ -354,20 +358,20 @@ namespace ProjectTracker.MVVM.ViewModel
                                 SelectedProject = ProjectsList[index - 1];
                             }
                             else SelectedProject = null;
-                            UpdateProjectCollection();
+                            await UpdateProjectCollection();
                         }                                
                     }, x => SelectedProject != null));
             }
         }
 
-        private void UpdatePageControls()
+        private async Task UpdatePageControls()
         {
             if (SelectedProject != null)
             {
                 ProjectNameTextBox = SelectedProject.Name;
                 DescriptionTextBox = SelectedProject.Description;
                 LabelsList = new ObservableCollection<string>(SelectedProject.Labels);
-                UpdateIssueCollection();
+                await UpdateIssueCollection();
             }
             else
             {
@@ -378,13 +382,15 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
-        private void UpdateIssueCollection()
+        private async Task UpdateIssueCollection()
         {
-            IssuesList = _workWithIssue.CreateCollection(_workWithIssue.GetProjectIssuesList());
+            List<Issue> issues = new List<Issue>();
+            //IssuesList = _collectionHelper.CreateCollection(await _workWithIssue.GetProjectIssuesListAsync());
+            IssuesList = _collectionHelper.CreateCollection(ProjectsList.First(p => p.Id == SelectedProject.Id).Issues);
         }
-        private void UpdateProjectCollection()
+        private async Task UpdateProjectCollection()
         {
-            ProjectsList = _workWithProject.CreateCollection();
+            ProjectsList = _collectionHelper.CreateCollection<Project>(await _workWithProject.GetUserProjectsListAsync());
         }
 
         private bool HasInfoChangedCheck()

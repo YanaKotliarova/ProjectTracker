@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using ProjectTracker.MVVM.ViewModel;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace ProjectTracker.MVVM.View.UserControls
 {
@@ -12,7 +10,6 @@ namespace ProjectTracker.MVVM.View.UserControls
         public AddItemUserControl()
         {
             InitializeComponent();
-            DataContext = App.GetServiceProvider().GetService<AddItemUserControlViewModel>();
         }
     }
 }

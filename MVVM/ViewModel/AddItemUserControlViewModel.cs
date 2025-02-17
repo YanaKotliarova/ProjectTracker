@@ -1,5 +1,6 @@
 ﻿using ProjectTracker.MVVM.Core;
 using ProjectTracker.MVVM.Model;
+using ProjectTracker.Services.ServiceHelpers.Interfaces;
 using ProjectTracker.Services.WorkWithItems.Interfaces;
 using System.Collections.ObjectModel;
 
@@ -9,11 +10,16 @@ namespace ProjectTracker.MVVM.ViewModel
     {
         private readonly IWorkWithProjectService _workWithProject;
         private readonly IWorkWithIssueService _workWithIssue;
+        private readonly ICollectionHelper _collectionHelper;
 
-        public AddItemUserControlViewModel(IWorkWithProjectService workWithProject, IWorkWithIssueService workWithIssue)
+        public AddItemUserControlViewModel(IWorkWithProjectService workWithProject, IWorkWithIssueService workWithIssue, 
+            ICollectionHelper collectionHelper)
         {
             _workWithProject = workWithProject;
             _workWithIssue = workWithIssue;
+            _collectionHelper = collectionHelper;
+
+            WindowName = Properties.Resources.AddItemLabel;
         }
 
         private string? _nameOfItemTextBox;
@@ -142,7 +148,7 @@ namespace ProjectTracker.MVVM.ViewModel
                                 if(!IsThereSameProjectName)
                                 {
                                     await _workWithProject.CreateProjectAsync(NameOfItemTextBox!, DescriptionTextBox);
-                                    CleanUserControlControls();
+                                    await CleanUserControlControls();
                                 }                                
                             }
                             else if (IsItIssue)
@@ -155,7 +161,7 @@ namespace ProjectTracker.MVVM.ViewModel
                                         IsThereNoSelectedProject = false;
                                         _workWithProject.SelectedProject = SelectedProject;
                                         await _workWithIssue.CreateIssueAsync(NameOfItemTextBox!, DescriptionTextBox);
-                                        CleanUserControlControls();
+                                        await CleanUserControlControls();
                                     }                                    
                                 }
                                 else IsThereNoSelectedProject = true;
@@ -173,26 +179,26 @@ namespace ProjectTracker.MVVM.ViewModel
             get
             {
                 return _loadUserControlCommand ??
-                    (_loadUserControlCommand = new RelayCommand(obj =>
+                    (_loadUserControlCommand = new RelayCommand(async obj =>
                     {
-                        CleanUserControlControls();
+                        await CleanUserControlControls();
                     }));
             }
         }
 
-        private void CleanUserControlControls()
+        private async Task CleanUserControlControls()
         {
             IsItProject = true;
             NameOfItemTextBox = null;
             DescriptionTextBox = null;
             IsThereNoItemName = false;
             IsThereNoSelectedProject = false;
-            UpdateListOfUserProjectsNames();
+            await UpdateListOfUserProjectsNames();
         }
 
-        private void UpdateListOfUserProjectsNames()
+        private async Task UpdateListOfUserProjectsNames()
         {
-            Projects = _workWithProject.CreateCollection();
+            Projects = _collectionHelper.CreateCollection<Project>(await _workWithProject.GetUserProjectsListAsync());
         }
     }
 }

@@ -1,26 +1,27 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using ProjectTracker.MVVM.Core;
-using ProjectTracker.MVVM.View.UIHelpers.Interfaces;
-using ProjectTracker.Properties;
 using ProjectTracker.Services.Authentication.Interfaces;
+using ProjectTracker.Services.Localization;
 using ProjectTracker.Services.Navigation.Interfaces;
+using ProjectTracker.Services.ServiceHelpers.Interfaces;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Resources;
 
 namespace ProjectTracker.MVVM.ViewModel
 {
     public class AutorizationPageViewModel : ViewModelBase
     {
         private readonly IAutorizationService _autorization;
-        private readonly IMainView _mainView;
-        public AutorizationPageViewModel(INavigationService navigationService, IAutorizationService autorization, IMainView mainView)
+        private readonly ICollectionHelper _collectionHelper;
+        public AutorizationPageViewModel(INavigationService navigationService, IAutorizationService autorization, 
+            ICollectionHelper collectionHelper)
         {
             NavigationService = navigationService;
             _autorization = autorization;
-            _mainView = mainView;
+            _collectionHelper = collectionHelper;
 
-            GetLanguages();
+            Languages = _collectionHelper.CreateCollection(TranslationSource.Instance.GetLanguages());
+            Language = TranslationSource.Instance.SetLanguage();
         }
 
         private INavigationService _navigationService;
@@ -31,37 +32,6 @@ namespace ProjectTracker.MVVM.ViewModel
             {
                 _navigationService = value;
                 OnPropertyChanged(nameof(NavigationService));
-            }
-        }
-
-        private ObservableCollection<CultureInfo> _languages = new ObservableCollection<CultureInfo>();
-        /// <summary>
-        /// A property for creating collection of languages that the application has been translated into.
-        /// </summary>
-        public ObservableCollection<CultureInfo> Languages
-        {
-            get { return _languages; }
-            set
-            {
-                _languages = value;
-                OnPropertyChanged(nameof(Languages));
-            }
-        }
-
-        private CultureInfo _language;
-        /// <summary>
-        /// A property associated with SelectedItem property of ComboBox for choosing language.
-        /// Changes the language of the application according to the selected item of ComboBox.
-        /// </summary>
-        public CultureInfo Language
-        {
-            get { return _language; }
-            set
-            {
-                _language = value;
-                OnPropertyChanged(nameof(Language));
-
-                Thread.CurrentThread.CurrentUICulture = value;
             }
         }
 
@@ -98,6 +68,37 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
+        private ObservableCollection<string> _languages = new ObservableCollection<string>();
+        /// <summary>
+        /// A property for creating collection of languages that the application has been translated into.
+        /// </summary>
+        public ObservableCollection<string> Languages
+        {
+            get { return _languages; }
+            set
+            {
+                _languages = value;
+                OnPropertyChanged(nameof(Languages));
+            }
+        }
+
+        private string _language;
+        /// <summary>
+        /// A property associated with SelectedItem property of ComboBox for choosing language.
+        /// Changes the language of the application according to the selected item of ComboBox.
+        /// </summary>
+        public string Language
+        {
+            get { return _language; }
+            set
+            {
+                _language = value;
+                OnPropertyChanged(nameof(Language));
+
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(Language);
+            }
+        }
+
         private RelayCommand _languageChangedCommand;
         public RelayCommand LanguageChangedCommand
         {
@@ -106,8 +107,7 @@ namespace ProjectTracker.MVVM.ViewModel
                 return _languageChangedCommand ??
                     (_languageChangedCommand = new RelayCommand(obj =>
                     {
-                        //_mainView.Frame.Content = null;
-                        //_mainView.Frame.Content = NavigationService.CurrentViewModel;
+                        ChangeLanguage(Language);
                     }));
             }
         }
@@ -143,47 +143,10 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
-        /// <summary>
-        /// The method for adding available languages into created collection.
-        /// </summary>
-        private void GetLanguages()
+        private static void ChangeLanguage(string locale)
         {
-            ResourceManager rm = new ResourceManager(typeof(Resources));
-            CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.NeutralCultures);
-            foreach (CultureInfo culture in cultures)
-            {
-                ResourceSet rs = rm.GetResourceSet(culture, true, false);
-
-                if (rs != null)
-                {
-                    if (culture.Equals(CultureInfo.InvariantCulture))
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        Languages.Add(culture);
-                    }
-                }
-            }
-
-            Language = SetLanguageChanger();
-        }
-
-        /// <summary>
-        /// The method for setting default value of ComboBox with available languages.
-        /// </summary>
-        /// <returns></returns>
-        private CultureInfo SetLanguageChanger()
-        {
-            CultureInfo currentCultureInfo;
-            CultureInfo cultureInfo = new CultureInfo(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName);
-
-            if (Languages.Contains(cultureInfo))
-                currentCultureInfo = new CultureInfo(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName);
-            else currentCultureInfo = new CultureInfo("en");
-
-            return currentCultureInfo;
+            if (string.IsNullOrEmpty(locale)) locale = "en";
+            TranslationSource.Instance.CurrentCulture = new System.Globalization.CultureInfo(locale);
         }
     }
 }

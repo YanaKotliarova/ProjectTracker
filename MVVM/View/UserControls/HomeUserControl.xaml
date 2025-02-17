@@ -10,7 +10,7 @@
              xmlns:viewmodel="clr-namespace:ProjectTracker.MVVM.ViewModel" 
              d:DataContext="{d:DesignInstance Type=viewmodel:HomeUserControlViewModel}"
              
-             xmlns:res="clr-namespace:ProjectTracker.Properties"
+             xmlns:localization="clr-namespace:ProjectTracker.Services.Localization"
              
              xmlns:local="clr-namespace:ProjectTracker.MVVM.View.UserControls"
              mc:Ignorable="d" 
@@ -22,17 +22,17 @@
 
         <Border CornerRadius="20" Background="#B2FFFFFF" Height="100" Margin="10" VerticalAlignment="Top" Padding="20,10,20,10">
             <TextBlock FontSize="18">
-                <Run Text="{x:Static res:Resources.WelcomeTo}"/>
+                <Run Text="{localization:Localization WelcomeTo}"/>
                 <Run Text="Project Tracker" Foreground="#FFF472D0" FontWeight="Bold"/>
                 <Run Text=","/>
                 <Run Text="{Binding Username}" Foreground="#FFF472D0" FontWeight="Bold"/>
                 <Run Text="!"/>
                 <LineBreak/>
-                <Run Text="{x:Static res:Resources.TodayIs}"/>
+                <Run Text="{localization:Localization TodayIs}"/>
                 <Run Text="{Binding TodayDate}" Foreground="#FFF472D0" FontWeight="Bold"/>
-                <Run Text="{x:Static res:Resources.GoodDay}"/>
+                <Run Text="{localization:Localization GoodDay}"/>
                 <LineBreak/>
-                <Run Text="{x:Static res:Resources.LetGetStarted}"/>
+                <Run Text="{localization:Localization LetGetStarted}"/>
                 <Controls:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEB68;" FontSize="18" 
                                    Foreground="#FFF57BD0" FontWeight="Bold"/>
             </TextBlock>

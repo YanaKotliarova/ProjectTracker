@@ -1,9 +1,6 @@
-﻿using ControlzEx.Standard;
-using ProjectTracker.Data;
-using ProjectTracker.Data.Interfaces;
+﻿using ProjectTracker.Data.Interfaces;
 using ProjectTracker.MVVM.Model;
 using ProjectTracker.Services.WorkWithItems.Interfaces;
-using System.Collections.ObjectModel;
 
 namespace ProjectTracker.Services.WorkWithItems
 {
@@ -25,39 +22,61 @@ namespace ProjectTracker.Services.WorkWithItems
             await _issueRepository.CreateAsync(new Issue(_workWithProject.SelectedProject!.Id, issueName, description));
         }
 
-        public List<Issue> GetProjectIssuesList()
+        public async Task<List<Issue>> GetProjectIssuesListAsync()
         {
-            return _issueRepository.GetProjectIssues(_workWithProject.SelectedProject!.Id).ToList();
-        }
-
-        public List<Issue> GetIssuesList(int projectId, string status)
-        {
-            return _issueRepository.GetUserIssuesByStatus(projectId, status).ToList();
-        }
-
-        public List<Issue> GetAllUserIssues()
-        {
-            List<Issue> allIssues = new List<Issue>();
-            foreach (var p in _workWithProject.GetUserProjectsList())
+            List<Issue> issues = new List<Issue>();
+            await foreach (List<Issue> listOfIssues in _issueRepository.GetProjectIssuesAsync(_workWithProject.SelectedProject!.Id))
             {
-                allIssues.AddRange(_issueRepository.GetProjectIssues(p.Id));
+                if (listOfIssues.Count > 0)
+                    issues.AddRange(listOfIssues);
             }
-            return allIssues;
+            return issues;
+        }
+
+        public async Task<List<Issue>> GetIssuesByStatusAsync(int projectId, string status)
+        {
+            List<Issue> issues = new List<Issue>();
+            await foreach (List<Issue> listOfIssues in _issueRepository.GetUserIssuesByStatusAsync(projectId, status))
+            {
+                if (listOfIssues.Count > 0)
+                {
+                    foreach (Issue issue in listOfIssues)
+                    {
+                        issue.ProjectName = await _workWithProject.GetProjectNameAsync(issue.ProjectId);
+                    }
+                    issues.AddRange(listOfIssues);
+                }
+                    
+            }
+            return issues;
+        }
+
+        public async Task<List<Issue>> GetAllUserIssuesAsync()
+        {
+            List<Issue> allIssuesList = new List<Issue>();
+
+            foreach (Project p in await _workWithProject.GetUserProjectsListAsync())
+            {
+                await foreach (List<Issue> listOfIssues in _issueRepository.GetProjectIssuesAsync(p.Id))
+                {
+                    if (listOfIssues.Count > 0)
+                    {
+                        foreach (Issue issue in listOfIssues)
+                        {
+                            issue.ProjectName = await _workWithProject.GetProjectNameAsync(issue.ProjectId);
+                        }
+                        allIssuesList.AddRange(listOfIssues);
+                    }
+                }
+            }
+            return allIssuesList;
         }
 
         public async Task<bool> ChechIssueNameAsync(int projectId, string name)
         {
             if ((SelectedIssue != null) && projectId.Equals(SelectedIssue.ProjectId) && name.Equals(SelectedIssue.Name))
-                    return false;
+                return false;
             else return await _issueRepository.GetByNameAsync(projectId, name) != null;
-        }
-
-        public ObservableCollection<Issue> CreateCollection(List<Issue> list)
-        {
-            ObservableCollection<Issue> collection = new ObservableCollection<Issue>();
-            foreach (Issue i in list)
-                collection.Add(i);
-            return collection;
         }
 
         public async Task UpdateIssueInfoAsync()

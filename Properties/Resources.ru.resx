@@ -304,7 +304,7 @@
     <value>Ваш пароль был обновлён</value>
   </data>
   <data name="PersonalInformationLabel" xml:space="preserve">
-    <value>Личная информация</value>
+    <value>Личная Информация</value>
   </data>
   <data name="PersonalInfoUpdated" xml:space="preserve">
     <value>Ваша личная информация была обновлена</value>

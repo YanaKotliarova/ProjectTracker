@@ -1,9 +1,7 @@
-﻿using ProjectTracker.Data;
-using ProjectTracker.Data.Interfaces;
+﻿using ProjectTracker.Data.Interfaces;
 using ProjectTracker.MVVM.Model;
 using ProjectTracker.Services.Authentication;
 using ProjectTracker.Services.WorkWithItems.Interfaces;
-using System.Collections.ObjectModel;
 
 namespace ProjectTracker.Services.WorkWithItems
 {
@@ -22,14 +20,21 @@ namespace ProjectTracker.Services.WorkWithItems
 
         public async Task CreateProjectAsync(string projectName, string? description)
         {
-            await _projectRepository.CreateAsync(new Project(_account.CurrentUser.Id, projectName, description));
-        }
-        public List<Project> GetUserProjectsList()
-        {
-            return _projectRepository.GetUserProjects(_account.CurrentUser.Id).ToList();
+            await _projectRepository.CreateAsync(new Project(_account.CustomPrincipal.Identity.Id, projectName, description));
         }
 
-        public async Task<string> GetProjectName(int id)
+        public async Task<List<Project>> GetUserProjectsListAsync()
+        {
+            List<Project> projects = new List<Project>();
+            await foreach (List<Project> listOfProjects in _projectRepository.GetUserProjectsAsync(_account.CustomPrincipal.Identity.Id))
+            {
+                if (listOfProjects.Count > 0)
+                    projects.AddRange(listOfProjects);
+            }
+            return projects;
+        }
+
+        public async Task<string> GetProjectNameAsync(int id)
         {
             Project project = await _projectRepository.GetAsync(id);
             return project.Name;
@@ -40,14 +45,6 @@ namespace ProjectTracker.Services.WorkWithItems
             if ((SelectedProject != null) && name.Equals(SelectedProject.Name))
                 return false;
             else return await _projectRepository.GetByNameAsync(name) != null;
-        }
-
-        public ObservableCollection<Project> CreateCollection()
-        {
-            ObservableCollection<Project> collection = new ObservableCollection<Project>();
-            foreach (Project p in GetUserProjectsList())
-                collection.Add(p);
-            return collection;
         }
         
         public async Task UpdateProjectInfoAsync()

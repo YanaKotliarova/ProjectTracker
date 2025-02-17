@@ -5,6 +5,8 @@ namespace ProjectTracker.MVVM.Core
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
+        public string WindowName { get; set; } = "Default";
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>

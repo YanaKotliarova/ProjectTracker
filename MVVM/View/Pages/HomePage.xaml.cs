@@ -12,7 +12,6 @@ namespace ProjectTracker.MVVM.View.Pages
         public HomePage()
         {
             InitializeComponent();
-            DataContext = App.GetServiceProvider().GetService<HomePageViewModel>();
         }
     }
 }

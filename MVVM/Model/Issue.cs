@@ -17,6 +17,9 @@ namespace ProjectTracker.MVVM.Model
         public string Priority { get; set; }
         public List<string> Labels { get; set; } = new();
 
+        [NotMapped]
+        public string ProjectName { get; set; }
+
         public Issue() { }
 
         public Issue(int projectId, string name, string? description, string? status = null, 
