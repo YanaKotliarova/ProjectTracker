@@ -10,7 +10,7 @@ namespace ProjectTracker.MVVM.Core
         public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
-        /// A method for taking into account changes 
+        /// A method for taking into changes 
         /// in the visual component of the application.
         /// </summary>
         /// <param name="propertyName"> Name of the component. </param>

@@ -10,7 +10,6 @@ namespace ProjectTracker.Services.WorkWithItems.Interfaces
         Task DeleteIssueAsync();
         Task<List<Issue>> GetAllUserIssuesAsync();
         Task<List<Issue>> GetIssuesByStatusAsync(int projectId, string status);
-        Task<List<Issue>> GetProjectIssuesListAsync();
         Task UpdateIssueInfoAsync();
     }
 }

@@ -27,6 +27,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private INavigationService _navigationService;
+        /// <summary>
+        /// A property for navigating between views.
+        /// </summary>
         public INavigationService NavigationService
         {
             get { return _navigationService; }
@@ -38,6 +41,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private ObservableCollection<Project> _projectsList;
+        /// <summary>
+        /// An observable collection of projects.
+        /// </summary>
         public ObservableCollection<Project> ProjectsList
         {
             get { return _projectsList; }
@@ -49,6 +55,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private ObservableCollection<Issue> _issuesList;
+        /// <summary>
+        /// An observable collection of issues of project.
+        /// </summary>
         public ObservableCollection<Issue> IssuesList
         {
             get { return _issuesList; }
@@ -60,6 +69,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private ObservableCollection<string> _labelsList;
+        /// <summary>
+        /// An observable collection of labels of project.
+        /// </summary>
         public ObservableCollection<string> LabelsList
         {
             get { return _labelsList; }
@@ -71,6 +83,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private Project _selectedProject;
+        /// <summary>
+        /// A property for getting the selected project.
+        /// </summary>
         public Project SelectedProject
         {
             get { return _selectedProject; }
@@ -82,6 +97,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private Issue _selectedIssue;
+        /// <summary>
+        /// A property for getting the selected issue.
+        /// </summary>
         public Issue SelectedIssue
         {
             get { return _selectedIssue; }
@@ -93,6 +111,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string _projectNameTextBox;
+        /// <summary>
+        /// A property for binding a project name and a TextBox for it.
+        /// </summary>
         public string ProjectNameTextBox
         {
             get { return _projectNameTextBox; }
@@ -104,6 +125,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string _descriptionTextBox;
+        /// <summary>
+        /// A property for binding a project description and a TextBox for it.
+        /// </summary>
         public string DescriptionTextBox
         {
             get { return _descriptionTextBox; }
@@ -115,6 +139,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string _addLabelTextBox;
+        /// <summary>
+        /// A property for binding a created issue label and a TextBox for it.
+        /// </summary>
         public string AddLabelTextBox
         {
             get { return _addLabelTextBox; }
@@ -126,6 +153,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string _selectedLabel;
+        /// <summary>
+        /// A property for getting the selected label.
+        /// </summary>
         public string SelectedLabel
         {
             get { return _selectedLabel; }
@@ -136,18 +166,24 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
-        private string _updatedLabel;
-        public string UpdatedLabel
+        private string _updatedLabelTextBox;
+        /// <summary>
+        /// A property for binding an updated issue label and a TextBox for it.
+        /// </summary>
+        public string UpdatedLabelTextBox
         {
-            get { return _updatedLabel; }
+            get { return _updatedLabelTextBox; }
             set
             {
-                _updatedLabel = value;
-                OnPropertyChanged(nameof(UpdatedLabel));
+                _updatedLabelTextBox = value;
+                OnPropertyChanged(nameof(UpdatedLabelTextBox));
             }
         }
 
         private bool _isLabelUpdated;
+        /// <summary>
+        /// A property for binding a value if label is updated and an IsOpen property of certain Popup.
+        /// </summary>
         public bool IsLabelUpdated
         {
             get { return _isLabelUpdated; }
@@ -159,6 +195,10 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private bool _isThereSameProjectName;
+        /// <summary>
+        /// A property for binding a result of cheking if entered new project name is exists
+        /// in database and an IsOpen property of certain Popup.
+        /// </summary>
         public bool IsThereSameProjectName
         {
             get { return _isThereSameProjectName; }
@@ -170,6 +210,10 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private bool _hasInfoNotChanged;
+        /// <summary>
+        /// A property for binding a result of cheking if project information has changed
+        /// and an IsOpen property of certain Popup.
+        /// </summary>
         public bool HasInfoNotChanged
         {
             get { return _hasInfoNotChanged; }
@@ -181,6 +225,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _loadProjectPageCommand;
+        /// <summary>
+        /// The command that is called when the page loads to update the controls.
+        /// </summary>
         public RelayCommand LoadProjectPageCommand
         {
             get
@@ -196,6 +243,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _selectionChangedCommand;
+        /// <summary>
+        /// The command that is binded with SelectionChanged event of ListBox of projects.
+        /// </summary>
         public RelayCommand SelectionChangedCommand
         {
             get
@@ -210,6 +260,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _updateProjectCommand;
+        /// <summary>
+        /// The command whitch is called when update project button is clicked.
+        /// </summary>
         public RelayCommand UpdateProjectCommand
         {
             get
@@ -245,6 +298,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _addLabelCommand;
+        /// <summary>
+        /// The command whitch is called when add label button is clicked.
+        /// </summary>
         public RelayCommand AddLabelCommand
         {
             get
@@ -264,6 +320,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _updateLabelCommand;
+        /// <summary>
+        /// The command whitch is called when update label button on update panel is clicked.
+        /// </summary>
         public RelayCommand UpdateLabelCommand
         {
             get
@@ -271,7 +330,7 @@ namespace ProjectTracker.MVVM.ViewModel
                 return _updateLabelCommand ??
                     (_updateLabelCommand = new RelayCommand(async obj =>
                     {
-                        SelectedProject.Labels[SelectedProject.Labels.FindIndex(l => l == SelectedLabel)] = UpdatedLabel;
+                        SelectedProject.Labels[SelectedProject.Labels.FindIndex(l => l == SelectedLabel)] = UpdatedLabelTextBox;
                         await _workWithProject.UpdateProjectInfoAsync();
                         await UpdatePageControls();
                         IsLabelUpdated = false;
@@ -280,6 +339,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _openUpdatePanelCommand;
+        /// <summary>
+        /// The command whitch is called when update label button is clicked.
+        /// </summary>
         public RelayCommand OpenUpdatePanelCommand
         {
             get
@@ -287,13 +349,17 @@ namespace ProjectTracker.MVVM.ViewModel
                 return _openUpdatePanelCommand ??
                     (_openUpdatePanelCommand = new RelayCommand(obj =>
                     {
-                        UpdatedLabel = SelectedLabel;
+                        UpdatedLabelTextBox = SelectedLabel;
                         IsLabelUpdated = true;
                     }));
             }
         }
 
         private RelayCommand _closeUpdatePanelCommand;
+        /// <summary>
+        /// The command whitch is called when close update label panel button and 
+        /// update label button on update label panel is clicked.
+        /// </summary>
         public RelayCommand CloseUpdatePanelCommand
         {
             get
@@ -307,6 +373,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _deleteLabelCommand;
+        /// <summary>
+        /// The command that is called when delete label MenuItem is clicked.
+        /// </summary>
         public RelayCommand DeleteLabelCommand
         {
             get
@@ -322,6 +391,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _doubleIssueClickCommand;
+        /// <summary>
+        /// The command that is called when DoubleMouseClick event of issue is called.
+        /// </summary>
         public RelayCommand DoubleIssueClickCommand
         {
             get
@@ -336,6 +408,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _deleteProjectCommand;
+        /// <summary>
+        /// The command that is called when delete MenuItem of project in ListBox or delete button is clicked.
+        /// </summary>
         public RelayCommand DeleteProjectCommand
         {
             get
@@ -364,6 +439,10 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
+        /// <summary>
+        /// The method for updating page controls.
+        /// </summary>
+        /// <returns></returns>
         private async Task UpdatePageControls()
         {
             if (SelectedProject != null)
@@ -382,17 +461,30 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
+        /// <summary>
+        /// The method for update collection of issues.
+        /// </summary>
+        /// <returns></returns>
         private async Task UpdateIssueCollection()
         {
             List<Issue> issues = new List<Issue>();
             //IssuesList = _collectionHelper.CreateCollection(await _workWithIssue.GetProjectIssuesListAsync());
             IssuesList = _collectionHelper.CreateCollection(ProjectsList.First(p => p.Id == SelectedProject.Id).Issues);
         }
+
+        /// <summary>
+        /// The method for update collection of projects.
+        /// </summary>
+        /// <returns></returns>
         private async Task UpdateProjectCollection()
         {
             ProjectsList = _collectionHelper.CreateCollection<Project>(await _workWithProject.GetUserProjectsListAsync());
         }
 
+        /// <summary>
+        /// The method for checking if project information has been changed.
+        /// </summary>
+        /// <returns></returns>
         private bool HasInfoChangedCheck()
         {
             return !_workWithProject.SelectedProject.Name.Equals(ProjectNameTextBox) && !ProjectNameTextBox.IsNullOrEmpty() ||

@@ -19,6 +19,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private INavigationService _navigationService;
+        /// <summary>
+        /// A property for navigating between views.
+        /// </summary>
         public INavigationService NavigationService
         {
             get { return _navigationService; }
@@ -30,6 +33,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string _newConnectionStringTextBox;
+        /// <summary>
+        /// A property for binding new connection string and a TextBox for it.
+        /// </summary>
         public string NewConnectionStringTextBox
         {
             get { return _newConnectionStringTextBox; }
@@ -40,18 +46,10 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
-        private bool _isButtonVisible;
-        public bool IsButtonVisible
-        {
-            get { return _isButtonVisible; }
-            set
-            {
-                _isButtonVisible = value;
-                OnPropertyChanged(nameof(IsButtonVisible));
-            }
-        }
-
         private RelayCommand _retryDbConnectionCommand;
+        /// <summary>
+        /// The command that is called when button to enter new connection string is clicked.
+        /// </summary>
         public RelayCommand RetryDbConnectionCommand
         {
             get

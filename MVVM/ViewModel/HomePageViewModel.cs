@@ -25,6 +25,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private INavigationService _navigationService;
+        /// <summary>
+        /// A property for navigating between views.
+        /// </summary>
         public INavigationService NavigationService
         {
             get { return _navigationService; }
@@ -36,6 +39,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private ObservableCollection<ViewModelBase> _tabViewModels;
+        /// <summary>
+        /// An observable collection of views for TabControl's items.
+        /// </summary>
         public ObservableCollection<ViewModelBase> TabViewModels
         {
             get { return _tabViewModels; }
@@ -47,6 +53,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private ViewModelBase _selectedTabViewModel;
+        /// <summary>
+        /// A property for getting the selected view.
+        /// </summary>
         public ViewModelBase SelectedTabViewModel
         {
             get { return _selectedTabViewModel; }
@@ -58,6 +67,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _goToAccountPageCommand;
+        /// <summary>
+        /// The command of navigation to the accout page which is binded with a account button.
+        /// </summary>
         public RelayCommand GoToAccountPageCommand
         {
             get
@@ -70,6 +82,9 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
+        /// <summary>
+        /// The method for creating a collection of TabItems.
+        /// </summary>
         private void CreateTabs()
         {
             TabViewModels = new ObservableCollection<ViewModelBase>();

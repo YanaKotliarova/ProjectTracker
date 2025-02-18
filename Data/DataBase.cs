@@ -14,6 +14,13 @@ namespace ProjectTracker.Data
             _connectionStringValidation = connectionStringValidation;
         }
 
+        /// <summary>
+        /// The method for initializing database if it not exists. 
+        /// Check connectiong string and throws an exception if it incorrect.
+        /// </summary>
+        /// <param name="connectionString"> (Optional) Connection string for connection with database. </param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task InitializeDbAsync(string connectionString = null)
         {
             if (!connectionString.IsNullOrEmpty())

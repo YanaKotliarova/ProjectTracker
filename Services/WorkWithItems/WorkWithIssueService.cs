@@ -15,28 +15,32 @@ namespace ProjectTracker.Services.WorkWithItems
             _workWithProject = workWithProject;
         }
 
+        /// <summary>
+        /// A property to store the selected issue.
+        /// </summary>
         public Issue SelectedIssue { get; set; }
 
+        /// <summary>
+        /// The method for create new issue.
+        /// </summary>
+        /// <param name="issueName"> Name of created issue. </param>
+        /// <param name="description"> Description of created issue. </param>
+        /// <returns></returns>
         public async Task CreateIssueAsync(string issueName, string description)
         {
             await _issueRepository.CreateAsync(new Issue(_workWithProject.SelectedProject!.Id, issueName, description));
         }
 
-        public async Task<List<Issue>> GetProjectIssuesListAsync()
-        {
-            List<Issue> issues = new List<Issue>();
-            await foreach (List<Issue> listOfIssues in _issueRepository.GetProjectIssuesAsync(_workWithProject.SelectedProject!.Id))
-            {
-                if (listOfIssues.Count > 0)
-                    issues.AddRange(listOfIssues);
-            }
-            return issues;
-        }
-
+        /// <summary>
+        /// The method for getting issues by status.
+        /// </summary>
+        /// <param name="projectId"> Id of project. </param>
+        /// <param name="status"> Required status. </param>
+        /// <returns> List of issue. </returns>
         public async Task<List<Issue>> GetIssuesByStatusAsync(int projectId, string status)
         {
             List<Issue> issues = new List<Issue>();
-            await foreach (List<Issue> listOfIssues in _issueRepository.GetUserIssuesByStatusAsync(projectId, status))
+            await foreach (List<Issue> listOfIssues in _issueRepository.GetIssuesAsync(projectId, status))
             {
                 if (listOfIssues.Count > 0)
                 {
@@ -51,13 +55,17 @@ namespace ProjectTracker.Services.WorkWithItems
             return issues;
         }
 
+        /// <summary>
+        /// The method for getting all user issues.
+        /// </summary>
+        /// <returns> List of all user issues. </returns>
         public async Task<List<Issue>> GetAllUserIssuesAsync()
         {
             List<Issue> allIssuesList = new List<Issue>();
 
             foreach (Project p in await _workWithProject.GetUserProjectsListAsync())
             {
-                await foreach (List<Issue> listOfIssues in _issueRepository.GetProjectIssuesAsync(p.Id))
+                await foreach (List<Issue> listOfIssues in _issueRepository.GetIssuesAsync(p.Id))
                 {
                     if (listOfIssues.Count > 0)
                     {
@@ -72,6 +80,12 @@ namespace ProjectTracker.Services.WorkWithItems
             return allIssuesList;
         }
 
+        /// <summary>
+        /// The method for checking if entered project name exists its project in database.
+        /// </summary>
+        /// <param name="projectId"> Id of issue project. </param>
+        /// <param name="name"> Name of issue. </param>
+        /// <returns></returns>
         public async Task<bool> ChechIssueNameAsync(int projectId, string name)
         {
             if ((SelectedIssue != null) && projectId.Equals(SelectedIssue.ProjectId) && name.Equals(SelectedIssue.Name))
@@ -79,11 +93,19 @@ namespace ProjectTracker.Services.WorkWithItems
             else return await _issueRepository.GetByNameAsync(projectId, name) != null;
         }
 
+        /// <summary>
+        /// The method for updating issue information.
+        /// </summary>
+        /// <returns></returns>
         public async Task UpdateIssueInfoAsync()
         {
             await _issueRepository.UpdateAsync(SelectedIssue);
         }
 
+        /// <summary>
+        /// The method for deleting issue.
+        /// </summary>
+        /// <returns></returns>
         public async Task DeleteIssueAsync()
         {
             await _issueRepository.DeleteAsync(SelectedIssue.Id);

@@ -26,6 +26,9 @@ namespace ProjectTracker.MVVM.ViewModel
 
 
         private ObservableCollection<Project> _projectsList;
+        /// <summary>
+        /// An observable collection of projects for creating selection.
+        /// </summary>
         public ObservableCollection<Project> ProjectsList
         {
             get { return _projectsList; }
@@ -37,6 +40,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private Project _selectedProject;
+        /// <summary>
+        /// A property for getting the selected project.
+        /// </summary>
         public Project SelectedProject
         {
             get { return _selectedProject; }
@@ -48,6 +54,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private ObservableCollection<string> _statusList;
+        /// <summary>
+        /// An observable collection of statuses for creating selection.
+        /// </summary>
         public ObservableCollection<string> StatusList
         {
             get { return _statusList; }
@@ -59,6 +68,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string _selectedStatus;
+        /// <summary>
+        /// A property for getting the selected status.
+        /// </summary>
         public string SelectedStatus
         {
             get { return _selectedStatus; }
@@ -70,6 +82,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private ObservableCollection<string> _availableStatusList;
+        /// <summary>
+        /// An observable collection of statuses, to list them for updating issue information.
+        /// </summary>
         public ObservableCollection<string> AvailableStatusList
         {
             get { return _availableStatusList; }
@@ -81,6 +96,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string _currentIssueStatus;
+        /// <summary>
+        /// A property for getting the selected status for updating.
+        /// </summary>
         public string CurrentIssueStatus
         {
             get { return _currentIssueStatus; }
@@ -92,6 +110,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private ObservableCollection<string> _priorityList;
+        /// <summary>
+        /// An observable collection of priorities for creating selection.
+        /// </summary>
         public ObservableCollection<string> PriorityList
         {
             get { return _priorityList; }
@@ -103,6 +124,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string _selectedPriority;
+        /// <summary>
+        /// A property for getting the selected priority.
+        /// </summary>
         public string SelectedPriority
         {
             get { return _selectedPriority; }
@@ -114,6 +138,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private ObservableCollection<string> _availablePriorityList;
+        /// <summary>
+        /// An observable collection of priorities, to list them for updating issue information.
+        /// </summary>
         public ObservableCollection<string> AvailablePriorityList
         {
             get { return _availablePriorityList; }
@@ -125,6 +152,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string _currentIssuePriority;
+        /// <summary>
+        /// A property for getting the selected priority for change.
+        /// </summary>
         public string CurrentIssuePriority
         {
             get { return _currentIssuePriority; }
@@ -136,6 +166,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private ObservableCollection<Issue> _issuesList;
+        /// <summary>
+        /// An observable collection of issues, to list them for viewing.
+        /// </summary>
         public ObservableCollection<Issue> IssuesList
         {
             get { return _issuesList; }
@@ -147,6 +180,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private Issue _selectedIssue;
+        /// <summary>
+        /// A property for getting the selected issue.
+        /// </summary>
         public Issue SelectedIssue
         {
             get { return _selectedIssue; }
@@ -158,6 +194,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string _issueNameTextBox;
+        /// <summary>
+        /// A property for binding a issue name and a TextBox for it.
+        /// </summary>
         public string IssueNameTextBox
         {
             get { return _issueNameTextBox; }
@@ -169,6 +208,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string _descriptionTextBox;
+        /// <summary>
+        /// A property for binding a issue description and a TextBox for it.
+        /// </summary>
         public string DescriptionTextBox
         {
             get { return _descriptionTextBox; }
@@ -180,6 +222,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string _commentTextBox;
+        /// <summary>
+        /// A property for binding a issue comment and a TextBox for it.
+        /// </summary>
         public string CommentTextBox
         {
             get { return _commentTextBox; }
@@ -191,6 +236,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private ObservableCollection<string> _labelsList;
+        /// <summary>
+        /// An observable collection of selected issue labels.
+        /// </summary>
         public ObservableCollection<string> LabelsList
         {
             get { return _labelsList; }
@@ -202,6 +250,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string _addLabelTextBox;
+        /// <summary>
+        /// A property for binding a created issue label and a TextBox for it.
+        /// </summary>
         public string AddLabelTextBox
         {
             get { return _addLabelTextBox; }
@@ -213,6 +264,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string _selectedLabel;
+        /// <summary>
+        /// A property for getting the selected label.
+        /// </summary>
         public string SelectedLabel
         {
             get { return _selectedLabel; }
@@ -223,18 +277,24 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
-        private string _updatedLabel;
-        public string UpdatedLabel
+        private string _updatedLabelTextBox;
+        /// <summary>
+        /// A property for binding an updated issue label and a TextBox for it.
+        /// </summary>
+        public string UpdatedLabelTextBox
         {
-            get { return _updatedLabel; }
+            get { return _updatedLabelTextBox; }
             set
             {
-                _updatedLabel = value;
-                OnPropertyChanged(nameof(UpdatedLabel));
+                _updatedLabelTextBox = value;
+                OnPropertyChanged(nameof(UpdatedLabelTextBox));
             }
         }
 
         private bool _isLabelUpdated;
+        /// <summary>
+        /// A property for binding a value if label is updated and an IsOpen property of certain Popup.
+        /// </summary>
         public bool IsLabelUpdated
         {
             get { return _isLabelUpdated; }
@@ -246,6 +306,10 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private bool _isThereSameIssueName;
+        /// <summary>
+        /// A property for binding a result of cheking if entered new issue name is exists in its project 
+        /// in database and an IsOpen property of certain Popup.
+        /// </summary>
         public bool IsThereSameIssueName
         {
             get { return _isThereSameIssueName; }
@@ -257,6 +321,10 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private bool _hasInfoNotChanged;
+        /// <summary>
+        /// A property for binding a result of cheking if issue information has changed
+        /// and an IsOpen property of certain Popup.
+        /// </summary>
         public bool HasInfoNotChanged
         {
             get { return _hasInfoNotChanged; }
@@ -268,6 +336,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _loadIssuePageCommand;
+        /// <summary>
+        /// The command that is called when the page loads to update the controls.
+        /// </summary>
         public RelayCommand LoadIssuePageCommand
         {
             get
@@ -288,6 +359,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _selectionChangedCommand;
+        /// <summary>
+        /// The command that is binded with SelectionChanged event of ListBox of issues.
+        /// </summary>
         public RelayCommand SelectionChangedCommand
         {
             get
@@ -302,6 +376,10 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _listSelectionChangedCommand;
+        /// <summary>
+        /// The command that is binded with SelectionChanged event of ComboBox with projects, 
+        /// statuses or priorities for creating selection.
+        /// </summary>
         public RelayCommand ListSelectionChangedCommand
         {
             get
@@ -315,6 +393,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _updateIssueCommand;
+        /// <summary>
+        /// The command whitch is called when update issue button is clicked.
+        /// </summary>
         public RelayCommand UpdateIssueCommand
         {
             get
@@ -352,6 +433,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _addLabelCommand;
+        /// <summary>
+        /// The command whitch is called when add label button is clicked.
+        /// </summary>
         public RelayCommand AddLabelCommand
         {
             get
@@ -371,6 +455,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _updateLabelCommand;
+        /// <summary>
+        /// The command whitch is called when update label button on update panel is clicked.
+        /// </summary>
         public RelayCommand UpdateLabelCommand
         {
             get
@@ -378,7 +465,7 @@ namespace ProjectTracker.MVVM.ViewModel
                 return _updateLabelCommand ??
                     (_updateLabelCommand = new RelayCommand(async obj =>
                     {
-                        SelectedIssue.Labels[SelectedIssue.Labels.FindIndex(l => l == SelectedLabel)] = UpdatedLabel;
+                        SelectedIssue.Labels[SelectedIssue.Labels.FindIndex(l => l == SelectedLabel)] = UpdatedLabelTextBox;
                         await _workWithIssue.UpdateIssueInfoAsync();
                         UpdatePageControls();
                         IsLabelUpdated = false;
@@ -387,6 +474,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _openUpdatePanelCommand;
+        /// <summary>
+        /// The command whitch is called when update label button is clicked.
+        /// </summary>
         public RelayCommand OpenUpdatePanelCommand
         {
             get
@@ -394,13 +484,17 @@ namespace ProjectTracker.MVVM.ViewModel
                 return _openUpdatePanelCommand ??
                     (_openUpdatePanelCommand = new RelayCommand(obj =>
                     {
-                        UpdatedLabel = SelectedLabel;
+                        UpdatedLabelTextBox = SelectedLabel;
                         IsLabelUpdated = true;
                     }));
             }
         }
 
         private RelayCommand _closeUpdatePanelCommand;
+        /// <summary>
+        /// The command whitch is called when close update label panel button and 
+        /// update label button on update label panel is clicked.
+        /// </summary>
         public RelayCommand CloseUpdatePanelCommand
         {
             get
@@ -414,6 +508,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _deleteLabelCommand;
+        /// <summary>
+        /// The command that is called when delete label MenuItem is clicked.
+        /// </summary>
         public RelayCommand DeleteLabelCommand
         {
             get
@@ -429,6 +526,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _deleteIssueCommand;
+        /// <summary>
+        /// The command that is called when delete MenuItem of issue in ListBox or delete button is clicked.
+        /// </summary>
         public RelayCommand DeleteIssueCommand
         {
             get
@@ -456,6 +556,10 @@ namespace ProjectTracker.MVVM.ViewModel
                     }, x => SelectedIssue != null));
             }
         }
+
+        /// <summary>
+        /// The method for updating page controls.
+        /// </summary>
         private void UpdatePageControls()
         {
             if (SelectedIssue != null)
@@ -477,6 +581,11 @@ namespace ProjectTracker.MVVM.ViewModel
                 LabelsList = default;
             }
         }
+
+        /// <summary>
+        /// The method for updating visible issue collection.
+        /// </summary>
+        /// <returns></returns>
         private async Task UpdateIssuesList()
         {
             List<Issue> issues = await _workWithIssue.GetAllUserIssuesAsync();
@@ -502,6 +611,10 @@ namespace ProjectTracker.MVVM.ViewModel
             SelectedIssue = _workWithIssue.SelectedIssue;
         }
 
+        /// <summary>
+        /// The method for updating collection of projects for selections.
+        /// </summary>
+        /// <returns></returns>
         private async Task UpdateProjectsList()
         {
             ProjectsList = _collectionHelper.CreateCollection<Project>(await _workWithProject.GetUserProjectsListAsync());
@@ -512,6 +625,9 @@ namespace ProjectTracker.MVVM.ViewModel
             SelectedProject = allProject;
         }
 
+        /// <summary>
+        /// The method for creating collection of statuses for selections.
+        /// </summary>
         private void CreateStatusList()
         {
             StatusList = [Properties.Resources.All, Properties.Resources.ToDoStatus, Properties.Resources.InProgressStatus,
@@ -519,6 +635,9 @@ namespace ProjectTracker.MVVM.ViewModel
             SelectedStatus = Properties.Resources.All;
         }
 
+        /// <summary>
+        /// The method for creating collection of priorities for selections.
+        /// </summary>
         private void CreatePriorityList()
         {
             PriorityList = [Properties.Resources.All, Properties.Resources.LowPriority, 
@@ -526,18 +645,28 @@ namespace ProjectTracker.MVVM.ViewModel
             SelectedPriority = Properties.Resources.All;
         }
 
+        /// <summary>
+        /// The method for creating collection of statuses for updating.
+        /// </summary>
         private void CreateAvailableStatusList()
         {
             AvailableStatusList = [Properties.Resources.ToDoStatus, Properties.Resources.InProgressStatus,
                 Properties.Resources.ReviewStatus, Properties.Resources.DoneStatus];
         }
 
+        /// <summary>
+        /// The method for creating collection of priorities for updating.
+        /// </summary>
         private void CreateAvailablePriorityList()
         {
             AvailablePriorityList = [Properties.Resources.LowPriority,
                 Properties.Resources.MediumPriority, Properties.Resources.HighPriority];
         }
 
+        /// <summary>
+        /// The method for checking if issue information has been changed.
+        /// </summary>
+        /// <returns></returns>
         private bool HasInfoChangedCheck()
         {
             return !_workWithIssue.SelectedIssue.Name.Equals(IssueNameTextBox) && !IssueNameTextBox.IsNullOrEmpty() ||

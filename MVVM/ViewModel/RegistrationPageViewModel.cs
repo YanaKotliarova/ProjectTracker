@@ -20,6 +20,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private INavigationService _navigationService;
+        /// <summary>
+        /// A property for navigating between views.
+        /// </summary>
         public INavigationService NavigationService
         {
             get { return _navigationService; }
@@ -31,6 +34,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string _loginTextBox;
+        /// <summary>
+        /// A property for binding a user's login and a TextBox for it.
+        /// </summary>
         public string LoginTextBox
         {
             get { return _loginTextBox; }
@@ -42,6 +48,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string _roleTextBox;
+        /// <summary>
+        /// A property for binding a user's role and a TextBox for it.
+        /// </summary>
         public string RoleTextBox
         {
             get { return _roleTextBox; }
@@ -53,6 +62,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string _passwordBox;
+        /// <summary>
+        /// A property for binding a user's new password and a PasswordBox for it.
+        /// </summary>
         public string PasswordBox
         {
             get { return _passwordBox; }
@@ -64,6 +76,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private bool _isLoginExists;
+        /// <summary>
+        /// A property for binding a result of cheking existence of login in database and an IsOpen property of certain Popup.
+        /// </summary>
         public bool IsLoginExists
         {
             get { return _isLoginExists; }
@@ -75,6 +90,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private bool _isPasswordLengthEnough;
+        /// <summary>
+        /// A property for binding a result of cheking the lenth of new password and an IsOpen property of certain Popup.
+        /// </summary>
         public bool IsPasswordLengthEnough
         {
             get { return _isPasswordLengthEnough; }
@@ -86,6 +104,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _signUpCommand;
+        /// <summary>
+        /// The command that is called when sign up button is clicked.
+        /// </summary>
         public RelayCommand SignUpCommand
         {
             get

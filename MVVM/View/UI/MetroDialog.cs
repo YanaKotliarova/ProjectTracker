@@ -22,6 +22,13 @@ namespace ProjectTracker.MVVM.View.UI
             await _dialogCoordinator.ShowMessageAsync(viewModel, header, message);
         }
 
+        /// <summary>
+        /// The method to show message in MetroMahapps dialog with two buttons to confirm or deny actions.
+        /// </summary>
+        /// <param name="viewModel"> ViewModel for creating a bound. </param>
+        /// <param name="header">  Header of dialog. </param>
+        /// <param name="message"> Message of dialog. </param>
+        /// <returns> Returns true if action is confirmed, otherwise false. </returns>
         public async Task<bool> ShowConfirmationMessage(object viewModel, string header, string message)
         {
             if (await _dialogCoordinator.ShowMessageAsync(viewModel, header, message, 

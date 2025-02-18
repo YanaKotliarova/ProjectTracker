@@ -17,6 +17,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private INavigationService _navigationService;
+        /// <summary>
+        /// A property for navigating between views.
+        /// </summary>
         public INavigationService NavigationService
         {
             get { return _navigationService; }
@@ -28,6 +31,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _navigateToAutorizationCommand;
+        /// <summary>
+        /// The command of navigation to the autorization page.
+        /// </summary>
         public RelayCommand NavigateToAutorizationCommand
         {
             get

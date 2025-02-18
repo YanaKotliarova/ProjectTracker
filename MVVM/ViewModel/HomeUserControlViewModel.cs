@@ -13,6 +13,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string _username;
+        /// <summary>
+        /// A property for binding a user's login and a TextBlock for it.
+        /// </summary>
         public string Username
         {
             get { return _username; }
@@ -24,6 +27,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string _todayDate;
+        /// <summary>
+        /// A property for binding current date and a TextBlock for it.
+        /// </summary>
         public string TodayDate
         {
             get { return _todayDate; }
@@ -35,6 +41,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _loadUserControlCommand;
+        /// <summary>
+        /// The command that is called when the user control loads to update the controls.
+        /// </summary>
         public RelayCommand LoadUserControlCommand
         {
             get
@@ -43,7 +52,6 @@ namespace ProjectTracker.MVVM.ViewModel
                     (_loadUserControlCommand = new RelayCommand(obj =>
                     {
                         Username = _account.CustomPrincipal.Identity.Login;
-                        //Username = _account.CurrentUser.Login;
                         TodayDate = DateOnly.FromDateTime(DateTime.Now).ToString();
                     }));
             }

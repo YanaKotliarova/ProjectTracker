@@ -12,6 +12,9 @@ namespace ProjectTracker.Services.Navigation
         }
 
         private ViewModelBase _currentViewModel;
+        /// <summary>
+        /// A property for storing the current ViewModel.
+        /// </summary>
         public ViewModelBase CurrentViewModel
         {
             get { return _currentViewModel; }
@@ -22,6 +25,11 @@ namespace ProjectTracker.Services.Navigation
             }
         }
 
+        /// <summary>
+        /// The method for openin view from getting its type from current ViewModel.
+        /// The types are recorded in the application resources.
+        /// </summary>
+        /// <typeparam name="TViewModel"></typeparam>
         public void NavigateTo<TViewModel>() where TViewModel : ViewModelBase
         {
             ViewModelBase viewModel = _viewModelFactory.Invoke(typeof(TViewModel));

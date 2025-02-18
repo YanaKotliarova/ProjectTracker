@@ -26,6 +26,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private INavigationService _navigationService;
+        /// <summary>
+        /// A property for navigating between views.
+        /// </summary>
         public INavigationService NavigationService
         {
             get { return _navigationService; }
@@ -37,6 +40,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private ObservableCollection<Project> _projectsList;
+        /// <summary>
+        /// An observable collection of user project, to put them into ListBox.
+        /// </summary>
         public ObservableCollection<Project> ProjectsList
         {
             get { return _projectsList; }
@@ -48,6 +54,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private Project _selectedProject;
+        /// <summary>
+        /// A property for getting the selected project.
+        /// </summary>
         public Project SelectedProject
         {
             get { return _selectedProject; }
@@ -59,6 +68,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private List<string> _labelsList;
+        /// <summary>
+        /// A property for binding list of project labels and a ListBox for it.
+        /// </summary>
         public List<string> LabelsList
         {
             get { return _labelsList; }
@@ -70,6 +82,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _loadUserControlCommand;
+        /// <summary>
+        /// The command that is called when the user control loads to update the controls.
+        /// </summary>
         public RelayCommand LoadUserControlCommand
         {
             get
@@ -83,6 +98,10 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _doubleProjectClickCommand;
+        /// <summary>
+        /// The command that is binded with DoubleMouseClick event of ListBox item
+        /// and when update MenuItem of project in ListBox is clicked.
+        /// </summary>
         public RelayCommand DoubleProjectClickCommand
         {
             get
@@ -97,6 +116,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _deleteProjectCommand;
+        /// <summary>
+        /// The command that is called when delete MenuItem of project in ListBox is clicked.
+        /// </summary>
         public RelayCommand DeleteProjectCommand
         {
             get
@@ -115,6 +137,10 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
+        /// <summary>
+        /// The method for updating collection of projects.
+        /// </summary>
+        /// <returns></returns>
         private async Task UpdateListOfUserProjects()
         {
             ProjectsList = _collectionHelper.CreateCollection<Project>(await _workWithProject.GetUserProjectsListAsync());

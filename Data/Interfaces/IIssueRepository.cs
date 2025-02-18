@@ -9,7 +9,6 @@ namespace ProjectTracker.Data.Interfaces
         Task<Issue> GetAsync(int id);
         Task UpdateAsync(Issue issue);
         Task<Issue> GetByNameAsync(int projectId, string name);
-        IAsyncEnumerable<List<Issue>> GetUserIssuesByStatusAsync(int projectId, string status);
-        IAsyncEnumerable<List<Issue>> GetProjectIssuesAsync(int projectId);
+        IAsyncEnumerable<List<Issue>> GetIssuesAsync(int projectId, string status = "%");
     }
 }

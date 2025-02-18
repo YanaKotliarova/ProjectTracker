@@ -5,6 +5,11 @@ namespace ProjectTracker.Data
 {
     public class ConnectionStringValidation : IConnectionStringValidation
     {
+        /// <summary>
+        /// The method for checking correctness of connection string.
+        /// </summary>
+        /// <param name="connectionString"> Connection string for cheking. </param>
+        /// <returns> True if connection string is correct, otherwise false. </returns>
         public bool ValidateConnectionString(string connectionString)
         {
             try

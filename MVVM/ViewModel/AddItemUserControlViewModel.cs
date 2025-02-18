@@ -23,6 +23,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string? _nameOfItemTextBox;
+        /// <summary>
+        /// A property for binding a created item name and a TextBox for it.
+        /// </summary>
         public string? NameOfItemTextBox
         {
             get { return _nameOfItemTextBox; }
@@ -34,6 +37,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string? _descriptionTextBox;
+        /// <summary>
+        /// A property for binding a created item description and a TextBox for it.
+        /// </summary>
         public string? DescriptionTextBox
         {
             get { return _descriptionTextBox; }
@@ -45,6 +51,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private bool _isItProject;
+        /// <summary>
+        /// A property for binding with RadioButton for checking if chosen type of created item is project.
+        /// </summary>
         public bool IsItProject
         {
             get { return _isItProject; }
@@ -56,6 +65,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private bool _isItIssue;
+        /// <summary>
+        /// A property for binding with RadioButton for checking if chosen type of created item is issue.
+        /// </summary>
         public bool IsItIssue
         {
             get { return _isItIssue; }
@@ -67,6 +79,10 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private bool _isThereNoItemName;
+        /// <summary>
+        /// A property for binding a result of cheking if created item name has been entered
+        /// and an IsOpen property of certain Popup.
+        /// </summary>
         public bool IsThereNoItemName
         {
             get { return _isThereNoItemName; }
@@ -78,6 +94,10 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private bool _isThereNoSelectedProject;
+        /// <summary>
+        /// A property for binding a result of cheking if a project was selected when creating the issue 
+        /// and an IsOpen property of certain Popup.
+        /// </summary>
         public bool IsThereNoSelectedProject
         {
             get { return _isThereNoSelectedProject; }
@@ -89,6 +109,10 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private bool _isThereSameProjectName;
+        /// <summary>
+        /// A property for binding a result of cheking if entered created project name is exists in database 
+        /// and an IsOpen property of certain Popup.
+        /// </summary>
         public bool IsThereSameProjectName
         {
             get { return _isThereSameProjectName; }
@@ -100,6 +124,10 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private bool _isThereSameIssueName;
+        /// <summary>
+        /// A property for binding a result of cheking if entered created issue name is exists in choosen project 
+        /// in database and an IsOpen property of certain Popup.
+        /// </summary>
         public bool IsThereSameIssueName
         {
             get { return _isThereSameIssueName; }
@@ -111,6 +139,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private ObservableCollection<Project> _projects;
+        /// <summary>
+        /// An observable collection of projects, to list them when creating an issue.
+        /// </summary>
         public ObservableCollection<Project> Projects
         {
             get { return _projects; }
@@ -122,6 +153,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private Project _selectedProject;
+        /// <summary>
+        /// A property for getting the selected project.
+        /// </summary>
         public Project SelectedProject
         {
             get { return _selectedProject; }
@@ -133,6 +167,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _createItemCommand;
+        /// <summary>
+        /// The command that is called when button create new item is clicked.
+        /// </summary>
         public RelayCommand CreateItemCommand
         {
             get
@@ -174,6 +211,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _loadUserControlCommand;
+        /// <summary>
+        /// The command that is called when the user control loads to update the controls.
+        /// </summary>
         public RelayCommand LoadUserControlCommand
         {
             get
@@ -186,6 +226,10 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
+        /// <summary>
+        /// The method for cleaning user control controls.
+        /// </summary>
+        /// <returns></returns>
         private async Task CleanUserControlControls()
         {
             IsItProject = true;
@@ -196,6 +240,10 @@ namespace ProjectTracker.MVVM.ViewModel
             await UpdateListOfUserProjectsNames();
         }
 
+        /// <summary>
+        /// The method for updating collection of projects.
+        /// </summary>
+        /// <returns></returns>
         private async Task UpdateListOfUserProjectsNames()
         {
             Projects = _collectionHelper.CreateCollection<Project>(await _workWithProject.GetUserProjectsListAsync());

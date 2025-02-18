@@ -25,6 +25,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private INavigationService _navigationService;
+        /// <summary>
+        /// A property for navigating between views.
+        /// </summary>
         public INavigationService NavigationService
         {
             get { return _navigationService; }
@@ -36,6 +39,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string _loginTextBox;
+        /// <summary>
+        /// A property for binding a user's login and a TextBox for it.
+        /// </summary>
         public string LoginTextBox
         {
             get { return _loginTextBox; }
@@ -47,6 +53,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private string _passwordBox;
+        /// <summary>
+        /// A property for binding a user's new password and a PasswordBox for it.
+        /// </summary>
         public string PasswordBox
         {
             get { return _passwordBox; }
@@ -57,7 +66,10 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
-        private bool _isLoginUnsuccessful = false;
+        private bool _isLoginUnsuccessful;
+        /// <summary>
+        /// A property for binding a result of cheking if log in is successful and an IsOpen property of certain Popup.
+        /// </summary>
         public bool IsLoginUnsuccessful
         {
             get { return _isLoginUnsuccessful; }
@@ -100,6 +112,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _languageChangedCommand;
+        /// <summary>
+        /// The command that is called when selected language is changed and binded with SelectionChanged event of ComboBox.
+        /// </summary>
         public RelayCommand LanguageChangedCommand
         {
             get
@@ -113,6 +128,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _loginCommand;
+        /// <summary>
+        /// The command that is called when log in button is clicked.
+        /// </summary>
         public RelayCommand LoginCommand
         {
             get
@@ -131,6 +149,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _goToRegistrationPageCommand;
+        /// <summary>
+        /// The command of navigation to the registration page which is binded with a hyperlink.
+        /// </summary>
         public RelayCommand GoToRegistrationPageCommand
         {
             get
@@ -143,10 +164,14 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
+        /// <summary>
+        /// The method for change language of application.
+        /// </summary>
+        /// <param name="locale"></param>
         private static void ChangeLanguage(string locale)
         {
             if (string.IsNullOrEmpty(locale)) locale = "en";
-            TranslationSource.Instance.CurrentCulture = new System.Globalization.CultureInfo(locale);
+            TranslationSource.Instance.CurrentCulture = new CultureInfo(locale);
         }
     }
 }

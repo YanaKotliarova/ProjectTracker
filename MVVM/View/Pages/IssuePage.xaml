@@ -255,7 +255,7 @@
                         <Controls:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE711;" Foreground="Black" FontSize="14"/>
                     </Button>
 
-                    <TextBox Grid.RowSpan="2" Height="25" Width="150" Text="{Binding UpdatedLabel}"/>
+                    <TextBox Grid.RowSpan="2" Height="25" Width="150" Text="{Binding UpdatedLabelTextBox}"/>
                     <Button Grid.RowSpan="2" Grid.Column="1" Height="25" Width="80" 
                             Content="{localization:Localization UpdateButton}" Command="{Binding UpdateLabelCommand}"/>
                 </Grid>

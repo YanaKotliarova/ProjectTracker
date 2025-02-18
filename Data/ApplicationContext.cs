@@ -14,7 +14,7 @@ namespace ProjectTracker.Data
         internal string ConnectionString { get; set; } = ConfigurationManager.ConnectionStrings[DefaultConnection].ConnectionString;
 
         /// <summary>
-        /// The method of connecting to the DB.
+        /// The method for setting the connection configuration to the database.
         /// </summary>
         /// <param name="optionsBuilder"></param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -29,6 +29,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private INavigationService _navigationService;
+        /// <summary>
+        /// A property for navigating between views.
+        /// </summary>
         public INavigationService NavigationService
         {
             get { return _navigationService; }
@@ -40,6 +43,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private ObservableCollection<Issue> _toDoIssuesList;
+        /// <summary>
+        /// An observable collection of issues with "to do" status, to put them into ListBox.
+        /// </summary>
         public ObservableCollection<Issue> ToDoIssuesList
         {
             get { return _toDoIssuesList; }
@@ -51,6 +57,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private ObservableCollection<Issue> _inProgressIssuesList;
+        /// <summary>
+        /// An observable collection of issues with "in progress" status, to put them into ListBox.
+        /// </summary>
         public ObservableCollection<Issue> InProgressIssuesList
         {
             get { return _inProgressIssuesList; }
@@ -62,6 +71,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private ObservableCollection<Issue> _reviewIssuesList;
+        /// <summary>
+        /// An observable collection of issues with "review" status, to put them into ListBox.
+        /// </summary>
         public ObservableCollection<Issue> ReviewIssuesList
         {
             get { return _reviewIssuesList; }
@@ -73,6 +85,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private ObservableCollection<Issue> _doneIssuesList;
+        /// <summary>
+        /// An observable collection of issues with "done" status, to put them into ListBox.
+        /// </summary>
         public ObservableCollection<Issue> DoneIssuesList
         {
             get { return _doneIssuesList; }
@@ -84,6 +99,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private Issue _selectedIssue;
+        /// <summary>
+        /// A property for getting the selected issue.
+        /// </summary>
         public Issue SelectedIssue
         {
             get { return _selectedIssue; }
@@ -95,6 +113,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _loadUserControlCommand;
+        /// <summary>
+        /// The command that is called when the user control loads to update the controls.
+        /// </summary>
         public RelayCommand LoadUserControlCommand
         {
             get
@@ -108,6 +129,10 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _doubleIssueClickCommand;
+        /// <summary>
+        /// The command that is binded with DoubleMouseClick event of ListBox item
+        /// and when update MenuItem of issue in ListBox is clicked.
+        /// </summary>
         public RelayCommand DoubleIssueClickCommand
         {
             get
@@ -122,6 +147,9 @@ namespace ProjectTracker.MVVM.ViewModel
         }
 
         private RelayCommand _deleteIssueCommand;
+        /// <summary>
+        /// The command that is called when delete MenuItem of issue in ListBox is clicked.
+        /// </summary>
         public RelayCommand DeleteIssueCommand
         {
             get
@@ -140,6 +168,10 @@ namespace ProjectTracker.MVVM.ViewModel
             }
         }
 
+        /// <summary>
+        /// The method for updating collections of issues.
+        /// </summary>
+        /// <returns></returns>
         private async Task UpdateIssuesCollections()
         {
             List<Issue> tempToDoIssuesList = new List<Issue>();
